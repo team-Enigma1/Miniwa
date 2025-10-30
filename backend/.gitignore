@@ -1,0 +1,12 @@
+# Go ビルド関連
+bin/
+*.exe
+*.log
+
+# 環境変数ファイル
+.env
+
+# 一時ファイルやキャッシュ
+.DS_Store
+.idea/
+.vscode/
