@@ -11,7 +11,7 @@ import (
 func main() {
 	e := echo.New()
 	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, Echo!taiyo")
+		return c.String(http.StatusOK, "Hello, Echo!")
 	})
 
 	port := os.Getenv("PORT")
