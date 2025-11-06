@@ -2,17 +2,17 @@ package main
 
 import (
 	"fmt"
-	"net/http"
 	"os"
 
+	"example.com/go-echo-crud/pkg/router"
 	"github.com/labstack/echo/v4"
 )
 
 func main() {
 	e := echo.New()
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, Echo!ghj")
-	})
+	
+	//routeまとめてるとこ読み込み
+	router.Setup(e)
 
 	port := os.Getenv("PORT")
 	if port == "" {
