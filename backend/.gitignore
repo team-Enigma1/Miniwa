@@ -5,7 +5,7 @@ bin/
 
 # 環境変数ファイル
 .env
-
+config/.env
 # 一時ファイルやキャッシュ
 .DS_Store
 .idea/
