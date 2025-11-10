@@ -2,6 +2,8 @@ module example.com/go-echo-crud
 
 go 1.25.3
 
+require github.com/labstack/echo/v4 v4.13.4
+
 require (
 	github.com/joho/godotenv v1.5.1
 	github.com/labstack/echo/v4 v4.13.4
