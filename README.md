@@ -2,8 +2,7 @@
 
 # frontend
 
-<!-- CLIDL -->
-npm install -g expo
+expo install react-native-safe-area-context
 
 
 npm i

@@ -1,12 +1,49 @@
-# Go ビルド関連
-bin/
+# =========================
+# Go general
+# =========================
 *.exe
-*.log
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+*.cover
+*.cov
+coverage.out
 
-# 環境変数ファイル
+# Go workspace
+go.work
+go.work.sum
+
+# =========================
+# Build / Vendor
+# =========================
+bin/
+build/
+dist/
+out/
+vendor/
+
+# =========================
+# Logs and temporary files
+# =========================
+*.log
+tmp/
+temp/
+
+# =========================
+# Environment / Config
+# =========================
 .env
-config/.env
-# 一時ファイルやキャッシュ
+.env.*
+
+# =========================
+# OS / Editor files
+# =========================
 .DS_Store
-.idea/
+Thumbs.db
+Desktop.ini
+
 .vscode/
+.idea/
+.history/
