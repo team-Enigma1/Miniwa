@@ -3,16 +3,16 @@ package main
 import (
 	"fmt"
 
-	database "example.com/go-echo-crud/internal/infra"
+	gorm "example.com/go-echo-crud/internal/infra"
 	"example.com/go-echo-crud/pkg/router"
 	"github.com/labstack/echo/v4"
 )
 
 func main() {
-	e := echo.New()
 
-	// Inisialisasi koneksi database
-	database.InitDB()
+	gorm.InitDB()
+
+	e := echo.New()
 
 	// Setup routes
 	router.Setup(e)
