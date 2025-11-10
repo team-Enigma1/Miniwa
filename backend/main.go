@@ -2,23 +2,22 @@ package main
 
 import (
 	"fmt"
-	"os"
 
+	database "example.com/go-echo-crud/internal/infra"
 	"example.com/go-echo-crud/pkg/router"
 	"github.com/labstack/echo/v4"
 )
 
 func main() {
 	e := echo.New()
-	
-	//routeまとめてるとこ読み込み
+
+	// Inisialisasi koneksi database
+	database.InitDB()
+
+	// Setup routes
 	router.Setup(e)
 
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
-
+	port := "8080"
 	fmt.Println("サーバー起動 http://localhost:" + port + "/")
 	e.Logger.Fatal(e.Start(":" + port))
 }
