@@ -12,10 +12,8 @@ func Setup(e *echo.Echo) {
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, Echo! (from router)")
 	})
-
 	//各モジュールのルーティング関数呼び出し
-	//TestRouter(e)
-	//TestRouter2(e)
+	PlantRouter(e)
 }
 
 func LoginRouter(e *echo.Echo) {
