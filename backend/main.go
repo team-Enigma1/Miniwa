@@ -2,23 +2,24 @@ package main
 
 import (
 	"fmt"
-	"net/http"
-	"os"
 
+	gorm "example.com/go-echo-crud/internal/infra"
+	"example.com/go-echo-crud/pkg/router"
 	"github.com/labstack/echo/v4"
 )
 
 func main() {
+
+	gorm.InitDB()
+
 	e := echo.New()
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, Echo!")
-	})
 
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
+	// Setup routes
+	router.Setup(e)
+	router.LoginRouter(e)
+	router.SignupRouter(e)
 
-	fmt.Println("サーバー起動 http://localhost:" + port + "/")
-	e.Logger.Fatal(e.Start(":" + port))
+	// 	port := "8080"
+	// 	fmt.Println("サーバー起動 http://localhost:" + port + "/")
+	// 	e.Logger.Fatal(e.Start(":" + port))
 }
