@@ -2,38 +2,30 @@ import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
-  Alert,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { verifyOTP } from '../services/passwordResetService';
+import styles from '../styles/VerifyOTPScreen.styles'; 
 
-export default function VerifyOTPScreen() {
+const VerifyOTPScreen = () => {
   const router = useRouter();
   const { email } = useLocalSearchParams() as { email: string };
   const [otp, setOtp] = useState('');
 
-  // OTP認証処理
-  const handleVerify = async () => {
-    const result = await verifyOTP(email, otp);
-
-    if (result.success) {
-      Alert.alert('認証成功', 'パスワードを再設定してください');
-      router.push({
-        pathname: '/ResetPasswordScreen',
-        params: { email, otp },
-      });
-    } else {
-      Alert.alert('認証エラー', result.error);
-    }
-  };
-
   // 戻るボタン押下
   const handleGoBack = () => {
     router.back();
+  };
+
+  // テスト用：OTP確認ボタン（UIのみ）
+  const handleVerify = () => {
+    router.push({
+      pathname: '/ResetPasswordScreen',
+      params: { email, otp },
+    });
   };
 
   // テスト用：> ボタンで直接次画面へ
@@ -85,71 +77,6 @@ export default function VerifyOTPScreen() {
       </TouchableOpacity>
     </SafeAreaView>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFFFFF', 
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 24,
-  },
-  backButton: {
-    position: 'absolute',
-    top: 50,
-    left: 20,
-    zIndex: 1,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: '700',
-    marginBottom: 30,
-    color: '#2C3E50', 
-    textAlign: 'center',
-  },
-  input: {
-    width: '100%',
-    backgroundColor: '#FFFFFF', 
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    borderRadius: 8,
-    borderWidth: 1, 
-    borderColor: '#A9A9A9',
-    fontSize: 16,
-    color: '#2C3E50',
-    marginBottom: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  button: {
-    backgroundColor: '#2ECC71',
-    paddingVertical: 12,
-    borderRadius: 8,
-    width: '100%',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  buttonText: {
-    color: '#FFFFFF',
-    fontWeight: '700',
-    fontSize: 18,
-  },
-  text: {
-    color: '#7F8C8D',
-    fontSize: 14,
-    textAlign: 'right',
-  },
-  resendText: {
-    color: '#2ECC71',
-    fontWeight: '700',
-    textDecorationLine: 'underline',
-  },
-});
+export default VerifyOTPScreen;
