@@ -1,15 +1,23 @@
 package service
 
 import (
-	gorm "example.com/go-echo-crud/internal/infra"
 	"example.com/go-echo-crud/internal/model"
+	"gorm.io/gorm"
 )
 
-func GetPlan() ([]model.Plant, error) {
+type PlantService struct {
+	db *gorm.DB
+}
 
-	var plant []model.Plant
-	if err := gorm.DB.Find(&plant).Error; err != nil {
+func NewPlantService(db *gorm.DB) *PlantService {
+	return &PlantService{db: db}
+}
+
+func (s *PlantService) GetPlan() ([]model.Plant, error) {
+
+	var plants []model.Plant
+	if err := s.db.Find(&plants).Error; err != nil {
 		return nil, err
 	}
-	return plant, nil
+	return plants, nil
 }

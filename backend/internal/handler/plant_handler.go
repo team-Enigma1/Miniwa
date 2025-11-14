@@ -7,8 +7,16 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func GetPlan(c echo.Context) error {
-	plans, err := service.GetPlan()
+type PlantHandler struct {
+	plantService *service.PlantService
+}
+
+func NewPlantHandler(plantService *service.PlantService) *PlantHandler {
+	return &PlantHandler{plantService: plantService}
+}
+
+func (h *PlantHandler) GetPlan(c echo.Context) error {
+	plans, err := h.plantService.GetPlan()
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError,map[string]string{
 			"error": err.Error(),
