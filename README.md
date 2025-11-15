@@ -17,9 +17,12 @@ npx expo start
 go mod tidy
 
 <!-- 開発中ホットリロード付けて起動CLI -->
-
+<!-- 一度だけ -->
+go install github.com/air-verse/air@latest
+<!-- 実行 CLI-->
 air
 
-<!-- 実行 -->
+
+<!-- 実行 CLI-->
 go run main.go
 
