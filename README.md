@@ -16,6 +16,10 @@ npx expo start
 （実行前にしてね） -->
 go mod tidy
 
+<!-- 開発中ホットリロード付けて起動CLI -->
+
+air
+
 <!-- 実行 -->
 go run main.go
 
