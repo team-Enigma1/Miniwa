@@ -5,12 +5,11 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func PlantRouter(e *echo.Echo)  {
+func PlantRouter(e *echo.Echo, plantHandler *handler.PlantHandler)  {
 
 	api := e.Group("/plant")
 
-	api.GET("/plan", handler.GetPlan)
+	api.GET("/plan", plantHandler.GetPlan)
 
-	// api.POST("")
 
 }
