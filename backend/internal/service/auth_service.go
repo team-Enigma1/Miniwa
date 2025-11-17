@@ -1,8 +1,11 @@
 package service
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -13,7 +16,7 @@ import (
 var supabaseUrl string
 var supabaseKey string
 
-func Init() {
+func init() {
 	err := godotenv.Load("config/.env")
 	if err != nil {
 		log.Println("Warning: .env file not found")
@@ -60,4 +63,31 @@ func SignupWithEmail(email, password string) (*types.SignupResponse, error) {
 	fmt.Println("Signup success:", user)
 
 	return user, nil
+}
+
+// Google Sign-In and Sign-up with ID token
+func GoogleSignIn(idToken string) (map[string]interface{}, error) {
+	url := supabaseUrl + "/auth/v1/token?grant_type=id_token"
+	body := map[string]string{
+		"id_token": idToken,
+	}
+	jsonBody, _ := json.Marshal(body)
+
+	req, _ := http.NewRequest("POST", url, bytes.NewBuffer(jsonBody))
+	req.Header.Set("apikey", supabaseKey)
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	var result map[string]interface{}
+	json.NewDecoder(resp.Body).Decode(&result)
+	if resp.StatusCode != 200 {
+		return result, fmt.Errorf("failed to sign in: %v", result)
+	}
+	return result, nil
 }

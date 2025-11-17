@@ -41,3 +41,17 @@ func SignupHandler(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, user)
 }
+
+func GoogleLoginHandler(c echo.Context) error {
+	var req model.GoogleLoginRequest
+	if err := c.Bind(&req); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid JSON"})
+	}
+
+	user, err := service.GoogleSignIn(req.Token)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, user)
+}
