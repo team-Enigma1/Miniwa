@@ -2,15 +2,15 @@ import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
-  Alert,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import styles from '../styles/ResetPasswordScreen.styles'; 
 
-export default function ResetPasswordScreen() {
+const ResetPasswordScreen = () => {
   const router = useRouter();
   const { email, otp } = useLocalSearchParams<{ email: string; otp: string }>();
   const [password, setPassword] = useState('');
@@ -21,30 +21,14 @@ export default function ResetPasswordScreen() {
     router.back();
   };
 
-  // パスワードリセット処理
-  const handleReset = async () => {
+  // テスト用：パスワード変更ボタン（UIのみ）
+  const handleReset = () => {
+    // ここでは確認だけ、画面遷移
     if (password !== confirm) {
-      Alert.alert('パスワードが一致しません。');
+      alert('パスワードが一致しません');
       return;
     }
-
-    try {
-      const response = await fetch(`http://localhost:3000/email/reset_password`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, otp, newPassword: password }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        Alert.alert('パスワードが変更されました！');
-        // router.push('/VirtualPetLogin');
-      }
-    } catch (err) {
-      console.log('パスワードのリセットに失敗しました:', err);
-    }
+    router.push('/ForgotPasswordScreen'); // 次の画面へ
   };
 
   return (
@@ -69,6 +53,7 @@ export default function ResetPasswordScreen() {
         onChangeText={setPassword}
         value={password}
       />
+
       {/* 確認用パスワード入力 */}
       <TextInput
         style={styles.input}
@@ -88,66 +73,6 @@ export default function ResetPasswordScreen() {
       </TouchableOpacity>
     </SafeAreaView>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  // コンテナ全体
-  container: {
-    flex: 1,
-    backgroundColor: '#FFFFFF', // 背景をログイン画面に統一
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 24,
-  },
-  // 戻るボタン
-  backButton: {
-    position: 'absolute',
-    top: 50,
-    left: 20,
-    zIndex: 1,
-  },
-  // タイトル
-  title: {
-    fontSize: 20,
-    fontWeight: '700',
-    marginBottom: 30,
-    color: '#2C3E50', // ログイン画面タイトル色に統一
-    textAlign: 'center',
-  },
-  // 入力欄
-  input: {
-    width: '100%',
-    backgroundColor: '#FFFFFF', // 白背景
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    borderRadius: 8,
-    fontSize: 16,
-
-    marginBottom: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  // ボタン
-  button: {
-    backgroundColor: '#2ECC71', // ログイン画面ボタン色に統一
-    paddingVertical: 12,
-    borderRadius: 8,
-    marginTop: 10,
-    width: '100%',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    elevation: 3,
-  },
-  // ボタン文字
-  buttonText: {
-    color: '#FFFFFF',
-    fontWeight: '700',
-    fontSize: 18,
-  },
-});
+export default ResetPasswordScreen;

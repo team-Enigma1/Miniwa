@@ -9,7 +9,7 @@ const BottomNavigation = () => {
   const handleCalendarNav = () => console.log("Calendar");
   const handleHomeNav = () => console.log("Home");
   const handleCommunityNav = () => console.log("Community");
-  const handleProfileNav = () => console.log("Profile");
+  const handleProfileNav = () => console.log("/ProfileScreen");
 
   return (
     <View style={styles.bottomNav}>
@@ -49,19 +49,24 @@ const BottomNavigation = () => {
 
 const styles = StyleSheet.create({
   bottomNav: {
-    flexDirection: "row",
-    backgroundColor: "#FFFFFF",
-    paddingVertical: 8,
-    paddingHorizontal: 8,
-    borderTopWidth: 1,
-    borderTopColor: "#E5E5E5",
-    justifyContent: "space-around",
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 8,
+  bottom: 0,
+  left: 0,
+  right: 0,
+  position: "absolute",
+  flexDirection: "row",
+  backgroundColor: "#FFFFFF",
+  paddingVertical: 8,
+  paddingHorizontal: 8,
+  borderTopWidth: 1,
+  borderTopColor: "#E5E5E5",
+  justifyContent: "space-around",
+  alignItems: "center",
+  shadowColor: "#000",
+  shadowOffset: { width: 0, height: -2 },
+  shadowOpacity: 0.05,
+  shadowRadius: 8,
+  elevation: 8,
+  zIndex: 100,              
   },
   navItem: {
     flex: 1,

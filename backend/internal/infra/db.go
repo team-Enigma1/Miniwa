@@ -1,31 +1,35 @@
-package database
+package gorm
 
 import (
-	"context"
+	"fmt"
 	"log"
 	"os"
 
-	"github.com/jackc/pgx/v5"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 	"github.com/joho/godotenv"
 )
 
+var DB *gorm.DB
+
 func InitDB() {
+
 	err := godotenv.Load("config/.env")
 	if err != nil {
 		log.Println("Warning: .env file not found")
 	}
 
-	conn, err := pgx.Connect(context.Background(), os.Getenv("DATABASE_URL"))
-	if err != nil {
-		log.Fatalf("Failed to connect to the database: %v", err)
-	}
-	defer conn.Close(context.Background())
-
-	// Example query to test connection
-	var version string
-	if err := conn.QueryRow(context.Background(), "SELECT version()").Scan(&version); err != nil {
-		log.Fatalf("Query failed: %v", err)
+	url := os.Getenv("DATABASE_URL")
+	if url == "" {
+		log.Fatal("DATABASE_URL not found")
 	}
 
-	log.Println("Connected to:", version)
+	var err2 error
+
+	DB, err2 = gorm.Open(postgres.Open(url), &gorm.Config{})
+	if err2 != nil {
+		log.Fatalf("Failed to connect database: %v", err2)
+	}
+
+	fmt.Println( "DB connect 200")
 }

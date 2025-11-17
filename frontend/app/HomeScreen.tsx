@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import styles from '../styles/HomeScreen.styles'; 
 
 // ========================================
 // 型定義
@@ -56,13 +57,13 @@ const HomeScreen = () => {
   const [myPlants, setMyPlants] = useState<Plant[]>([
     {
       id: 1,
-      name: 'あなたのトマト',
+      name: 'トマト',
       status: '成長段階: 実がなり始めました！',
       emoji: '🍅',
     },
     {
       id: 2,
-      name: 'あなたのイチゴ',
+      name: 'イチゴ',
       status: '成長段階: 花が咲きました！',
       emoji: '🍓',
     },
@@ -141,13 +142,6 @@ const HomeScreen = () => {
     // router.push({ pathname: '/PlantDetailScreen', params: { plantId: plant.id } });
   };
 
-  // 新しいToDoを追加
-  // TODO (Backend): POST /api/todos で新しいタスクを作成
-  // リクエスト例: { text, description, type, plantId?, dueDate?, ... }
-  const handleAddTodo = () => {
-    console.log('Add new todo');
-  };
-
   // おすすめアイテムの購入ボタンがタップされた時の処理
   const handleBuyItem = (item: RecommendedItem) => {
     console.log('Buy item:', item.name);
@@ -158,7 +152,7 @@ const HomeScreen = () => {
   // ========================================
   
   const handlePlantNav = () => router.push('/CatalogScreen');
-  const handleCalendarNav = () => console.log('Calendar');
+  const handleCalendarNav = () => console.log('/CalendarScreen');
   const handleHomeNav = () => console.log('Home');
   const handleCommunityNav = () => console.log('Community');
   const handleProfileNav = () => console.log('Profile');
@@ -180,10 +174,8 @@ const HomeScreen = () => {
         {/* TODO (Backend): GET /api/weather でユーザーの位置情報に基づいた天気データを取得 */}
         {/* レスポンス例: { temperature, condition, location, icon, ... } */}
         <View style={styles.weatherHeader}>
-          <View style={styles.weatherBadge}>
             <Text style={styles.weatherIcon}>☀️</Text>
-            <Text style={styles.weatherText}>24°C - Tokyo</Text>
-          </View>
+            <Text style={styles.weatherText}>Osaka, 24 °C</Text>
         </View>
 
         {/* 今日のアドバイスセクション */}
@@ -254,13 +246,8 @@ const HomeScreen = () => {
 
         {/* 今日のToDoセクション */}
         <View style={styles.section}>
-          <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>今日のToDo</Text>
-            <TouchableOpacity onPress={handleAddTodo}>
-              <Text style={styles.addButton}>+ 追加</Text>
-            </TouchableOpacity>
-          </View>
-
+       
           <View style={styles.todoContainer}>
             {todos.map((todo) => (
               <TouchableOpacity
@@ -344,9 +331,6 @@ const HomeScreen = () => {
             ))}
           </ScrollView>
         </View>
-
-        {/* ナビゲーション用の下部スペース */}
-        <View style={{ height: 20 }} />
       </ScrollView>
 
       {/* 底部ナビゲーション */}
@@ -357,7 +341,7 @@ const HomeScreen = () => {
           activeOpacity={0.7}
         >
           <Text style={styles.navIcon}>🌱</Text>
-          <Text style={styles.navLabel}>植物</Text>
+          <Text style={styles.navLabel}>マイガーデン</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -385,8 +369,8 @@ const HomeScreen = () => {
           onPress={handleCommunityNav}
           activeOpacity={0.7}
         >
-          <Text style={styles.navIcon}>👥</Text>
-          <Text style={styles.navLabel}>コミュニティ</Text>
+          <Text style={styles.navIcon}>💬</Text>
+          <Text style={styles.navLabel}>SNS</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -402,396 +386,4 @@ const HomeScreen = () => {
   );
 };
 
-// ========================================
-// スタイル定義
-// ========================================
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-  },
-  scrollView: {
-    flex: 1,
-  },
-  scrollContent: {
-    paddingBottom: 20,
-  },
-
-  // 天気ヘッダー
-  weatherHeader: {
-    paddingHorizontal: 20,
-    paddingTop: 60,
-    paddingBottom: 20,
-  },
-  weatherBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgba(46, 204, 113, 0.1)',
-    alignSelf: 'flex-start',
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: 'rgba(46, 204, 113, 0.2)',
-  },
-  weatherIcon: {
-    fontSize: 16,
-    marginRight: 6,
-  },
-  weatherText: {
-    color: '#1A1A1A',
-    fontSize: 14,
-    fontWeight: '600',
-  },
-
-  // セクション
-  section: {
-    marginBottom: 24,
-  },
-  sectionHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    marginBottom: 16,
-  },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: '#1A1A1A',
-    paddingHorizontal: 20,
-    marginBottom: 16,
-  },
-  addButton: {
-    color: '#2ECC71',
-    fontSize: 14,
-    fontWeight: '600',
-  },
-
-  // 植物スクロール
-  plantsScroll: {
-    paddingHorizontal: 20,
-    gap: 12,
-  },
-  plantCard: {
-    width: width * 0.75,
-    height: 200,
-    borderRadius: 20,
-    overflow: 'hidden',
-    backgroundColor: '#F5F5F5',
-    position: 'relative',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 3,
-  },
-  plantImageContainer: {
-    flex: 1,
-    position: 'relative',
-  },
-  plantImagePlaceholder: {
-    flex: 1,
-    backgroundColor: '#E8F5E9',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  plantEmoji: {
-    fontSize: 80,
-    opacity: 0.6,
-  },
-  plantOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0, 0, 0, 0.1)',
-  },
-  plantInfo: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    padding: 16,
-    backgroundColor: 'rgba(255, 255, 255, 0.95)',
-  },
-  plantName: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#1A1A1A',
-    marginBottom: 4,
-  },
-  plantStatus: {
-    fontSize: 12,
-    color: '#666666',
-  },
-  plantActionButton: {
-    position: 'absolute',
-    top: 12,
-    right: 12,
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#2ECC71',
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  plantActionIcon: {
-    fontSize: 20,
-  },
-
-  // 植物追加カード
-  addPlantCard: {
-    width: width * 0.4,
-    height: 200,
-    borderRadius: 20,
-    backgroundColor: '#FFFFFF',
-    borderWidth: 2,
-    borderColor: '#2ECC71',
-    borderStyle: 'dashed',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  addPlantIcon: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: 'rgba(46, 204, 113, 0.1)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  addPlantIconText: {
-    fontSize: 28,
-    color: '#2ECC71',
-    fontWeight: '300',
-  },
-  addPlantText: {
-    color: '#2ECC71',
-    fontSize: 14,
-    fontWeight: '600',
-  },
-
-  // ToDoコンテナ
-  todoContainer: {
-    paddingHorizontal: 20,
-    gap: 12,
-  },
-  todoItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#F8F9FA',
-    padding: 16,
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: '#E5E5E5',
-  },
-  todoItemCompleted: {
-    opacity: 0.5,
-  },
-  todoLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1,
-  },
-  todoIconContainer: {
-    width: 44,
-    height: 44,
-    borderRadius: 12,
-    backgroundColor: 'rgba(46, 204, 113, 0.1)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 12,
-  },
-  todoIconContainerCompleted: {
-    backgroundColor: '#F0F0F0',
-  },
-  todoIcon: {
-    fontSize: 20,
-  },
-  todoContent: {
-    flex: 1,
-  },
-  todoTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#1A1A1A',
-    marginBottom: 4,
-  },
-  todoTitleCompleted: {
-    textDecorationLine: 'line-through',
-    color: '#999999',
-  },
-  todoDescription: {
-    fontSize: 13,
-    color: '#666666',
-  },
-  todoDescriptionCompleted: {
-    color: '#AAAAAA',
-  },
-  todoCheckbox: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    borderWidth: 2,
-    borderColor: '#CCCCCC',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  todoCheckboxCompleted: {
-    backgroundColor: '#2ECC71',
-    borderColor: '#2ECC71',
-  },
-  todoCheckmark: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '700',
-  },
-
-  // アドバイスカード
-  tipCard: {
-    marginHorizontal: 20,
-    padding: 16,
-    borderRadius: 16,
-    backgroundColor: 'rgba(46, 204, 113, 0.08)',
-    borderWidth: 1,
-    borderColor: 'rgba(46, 204, 113, 0.2)',
-  },
-  tipHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  tipIcon: {
-    fontSize: 20,
-    marginRight: 8,
-  },
-  tipTitle: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#1A1A1A',
-  },
-  tipDescription: {
-    fontSize: 14,
-    color: '#444444',
-    lineHeight: 20,
-  },
-
-  // おすすめアイテム
-  itemsScroll: {
-    paddingHorizontal: 20,
-    gap: 12,
-  },
-  itemCard: {
-    width: 140,
-    borderRadius: 16,
-    backgroundColor: '#FFFFFF',
-    padding: 12,
-    borderWidth: 1,
-    borderColor: '#E5E5E5',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  itemImage: {
-    width: '100%',
-    height: 100,
-    borderRadius: 12,
-    backgroundColor: '#F8F9FA',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  itemEmoji: {
-    fontSize: 50,
-  },
-  itemCategory: {
-    fontSize: 11,
-    color: '#999999',
-    marginBottom: 4,
-  },
-  itemName: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#1A1A1A',
-    marginBottom: 10,
-    lineHeight: 16,
-  },
-  itemButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: 'rgba(46, 204, 113, 0.1)',
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: 'rgba(46, 204, 113, 0.2)',
-  },
-  itemButtonText: {
-    fontSize: 11,
-    fontWeight: '600',
-    color: '#2ECC71',
-  },
-  itemButtonIcon: {
-    fontSize: 14,
-  },
-
-  // 底部ナビゲーション
-  bottomNav: {
-    flexDirection: 'row',
-    backgroundColor: '#FFFFFF',
-    paddingVertical: 8,
-    paddingHorizontal: 8,
-    borderTopWidth: 1,
-    borderTopColor: '#E5E5E5',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 8,
-  },
-  navItem: {
-    flex: 1,
-    alignItems: 'center',
-    paddingVertical: 8,
-  },
-  navItemActive: {
-    position: 'relative',
-  },
-  navActiveIndicator: {
-    backgroundColor: 'rgba(46, 204, 113, 0.15)',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 16,
-  },
-  navIcon: {
-    fontSize: 22,
-    marginBottom: 4,
-    opacity: 0.5,
-  },
-  navIconActive: {
-    fontSize: 24,
-  },
-  navLabel: {
-    fontSize: 10,
-    color: '#666666',
-    fontWeight: '500',
-  },
-  navLabelActive: {
-    fontSize: 10,
-    color: '#2ECC71',
-    fontWeight: '600',
-    marginTop: 4,
-  },
-});
-
-export default HomeScreen;
+export default HomeScreen; 
