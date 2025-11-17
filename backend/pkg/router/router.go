@@ -5,9 +5,22 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func Setup(e *echo.Echo, plantHandler *handler.PlantHandler) {
-	//各モジュールのルーティング関数呼び出し
-	PlantRouter(e, plantHandler)
+func Setup(e *echo.Echo, handlers ...interface{}) {
+
+	for _, h := range handlers {
+
+        switch h := h.(type) {
+
+        case *handler.PlantHandler:
+            PlantRouter(e, h)
+
+        // case *handler.UserHandler:
+        //     UserRouter(e, h)
+
+        default:
+            panic("unknown handler type: router not implemented")
+        }
+	}
 }
 
 // func LoginRouter(e *echo.Echo) {
