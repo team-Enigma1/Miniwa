@@ -24,7 +24,9 @@ func main() {
 	middleware.Setup(e)
 
 	// Setup routes
-	router.Setup(e, container.Plant.Handler)
+	router.Setup(e, 
+		container.Plant.Handler,
+	)
 	// router.LoginRouter(e)
 	// router.SignupRouter(e)
 

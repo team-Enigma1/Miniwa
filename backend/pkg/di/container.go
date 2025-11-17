@@ -6,9 +6,9 @@ type Container struct {
 
 func NewContainer() (*Container, error) {
 	plant, err := NewPlantDi()
-    if err != nil {
-        return nil, err
-    }
+	if err != nil {
+		return nil, err
+	}
 
 	return &Container{
 		Plant: plant,

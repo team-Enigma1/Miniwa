@@ -5,6 +5,11 @@ import (
 	"gorm.io/gorm"
 )
 
+type IPlantService interface {
+    GetPlan() ([]model.Plant, error)
+}
+
+
 type PlantService struct {
 	db *gorm.DB
 }

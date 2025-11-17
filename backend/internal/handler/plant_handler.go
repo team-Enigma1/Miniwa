@@ -3,15 +3,17 @@ package handler
 import (
 	"net/http"
 
-	service "example.com/go-echo-crud/internal/service"
+	
+	"example.com/go-echo-crud/internal/service"
 	"github.com/labstack/echo/v4"
 )
 
+
 type PlantHandler struct {
-	plantService *service.PlantService
+	plantService service.IPlantService
 }
 
-func NewPlantHandler(plantService *service.PlantService) *PlantHandler {
+func NewPlantHandler(plantService service.IPlantService) *PlantHandler {
 	return &PlantHandler{plantService: plantService}
 }
 
