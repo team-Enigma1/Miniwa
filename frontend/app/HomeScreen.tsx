@@ -10,34 +10,7 @@ import {
   View
 } from 'react-native';
 import styles from '../styles/HomeScreen.styles'; 
-
-// ========================================
-// 型定義
-// ========================================
-
-interface TodoItem {
-  id: number;
-  text: string;
-  description: string;
-  completed: boolean;
-  icon: string;
-  type: 'water' | 'check' | 'fertilize';
-}
-
-interface Plant {
-  id: number;
-  name: string;
-  status: string;
-  emoji: string;
-  image?: string;
-}
-
-interface RecommendedItem {
-  id: number;
-  name: string;
-  category: string;
-  emoji: string;
-}
+import { TodoItem, Plant, RecommendedItem } from '../types/HomeScreen';
 
 const { width } = Dimensions.get('window');
 

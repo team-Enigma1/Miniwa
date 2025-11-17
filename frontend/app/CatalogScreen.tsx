@@ -11,24 +11,8 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from '../styles/CatalogScreen.styles'; 
+import { Plant, Favorites } from '../types/CatalogScreen';
 
-// ========================================
-// 型定義
-// ========================================
-
-// 植物データの型定義
-interface Plant {
-  id: number;
-  name: string;
-  description: string;
-  emoji: string;
-  season: string;
-}
-
-// お気に入り状態の型定義
-interface Favorites {
-  [key: number]: boolean;
-}
 
 // ========================================
 // メインコンポーネント

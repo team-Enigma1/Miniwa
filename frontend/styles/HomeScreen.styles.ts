@@ -32,7 +32,7 @@ weatherHeader: {
 weatherText: {
   textAlign: 'center',
   color: '#1A1A1A',
-  fontSize: 18,
+  fontSize: 16,
   fontWeight: '600',
 },
 

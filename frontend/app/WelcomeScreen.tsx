@@ -9,7 +9,7 @@ const WelcomeScreen = () => {
   const router = useRouter(); // Expo Routerで画面遷移
 
   const handleStart = () => {
-    router.replace('/GrowthScreen'); // 「はじめる」ボタンに遷移
+    router.replace('/LoginWelcomeScreen'); // 「はじめる」ボタンに遷移
   };
 
   return (
