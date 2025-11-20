@@ -12,12 +12,12 @@ type PlantDi struct {
 
 func NewPlantDi() (*PlantDi, error) {
 	db, err := gorm.InitDB()
-    if err != nil {
-        return nil, err
-    }
+	if err != nil {
+		return nil, err
+	}
 
 	plantService := service.NewPlantService(db)
 	plantHandler := handler.NewPlantHandler(plantService)
 
-    return &PlantDi{Handler: plantHandler}, nil
+	return &PlantDi{Handler: plantHandler}, nil
 }

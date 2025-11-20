@@ -9,17 +9,17 @@ func Setup(e *echo.Echo, handlers ...interface{}) {
 
 	for _, h := range handlers {
 
-        switch h := h.(type) {
+		switch h := h.(type) {
 
-        case *handler.PlantHandler:
-            PlantRouter(e, h)
+		case *handler.PlantHandler:
+			PlantRouter(e, h)
 
-        // case *handler.UserHandler:
-        //     UserRouter(e, h)
+		case *handler.AuthHandler:
+			AuthRouter(e, h)
 
-        default:
-            panic("unknown handler type: router not implemented")
-        }
+		default:
+			panic("unknown handler type: router not implemented")
+		}
 	}
 }
 

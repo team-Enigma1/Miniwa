@@ -6,9 +6,8 @@ import (
 )
 
 type IPlantService interface {
-    GetPlan() ([]model.Plant, error)
+	GetPlan() ([]model.Plant, error)
 }
-
 
 type PlantService struct {
 	db *gorm.DB

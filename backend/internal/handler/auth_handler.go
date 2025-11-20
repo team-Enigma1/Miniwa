@@ -8,8 +8,15 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+type AuthHandler struct {
+	authService service.IAuthService
+}
 
-func LoginHandler(c echo.Context) error {
+func NewAuthHandler(authService service.IAuthService) *AuthHandler {
+	return &AuthHandler{authService: authService}
+}
+
+func (h *AuthHandler) Login(c echo.Context) error {
 	// Handle login request
 	var req model.AuthRequest
 
@@ -19,7 +26,7 @@ func LoginHandler(c echo.Context) error {
 	}
 
 	// Service login
-	user, err := service.LoginWithEmail(req.Email, req.Password)
+	user, err := h.authService.Login(req.Email, req.Password)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()})
 	}
@@ -27,7 +34,7 @@ func LoginHandler(c echo.Context) error {
 	return c.JSON(http.StatusOK, user)
 }
 
-func SignupHandler(c echo.Context) error {
+func (h *AuthHandler) Signup(c echo.Context) error {
 	// Handle signup request
 	var req model.AuthRequest
 
@@ -35,7 +42,7 @@ func SignupHandler(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid JSON"})
 	}
 
-	user, err := service.SignupWithEmail(req.Email, req.Password)
+	user, err := h.authService.Signup(req.Email, req.Password)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()})
 	}

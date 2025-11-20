@@ -5,11 +5,10 @@ import (
 	"log"
 	"os"
 
+	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"github.com/joho/godotenv"
 )
-
 
 func InitDB() (*gorm.DB, error) {
 
@@ -30,7 +29,7 @@ func InitDB() (*gorm.DB, error) {
 		log.Fatalf("Failed to connect database: %v", err2)
 	}
 
-	fmt.Println( "DB connect 200")
+	fmt.Println("DB connect 200")
 
 	return db, nil
 }
