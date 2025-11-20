@@ -2,17 +2,26 @@ package main
 
 import (
 	"fmt"
+	"log"
 
-	gorm "example.com/go-echo-crud/internal/infra"
+	"example.com/go-echo-crud/pkg/di"
+	"example.com/go-echo-crud/pkg/middleware"
 	"example.com/go-echo-crud/pkg/router"
 	"github.com/labstack/echo/v4"
 )
 
 func main() {
 
-	gorm.InitDB()
 
 	e := echo.New()
+
+	container, err := di.NewContainer()
+    if err != nil {
+        log.Fatal(err)
+    }
+
+
+	middleware.Setup(e)
 
 	// Setup routes
 	router.Setup(e)

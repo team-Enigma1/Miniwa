@@ -22,3 +22,11 @@ func Setup(e *echo.Echo, handlers ...interface{}) {
 		}
 	}
 }
+
+// func LoginRouter(e *echo.Echo) {
+// 	e.POST("/login", handler.LoginHandler)
+// }
+
+// func SignupRouter(e *echo.Echo) {
+// 	e.POST("/signup", handler.SignupHandler)
+// }
