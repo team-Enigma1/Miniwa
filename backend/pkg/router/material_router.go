@@ -9,5 +9,7 @@ func MaterialRouter (e *echo.Echo,  materialHandler *handler.MaterialHandler) {
 
 	api := e.Group("/material")
 
-	api.GET("/", materialHandler.GetSeeds)
+	api.GET("/seeds", materialHandler.FindAllSeeds)
+	api.GET("/fertilizers", materialHandler.FindAllFertilizers)
+	api.GET("/Soils", materialHandler.FindAllSoils)
 }

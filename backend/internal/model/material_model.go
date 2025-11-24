@@ -1,7 +1,12 @@
 package model
 
 type Soils struct {
-	
+	Rec_id int 
+	Plant_id int 
+	Desc	string 
+	Sname string
+	Url string
+	Price int    
 }
 
 type Seeds struct {
