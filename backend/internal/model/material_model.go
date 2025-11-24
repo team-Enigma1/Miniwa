@@ -9,8 +9,12 @@ type Soils struct {
 	Price int    
 }
 
+func (Soils) TableName() string {
+	return  "plant_soil"
+}
+
 type Seeds struct {
-	Seed_id int8 
+	Seed_id int
 	Seed_name string
 	Url string
 	Plant_id int
@@ -18,14 +22,21 @@ type Seeds struct {
 	Price int
 }
 
+func (Seeds) TableName() string {
+    return "Seeds" // ← Supabase のテーブル名に合わせる
+}
+
 type Fertilizers struct {
-	Fertilizer_id int8
+	Fertilizer_id int
 	Fname string
 	Fertilizer_form []byte
 	Npk_ratio string
 	Usage_frequency int
-	Plant_id int8
-	Growth_id int8
+	Plant_id int
+	Growth_id int
 	Prize int
-
 } 
+
+func (Fertilizers) TableName() string {
+    return "fertilizer_type" // ← Supabase のテーブル名に合わせる
+}
