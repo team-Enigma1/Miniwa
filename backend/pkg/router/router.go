@@ -8,4 +8,5 @@ import (
 func Setup(e *echo.Echo, c *di.Container) {
     PlantRouter(e, c.PlantHandler)
     AuthRouter(e, c.AuthHandler)
+	MaterialRouter(e,c.MaterialHandler)
 }
