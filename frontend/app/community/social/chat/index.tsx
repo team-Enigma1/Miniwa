@@ -138,7 +138,8 @@ export default function ChatListScreen() {
   const handleChatPress = useCallback((chat: any) => {
     // Điều hướng đến màn hình chat chi tiết với userId
     // router.push(`./community/social/chat/${chat.userId}`);
-    router.push(`./community/social/chat/[chatUserId]/${chat.userId}`);
+    router.push(`/community/social/chat/${chat.userId}`);
+
   }, [router]);
 
   const renderChatItem = useCallback(({ item }: { item: any }) => (

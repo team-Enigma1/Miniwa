@@ -144,12 +144,12 @@ export default function UserProfileScreen() {
 
   // Handle message
   const handleMessage = useCallback(() => {
-  router.push(`./community/social/chat/${user.id}`);
+  router.push(`/community/social/chat/${user.id}`);
 }, [router, user.id]);
 
   // Handle post press
   const handlePostPress = useCallback((postId: string) => {
-    router.push(`./community/social/${postId}`);
+    router.push(`/community/social/${postId}`);
   }, [router]);
 
   // Handle edit profile (if current user)

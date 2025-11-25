@@ -82,11 +82,11 @@ const NotificationItem = React.memo(({ notification, onPress }: {
       case 'like':
       case 'comment':
         if (notification.postId) {
-          router.push(`./community/social/${notification.postId}`);
+          router.push(`/community/social/${notification.postId}`);
         }
         break;
       case 'follow':
-        router.push(`./community/social/profile/${notification.userId}`);
+        router.push(`/community/social/profile/${notification.userId}`);
         break;
       default:
         break;

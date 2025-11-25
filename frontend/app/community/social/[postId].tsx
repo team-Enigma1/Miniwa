@@ -330,7 +330,7 @@ export default function PostDetailScreen() {
 
   // Navigate to user profile
   const navigateToProfile = useCallback((userId: string) => {
-    router.push(`./community/social/profile/${userId}`);
+    router.push(`/community/social/profile/${userId}`);
   }, [router]);
 
   // Xử lý khi focus vào input bình luận - ĐÃ GIẢM ĐỘ TRƯỢT
