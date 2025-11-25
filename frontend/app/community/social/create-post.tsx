@@ -324,7 +324,7 @@ const CreatePostScreen = () => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container} edges={['right', 'left']}>
+    <SafeAreaView style={styles.container} edges={['right', 'left', 'bottom']}>
       <KeyboardAvoidingView 
         style={styles.keyboardAvoid}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}

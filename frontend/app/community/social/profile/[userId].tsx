@@ -194,7 +194,7 @@ export default function UserProfileScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={['right', 'left']}>
+    <SafeAreaView style={styles.container} edges={['right', 'left', 'bottom']}>
       {/* Header với safe area - ĐÃ CẬP NHẬT */}
       <View style={[styles.customHeader, { paddingTop: Math.max(insets.top, 8) }]}>
         <TouchableOpacity 
