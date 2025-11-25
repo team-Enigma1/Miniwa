@@ -34,7 +34,7 @@ export default function NotificationsLayout() {
       <Stack.Screen
         name="index"
         options={{
-          title: 'Thông báo',
+          title: '通知',
         }}
       />
     </Stack>

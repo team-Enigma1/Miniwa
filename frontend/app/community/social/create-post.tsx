@@ -365,7 +365,7 @@ const CreatePostScreen = () => {
           <View style={styles.modalOverlay}>
             <View style={styles.modalContent}>
               <View style={styles.modalHeader}>
-                <Text style={styles.modalTitle}>Chọn ảnh</Text>
+                <Text style={styles.modalTitle}>写真を選択</Text>
                 <TouchableOpacity onPress={closeImagePicker} style={styles.closeButton}>
                   <Ionicons name="close" size={24} color={Colors.text.primary} />
                 </TouchableOpacity>

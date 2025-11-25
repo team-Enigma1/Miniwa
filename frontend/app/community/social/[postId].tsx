@@ -80,7 +80,7 @@ const mockComments = [
       name: 'Gita',
       avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
     },
-    content: 'Monstera rất dễ chăm sóc, bạn nhớ để cây ở nơi có ánh sáng nhé!',
+    content: 'モンステラの手入れはとても簡単です。明るい場所に置いておくことを忘れないようにしてください。',
     timestamp: new Date(Date.now() - 45 * 60 * 1000),
     likes: 3,
     isLiked: true,
@@ -235,9 +235,9 @@ const formatTimeAgo = (date: Date) => {
   const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
   
   if (diffInSeconds < 60) return '終わったばかり';
-  if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} phút trước`;
-  if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} giờ trước`;
-  return `${Math.floor(diffInSeconds / 86400)} ngày trước`;
+  if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} 数分前`;
+  if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} 時間前`;
+  return `${Math.floor(diffInSeconds / 86400)} 前日`;
 };
 
 export default function PostDetailScreen() {
@@ -330,7 +330,7 @@ export default function PostDetailScreen() {
 
   // Navigate to user profile
   const navigateToProfile = useCallback((userId: string) => {
-    router.push(`./community/social/profile/${userId}`);
+    router.push(`/community/social/profile/${userId}`);
   }, [router]);
 
   // Xử lý khi focus vào input bình luận - ĐÃ GIẢM ĐỘ TRƯỢT
@@ -445,12 +445,12 @@ export default function PostDetailScreen() {
                 }}
               >
                 <Ionicons name="chatbubble-outline" size={22} color={Colors.text.tertiary} />
-                <Text style={styles.postActionText}>Bình luận</Text>
+                <Text style={styles.postActionText}>コメント</Text>
               </TouchableOpacity>
 
               <TouchableOpacity style={styles.postAction}>
                 <Ionicons name="arrow-redo-outline" size={22} color={Colors.text.tertiary} />
-                <Text style={styles.postActionText}>Chia sẻ</Text>
+                <Text style={styles.postActionText}>共有</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -483,7 +483,7 @@ export default function PostDetailScreen() {
           {replyingTo && (
             <View style={styles.replyingToContainer}>
               <Text style={styles.replyingToText}>
-                Đang phản hồi @{replyingTo.userName}
+                応答 @{replyingTo.userName}
               </Text>
               <TouchableOpacity onPress={() => setReplyingTo(null)}>
                 <Ionicons name="close" size={16} color={Colors.text.tertiary} />
@@ -495,7 +495,7 @@ export default function PostDetailScreen() {
             <TextInput
               ref={commentInputRef}
               style={styles.commentInput}
-              placeholder="Viết bình luận..."
+              placeholder="コメントを書く..."
               placeholderTextColor={Colors.text.placeholder}
               value={newComment}
               onChangeText={setNewComment}

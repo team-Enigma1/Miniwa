@@ -36,7 +36,7 @@ export default function SocialLayout() {
         name="profile/[userId]"
         options={{
           headerShown: false,
-          title: 'Hồ sơ',
+          title: 'ファイル',
           animation: 'slide_from_right',
         }}
       />

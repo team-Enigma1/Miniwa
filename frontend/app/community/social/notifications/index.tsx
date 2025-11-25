@@ -20,8 +20,8 @@ const mockNotifications = [
   {
     id: '1',
     type: 'like',
-    title: 'Ai đó thích bài viết của bạn',
-    message: 'Nguyễn Văn B đã thích bài viết "Cây Monstera của tôi"',
+    title: '誰かがあなたの投稿に「いいね！」しました',
+    message: 'Nguyen Van Bさんが「My Monstera」という投稿に「いいね！」しました',
     userId: 'user2',
     userName: 'Nguyễn Văn B',
     userAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
@@ -33,8 +33,8 @@ const mockNotifications = [
   {
     id: '2',
     type: 'comment',
-    title: 'Bình luận mới',
-    message: 'Trần Thị C đã bình luận: "Cây đẹp quá! Bạn chăm sóc thế nào?"',
+    title: '新しいコメント',
+    message: 'Tran Thi Cさんは「なんて美しい木なのでしょう！どうやって手入れしているのですか？」とコメントしました。',
     userId: 'user3',
     userName: 'Trần Thị C',
     userAvatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
@@ -45,8 +45,8 @@ const mockNotifications = [
   {
     id: '3',
     type: 'follow',
-    title: 'Người theo dõi mới',
-    message: 'Lê Văn D đã bắt đầu theo dõi bạn',
+    title: '新しいフォロワー',
+    message: 'Le Van Dがあなたをフォローし始めました',
     userId: 'user4',
     userName: 'Lê Văn D',
     userAvatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
@@ -56,8 +56,8 @@ const mockNotifications = [
   {
     id: '5',
     type: 'like',
-    title: 'Ai đó thích bình luận của bạn',
-    message: 'Phạm Thị E đã thích bình luận của bạn trong "Vườn rau sạch tại nhà"',
+    title: '誰かがあなたのコメントを「いいね！」しました',
+    message: 'Pham Thi E さんが「自宅のきれいな野菜畑」へのコメントを「いいね！」しました',
     userId: 'user5',
     userName: 'Phạm Thị E',
     userAvatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face',
@@ -82,11 +82,11 @@ const NotificationItem = React.memo(({ notification, onPress }: {
       case 'like':
       case 'comment':
         if (notification.postId) {
-          router.push(`./community/social/${notification.postId}`);
+          router.push(`/community/social/${notification.postId}`);
         }
         break;
       case 'follow':
-        router.push(`./community/social/profile/${notification.userId}`);
+        router.push(`/community/social/profile/${notification.userId}`);
         break;
       default:
         break;
@@ -127,10 +127,10 @@ const NotificationItem = React.memo(({ notification, onPress }: {
     const hours = Math.floor(diff / 3600000);
     const days = Math.floor(diff / 86400000);
 
-    if (minutes < 1) return 'Vừa xong';
-    if (minutes < 60) return `${minutes} phút trước`;
-    if (hours < 24) return `${hours} giờ trước`;
-    if (days < 7) return `${days} ngày trước`;
+    if (minutes < 1) return '終わったばかり';
+    if (minutes < 60) return `${minutes} 数分前`;
+    if (hours < 24) return `${hours} 時間前`;
+    if (days < 7) return `${days} 前日`;
     
     return timestamp.toLocaleDateString('vi-VN');
   };
@@ -198,21 +198,21 @@ export default function NotificationsScreen() {
       isRead: true,
     }));
     setNotifications(updatedNotifications);
-    Alert.alert('Thành công', 'Đã đánh dấu tất cả là đã đọc');
+    Alert.alert('成功', 'すべて既読にしました');
   }, [notifications]);
 
   const handleClearAll = useCallback(() => {
     Alert.alert(
-      'Xóa thông báo',
-      'Bạn có chắc chắn muốn xóa tất cả thông báo?',
+      '削除通知',
+      'すべての通知をクリアしてもよろしいですか?',
       [
-        { text: 'Hủy', style: 'cancel' },
+        { text: 'キャンセル', style: 'cancel' },
         { 
-          text: 'Xóa', 
+          text: '削除', 
           style: 'destructive',
           onPress: () => {
             setNotifications([]);
-            Alert.alert('Thành công', 'Đã xóa tất cả thông báo');
+            Alert.alert('成功', 'すべての通知をクリアしました');
           }
         },
       ]
@@ -257,7 +257,7 @@ export default function NotificationsScreen() {
               styles.headerButtonText,
               unreadCount === 0 && styles.headerButtonTextDisabled
             ]}>
-              Đánh dấu đã đọc
+              既読にする
             </Text>
           </TouchableOpacity>
 
@@ -267,7 +267,7 @@ export default function NotificationsScreen() {
           >
             <Ionicons name="trash-outline" size={20} color={Colors.error} />
             <Text style={[styles.headerButtonText, { color: Colors.error }]}>
-              Xóa tất cả
+              すべてクリア
             </Text>
           </TouchableOpacity>
         </View>
@@ -293,7 +293,7 @@ export default function NotificationsScreen() {
             <Ionicons name="notifications-off-outline" size={64} color={Colors.text.tertiary} />
             <Text style={styles.emptyStateTitle}>Không có thông báo</Text>
             <Text style={styles.emptyStateMessage}>
-              Khi có người tương tác với bài viết của bạn, thông báo sẽ xuất hiện ở đây
+              誰かがあなたの投稿に反応すると、ここに通知が表示されます。
             </Text>
           </View>
         }

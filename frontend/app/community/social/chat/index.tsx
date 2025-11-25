@@ -22,7 +22,7 @@ const mockChats = [
     userId: 'user1',
     userName: 'Nguyễn Văn A',
     userAvatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
-    lastMessage: 'Chào bạn! Cây Monstera của bạn trông thật đẹp!',
+    lastMessage: 'こんにちは！モンステラ、綺麗ですね！',
     timestamp: new Date(Date.now() - 300000), // 5 phút trước
     unreadCount: 2,
     isOnline: true,
@@ -32,7 +32,7 @@ const mockChats = [
     userId: 'user2',
     userName: 'Trần Thị B',
     userAvatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
-    lastMessage: 'Cảm ơn lời khuyên của bạn!',
+    lastMessage: 'アドバイスありがとうございます！',
     timestamp: new Date(Date.now() - 3600000), // 1 giờ trước
     unreadCount: 0,
     isOnline: false,
@@ -42,7 +42,7 @@ const mockChats = [
     userId: 'user3',
     userName: 'Phạm Văn C',
     userAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
-    lastMessage: 'Mình đã thử cách bạn nói và thấy hiệu quả lắm!',
+    lastMessage: '言われた通りに試してみたらうまくいきました！',
     timestamp: new Date(Date.now() - 86400000), // 1 ngày trước
     unreadCount: 1,
     isOnline: true,
@@ -52,7 +52,7 @@ const mockChats = [
     userId: 'user4',
     userName: 'Lê Văn D',
     userAvatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
-    lastMessage: 'Bạn có thể chia sẻ kinh nghiệm trồng cây cảnh không?',
+    lastMessage: '盆栽を育てた経験について教えていただけますか？',
     timestamp: new Date(Date.now() - 172800000), // 2 ngày trước
     unreadCount: 0,
     isOnline: false,
@@ -71,10 +71,10 @@ const ChatListItem = React.memo(({ chat, onPress }: {
     const hours = Math.floor(diff / 3600000);
     const days = Math.floor(diff / 86400000);
 
-    if (minutes < 1) return 'Vừa xong';
-    if (minutes < 60) return `${minutes} phút trước`;
-    if (hours < 24) return `${hours} giờ trước`;
-    if (days < 7) return `${days} ngày trước`;
+    if (minutes < 1) return '終わったばかり';
+    if (minutes < 60) return `${minutes} 数分前`;
+    if (hours < 24) return `${hours} 時間前`;
+    if (days < 7) return `${days} 前日`;
     
     return timestamp.toLocaleDateString('vi-VN');
   };
@@ -137,7 +137,9 @@ export default function ChatListScreen() {
 
   const handleChatPress = useCallback((chat: any) => {
     // Điều hướng đến màn hình chat chi tiết với userId
-    router.push(`./community/social/chat/${chat.userId}`);
+    // router.push(`./community/social/chat/${chat.userId}`);
+    router.push(`/community/social/chat/${chat.userId}`);
+
   }, [router]);
 
   const renderChatItem = useCallback(({ item }: { item: any }) => (
@@ -159,7 +161,7 @@ export default function ChatListScreen() {
         <Ionicons name="search" size={20} color={Colors.text.tertiary} style={styles.searchIcon} />
         <TextInput
           style={styles.searchInput}
-          placeholder="Tìm kiếm tin nhắn..."
+          placeholder="メッセージを検索..."
           placeholderTextColor={Colors.text.tertiary}
           value={searchQuery}
           onChangeText={setSearchQuery}
@@ -190,12 +192,12 @@ export default function ChatListScreen() {
           <View style={styles.emptyState}>
             <Ionicons name="chatbubble-ellipses-outline" size={64} color={Colors.text.tertiary} />
             <Text style={styles.emptyStateTitle}>
-              {searchQuery ? 'Không tìm thấy kết quả' : 'Không có tin nhắn'}
+              {searchQuery ? '結果が見つかりませんでした' : 'メッセージはありません'}
             </Text>
             <Text style={styles.emptyStateMessage}>
               {searchQuery 
-                ? 'Hãy thử tìm kiếm với từ khóa khác'
-                : 'Khi có tin nhắn mới, chúng sẽ xuất hiện ở đây'
+                ? '別のキーワードで検索してみてください'
+                : '新しいメッセージが届くと、ここに表示されます。'
               }
             </Text>
           </View>
