@@ -167,7 +167,7 @@ export default function ChatScreen() {
   }, [user.avatar]);
 
   return (
-    <SafeAreaView style={styles.container} edges={['right', 'left']}>
+    <SafeAreaView style={styles.container} edges={['right', 'left', 'bottom']}>
       {/* Header */}
       <View style={[styles.header, { paddingTop: Math.max(insets.top, 8) }]}>
         <View style={styles.headerLeft}>
