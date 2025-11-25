@@ -154,7 +154,9 @@ const HomeScreen = () => {
   const handlePlantNav = () => router.push('/CatalogScreen');
   const handleCalendarNav = () => console.log('/CalendarScreen');
   const handleHomeNav = () => console.log('Home');
-  const handleCommunityNav = () => console.log('Community');
+  // const handleCommunityNav = () => console.log('Community');
+  const handleCommunityNav = () => router.push('/community');
+
   const handleProfileNav = () => console.log('Profile');
 
   // ========================================
