@@ -34,7 +34,7 @@ export default function ChatLayout() {
       <Stack.Screen
         name="index"
         options={{
-          title: 'Tin nhắn',
+          title: 'メッセージ',
         }}
       />
       <Stack.Screen

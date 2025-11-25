@@ -21,14 +21,14 @@ import Colors from '../../../shared/constants/colors';
 const mockMessages = [
   {
     id: '1',
-    text: 'Chào bạn! Cây Monstera của bạn trông thật đẹp!',
+    text: 'こんにちは！モンステラ、綺麗ですね！',
     senderId: 'user1',
     timestamp: new Date(Date.now() - 3600000),
     type: 'text',
   },
   {
     id: '2',
-    text: 'Cảm ơn bạn! Mình mới chăm được 3 tháng thôi 😊',
+    text: 'ありがとうございます！まだ3ヶ月しかお世話になってないんです😊',
     senderId: 'currentUser',
     timestamp: new Date(Date.now() - 3500000),
     type: 'text',
@@ -123,9 +123,9 @@ export default function ChatScreen() {
     // Simulate reply
     setTimeout(() => {
       const replies = [
-        "Cảm ơn bạn đã chia sẻ!",
-        "Mình hiểu rồi, sẽ thử áp dụng.",
-        "Bạn có thể tư vấn thêm về phân bón không?",
+        "共有していただきありがとうございます！",
+        "分かりました。応募してみます。",
+        "肥料についてさらにアドバイスをいただけますか?",
       ];
       
       const randomReply = replies[Math.floor(Math.random() * replies.length)];
@@ -152,7 +152,7 @@ export default function ChatScreen() {
   }, [chatUserId, router]);
 
   const handleMoreOptions = useCallback(() => {
-    Alert.alert('Tùy chọn', 'Các tùy chọn khác cho cuộc trò chuyện');
+    Alert.alert('オプション', 'チャットのその他のオプション');
   }, []);
 
   const renderMessage = useCallback(({ item }: { item: any }) => {
@@ -191,7 +191,7 @@ export default function ChatScreen() {
               <View style={styles.statusContainer}>
                 <View style={[styles.statusDot, user.isOnline && styles.onlineDot]} />
                 <Text style={styles.statusText}>
-                  {user.isOnline ? 'Đang hoạt động' : 'Vừa hoạt động'}
+                  {user.isOnline ? '稼働中' : 'ただアクティブ'}
                 </Text>
               </View>
             </View>
@@ -229,7 +229,7 @@ export default function ChatScreen() {
               style={styles.textInput}
               value={newMessage}
               onChangeText={setNewMessage}
-              placeholder="Nhập tin nhắn..."
+              placeholder="メッセージを入力してください..."
               placeholderTextColor={Colors.text.tertiary}
               multiline
               maxLength={500}

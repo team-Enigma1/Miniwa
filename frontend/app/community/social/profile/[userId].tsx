@@ -138,7 +138,7 @@ export default function UserProfileScreen() {
     }));
     
     if (!user.isFollowing) {
-      Alert.alert('Đã theo dõi', `Bạn đã theo dõi ${user.name}`);
+      Alert.alert('フォロー', `フォローしています ${user.name}`);
     }
   }, [user.isFollowing, user.name]);
 
@@ -154,7 +154,7 @@ export default function UserProfileScreen() {
 
   // Handle edit profile (if current user)
   const handleEditProfile = useCallback(() => {
-    Alert.alert('Chỉnh sửa profile', 'Mở màn hình chỉnh sửa profile');
+    Alert.alert('プロフィールを編集', 'プロフィール編集画面を開く');
   }, []);
 
   // Render tab content
@@ -179,13 +179,13 @@ export default function UserProfileScreen() {
       case 'photos':
         return (
           <View style={styles.tabContent}>
-            <Text style={styles.comingSoonText}>Tính năng đang phát triển</Text>
+            <Text style={styles.comingSoonText}>開発中の機能</Text>
           </View>
         );
       case 'likes':
         return (
           <View style={styles.tabContent}>
-            <Text style={styles.comingSoonText}>Tính năng đang phát triển</Text>
+            <Text style={styles.comingSoonText}>開発中の機能</Text>
           </View>
         );
       default:
@@ -204,7 +204,7 @@ export default function UserProfileScreen() {
           <Ionicons name="chevron-back" size={24} color={Colors.text.inverse} />
         </TouchableOpacity>
         
-        <Text style={styles.headerTitle}>Hồ sơ</Text>
+        <Text style={styles.headerTitle}>ファイル</Text>
         
         <View style={styles.headerRight} />
       </View>
@@ -248,15 +248,15 @@ export default function UserProfileScreen() {
           <View style={styles.statsContainer}>
             <View style={styles.stat}>
               <Text style={styles.statNumber}>{user.stats.posts}</Text>
-              <Text style={styles.statLabel}>Bài viết</Text>
+              <Text style={styles.statLabel}>記事</Text>
             </View>
             <View style={styles.stat}>
               <Text style={styles.statNumber}>{user.stats.followers}</Text>
-              <Text style={styles.statLabel}>Người theo dõi</Text>
+              <Text style={styles.statLabel}>フォロワー</Text>
             </View>
             <View style={styles.stat}>
               <Text style={styles.statNumber}>{user.stats.following}</Text>
-              <Text style={styles.statLabel}>Đang theo dõi</Text>
+              <Text style={styles.statLabel}>続く</Text>
             </View>
           </View>
 
@@ -268,7 +268,7 @@ export default function UserProfileScreen() {
                 onPress={handleEditProfile}
               >
                 <Ionicons name="create-outline" size={18} color={Colors.primary.main} />
-                <Text style={[styles.actionButtonText, styles.editButtonText]}>Chỉnh sửa</Text>
+                <Text style={[styles.actionButtonText, styles.editButtonText]}>編集</Text>
               </TouchableOpacity>
             ) : (
               <>
@@ -285,7 +285,7 @@ export default function UserProfileScreen() {
                     styles.actionButtonText,
                     user.isFollowing ? styles.followingButtonText : styles.followButtonText
                   ]}>
-                    {user.isFollowing ? 'Đang theo dõi' : 'Theo dõi'}
+                    {user.isFollowing ? '続く' : 'モニター'}
                   </Text>
                 </TouchableOpacity>
                 
@@ -294,7 +294,7 @@ export default function UserProfileScreen() {
                   onPress={handleMessage}
                 >
                   <Ionicons name="chatbubble-outline" size={18} color={Colors.primary.main} />
-                  <Text style={[styles.actionButtonText, styles.messageButtonText]}>Nhắn tin</Text>
+                  <Text style={[styles.actionButtonText, styles.messageButtonText]}>テキストメッセージ</Text>
                 </TouchableOpacity>
               </>
             )}
@@ -341,7 +341,7 @@ export default function UserProfileScreen() {
               color={activeTab === 'likes' ? Colors.primary.main : Colors.text.tertiary} 
             />
             <Text style={[styles.tabText, activeTab === 'likes' && styles.activeTabText]}>
-              Yêu thích
+              お気に入り
             </Text>
           </TouchableOpacity>
         </View>
