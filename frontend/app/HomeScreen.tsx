@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import styles from '../styles/HomeScreen.styles'; 
 import { TodoItem, Plant, RecommendedItem } from '../types/HomeScreen';
+import BottomNav from "../components/ui/BottomNavigation";
 
 const { width } = Dimensions.get('window');
 
@@ -121,16 +122,6 @@ const HomeScreen = () => {
   };
 
   // ========================================
-  // ナビゲーションハンドラー
-  // ========================================
-  
-  const handlePlantNav = () => router.push('/CatalogScreen');
-  const handleCalendarNav = () => console.log('/CalendarScreen');
-  const handleHomeNav = () => console.log('Home');
-  const handleCommunityNav = () => console.log('Community');
-  const handleProfileNav = () => console.log('Profile');
-
-  // ========================================
   // レンダリング
   // ========================================
 
@@ -149,21 +140,6 @@ const HomeScreen = () => {
         <View style={styles.weatherHeader}>
             <Text style={styles.weatherIcon}>☀️</Text>
             <Text style={styles.weatherText}>Osaka, 24 °C</Text>
-        </View>
-
-        {/* 今日のアドバイスセクション */}
-        {/* TODO (Backend): GET /api/tips で天気・季節・ユーザーの植物に基づいたアドバイスを取得 */}
-        {/* レスポンス例: { tip: { title, description, icon, priority, ... } } */}
-        <View style={styles.section}>
-          <View style={styles.tipCard}>
-            <View style={styles.tipHeader}>
-              <Text style={styles.tipIcon}>💡</Text>
-              <Text style={styles.tipTitle}>今日のアドバイス</Text>
-            </View>
-            <Text style={styles.tipDescription}>
-              今日は気温が適温です。午前中に水やりをすると、植物がより効率的に水分を吸収できます。
-            </Text>
-          </View>
         </View>
         
         {/* マイガーデンセクション */}
@@ -196,10 +172,6 @@ const HomeScreen = () => {
                   <Text style={styles.plantStatus}>{plant.status}</Text>
                 </View>
 
-                {/* アクションボタン（詳細表示） */}
-                <TouchableOpacity style={styles.plantActionButton}>
-                  <Text style={styles.plantActionIcon}>📊</Text>
-                </TouchableOpacity>
               </TouchableOpacity>
             ))}
 
@@ -215,6 +187,22 @@ const HomeScreen = () => {
               <Text style={styles.addPlantText}>植物を追加</Text>
             </TouchableOpacity>
           </ScrollView>
+        </View>
+
+        
+        {/* 今日のアドバイスセクション */}
+        {/* TODO (Backend): GET /api/tips で天気・季節・ユーザーの植物に基づいたアドバイスを取得 */}
+        {/* レスポンス例: { tip: { title, description, icon, priority, ... } } */}
+        <View style={styles.section}>
+          <View style={styles.tipCard}>
+            <View style={styles.tipHeader}>
+              <Text style={styles.tipIcon}>💡</Text>
+              <Text style={styles.tipTitle}>今日のアドバイス</Text>
+            </View>
+            <Text style={styles.tipDescription}>
+              今日は気温が適温です。午前中に水やりをすると、植物がより効率的に水分を吸収できます。
+            </Text>
+          </View>
         </View>
 
         {/* 今日のToDoセクション */}
@@ -275,86 +263,9 @@ const HomeScreen = () => {
             ))}
           </View>
         </View>
-
-        {/* おすすめアイテムセクション */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>おすすめのアイテム</Text>
-          
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.itemsScroll}
-          >
-            {recommendedItems.map((item) => (
-              <View key={item.id} style={styles.itemCard}>
-                <View style={styles.itemImage}>
-                  <Text style={styles.itemEmoji}>{item.emoji}</Text>
-                </View>
-                <Text style={styles.itemCategory}>{item.category}</Text>
-                <Text style={styles.itemName}>{item.name}</Text>
-                <TouchableOpacity 
-                  style={styles.itemButton}
-                  onPress={() => handleBuyItem(item)}
-                  activeOpacity={0.8}
-                >
-                  <Text style={styles.itemButtonText}>購入する</Text>
-                  <Text style={styles.itemButtonIcon}>🛒</Text>
-                </TouchableOpacity>
-              </View>
-            ))}
-          </ScrollView>
-        </View>
       </ScrollView>
 
-      {/* 底部ナビゲーション */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity
-          style={styles.navItem}
-          onPress={handlePlantNav}
-          activeOpacity={0.7}
-        >
-          <Text style={styles.navIcon}>🌱</Text>
-          <Text style={styles.navLabel}>マイガーデン</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.navItem}
-          onPress={handleCalendarNav}
-          activeOpacity={0.7}
-        >
-          <Text style={styles.navIcon}>📅</Text>
-          <Text style={styles.navLabel}>カレンダー</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.navItem, styles.navItemActive]}
-          onPress={handleHomeNav}
-          activeOpacity={0.7}
-        >
-          <View style={styles.navActiveIndicator}>
-            <Text style={styles.navIconActive}>🏠</Text>
-          </View>
-          <Text style={styles.navLabelActive}>ホーム</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.navItem}
-          onPress={handleCommunityNav}
-          activeOpacity={0.7}
-        >
-          <Text style={styles.navIcon}>💬</Text>
-          <Text style={styles.navLabel}>SNS</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.navItem}
-          onPress={handleProfileNav}
-          activeOpacity={0.7}
-        >
-          <Text style={styles.navIcon}>👤</Text>
-          <Text style={styles.navLabel}>プロフィール</Text>
-        </TouchableOpacity>
-      </View>
+      <BottomNav />
     </View>
   );
 };

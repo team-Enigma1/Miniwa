@@ -8,13 +8,12 @@ export interface TodoItem {
 }
 
 export interface Plant {
-  id: number;
+   id: number;
   name: string;
   status: string;
   emoji: string;
   image?: string;
 }
-
 
 export interface RecommendedItem {
   id: number;

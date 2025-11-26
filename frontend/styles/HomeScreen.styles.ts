@@ -9,10 +9,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   scrollView: {
+
     flex: 1,
   },
   scrollContent: {
-    paddingBottom: 20,
+    paddingBottom: 120,
   },
 
   // 天気ヘッダー
@@ -111,11 +112,6 @@ weatherText: {
     backgroundColor: '#2ECC71',
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 5,
   },
   plantActionIcon: {
     fontSize: 20,
@@ -132,6 +128,11 @@ weatherText: {
     borderStyle: 'dashed',
     justifyContent: 'center',
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
   },
   addPlantIcon: {
     width: 50,
@@ -141,6 +142,11 @@ weatherText: {
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
   },
   addPlantIconText: {
     fontSize: 28,
@@ -153,6 +159,39 @@ weatherText: {
     fontWeight: '600',
   },
 
+    // アドバイスカード
+  tipCard: {
+    marginHorizontal: 20,
+    padding: 16,
+    borderRadius: 16,
+    backgroundColor: '#FFFFFF', 
+    borderColor: 'rgba(53, 58, 55, 0.08)',
+    borderWidth: 1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.02,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  tipHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  tipIcon: {
+    fontSize: 20,
+    marginRight: 8,
+  },
+  tipTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#1A1A1A',
+  },
+  tipDescription: {
+    fontSize: 14,
+    color: '#444444',
+    lineHeight: 20,
+  },
+  
   // ToDoコンテナ
   todoContainer: {
     paddingHorizontal: 20,
@@ -162,11 +201,15 @@ weatherText: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#F8F9FA',
+    backgroundColor: '#FFFFFF',
     padding: 16,
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: '#E5E5E5',
+    borderColor: 'rgba(53, 58, 55, 0.08)',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.02,
+    shadowRadius: 4,
+    elevation: 2,
   },
   todoItemCompleted: {
     opacity: 0.5,
@@ -216,7 +259,7 @@ weatherText: {
     height: 28,
     borderRadius: 14,
     borderWidth: 2,
-    borderColor: '#CCCCCC',
+    borderColor: 'rgba(53, 58, 55, 0.08)',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -230,146 +273,6 @@ weatherText: {
     fontWeight: '700',
   },
 
-  // アドバイスカード
-  tipCard: {
-    marginHorizontal: 20,
-    padding: 16,
-    borderRadius: 16,
-    backgroundColor: 'rgba(46, 204, 113, 0.08)', 
-    borderColor: 'rgba(46, 204, 113, 0.2)',
-    borderWidth: 1,
-  },
-  tipHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  tipIcon: {
-    fontSize: 20,
-    marginRight: 8,
-  },
-  tipTitle: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#1A1A1A',
-  },
-  tipDescription: {
-    fontSize: 14,
-    color: '#444444',
-    lineHeight: 20,
-  },
-
-  // おすすめアイテム
-  itemsScroll: {
-    paddingHorizontal: 20,
-    gap: 12,
-  },
-  itemCard: {
-    width: 140,
-    borderRadius: 16,
-    backgroundColor: '#FFFFFF',
-    padding: 12,
-    borderWidth: 1,
-    borderColor: '#E5E5E5',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  itemImage: {
-    width: '100%',
-    height: 100,
-    borderRadius: 12,
-    backgroundColor: '#F8F9FA',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  itemEmoji: {
-    fontSize: 50,
-  },
-  itemCategory: {
-    fontSize: 11,
-    color: '#999999',
-    marginBottom: 4,
-  },
-  itemName: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#1A1A1A',
-    marginBottom: 10,
-    lineHeight: 16,
-  },
-  itemButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: 'rgba(46, 204, 113, 0.1)',
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: 'rgba(46, 204, 113, 0.2)',
-  },
-  itemButtonText: {
-    fontSize: 11,
-    fontWeight: '600',
-    color: '#2ECC71',
-  },
-  itemButtonIcon: {
-    fontSize: 14,
-  },
-
-  // 底部ナビゲーション
-  bottomNav: {
-    flexDirection: 'row',
-    backgroundColor: '#FFFFFF',
-    marginBottom: 10,
-    paddingHorizontal: 8,
-    borderTopWidth: 1,
-    borderTopColor: '#E5E5E5',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 8,
-  },
-  navItem: {
-    flex: 1,
-    alignItems: 'center',
-    paddingVertical: 8,
-  },
-  navItemActive: {
-    position: 'relative',
-  },
-  navActiveIndicator: {
-    backgroundColor: 'rgba(46, 204, 113, 0.15)',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 16,
-  },
-  navIcon: {
-    fontSize: 22,
-    marginBottom: 4,
-    opacity: 0.5,
-  },
-  navIconActive: {
-    fontSize: 24,
-  },
-  navLabel: {
-    fontSize: 10,
-    color: '#666666',
-    fontWeight: '500',
-  },
-  navLabelActive: {
-    fontSize: 10,
-    color: '#2ECC71',
-    fontWeight: '600',
-    marginTop: 4,
-  },
 });
 
 
