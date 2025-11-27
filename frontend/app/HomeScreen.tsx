@@ -122,6 +122,16 @@ const HomeScreen = () => {
   };
 
   // ========================================
+  // ナビゲーションハンドラー
+  // ========================================
+  
+  const handlePlantNav = () => router.push('/CatalogScreen');
+  const handleCalendarNav = () => console.log('/CalendarScreen');
+  const handleHomeNav = () => console.log('Home');
+  const handleCommunityNav = () => console.log('Community');
+  const handleProfileNav = () => console.log('Profile');
+
+  // ========================================
   // レンダリング
   // ========================================
 

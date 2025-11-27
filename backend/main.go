@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 
 	"example.com/go-echo-crud/pkg/di"
 	"example.com/go-echo-crud/pkg/middleware"
@@ -15,22 +14,17 @@ func main() {
 
 	e := echo.New()
 
-	container, err := di.NewContainer()
-    if err != nil {
-        log.Fatal(err)
-    }
+	container, _ := di.NewContainer()
 
 
 	middleware.Setup(e)
 
 	// Setup routes
-	router.Setup(e, 
-		container.Plant.Handler,
-	)
-	// router.LoginRouter(e)
-	// router.SignupRouter(e)
+	router.Setup(e,container)
 
-	port := "3000"
+	// service.SignupWithEmail("ranyanastasia15@gmail.com", "Enigma12345")
+
+	port := "8080"
 	fmt.Println("サーバー起動 http://localhost:" + port + "/")
 	e.Logger.Fatal(e.Start(":" + port))
 }

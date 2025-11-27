@@ -1,7 +1,11 @@
 package di
 
+import "example.com/go-echo-crud/internal/handler"
+
 type Container struct {
-	Plant *PlantDi
+	PlantHandler *handler.PlantHandler
+	AuthHandler  *handler.AuthHandler
+	MaterialHandler	*handler.MaterialHandler
 }
 
 func NewContainer() (*Container, error) {
@@ -10,7 +14,19 @@ func NewContainer() (*Container, error) {
 		return nil, err
 	}
 
+	material, err := NewMaterialDi()
+	if err != nil {
+		return nil,err
+	} 
+
+	auth, err := NewAuthDI()
+	if err != nil {
+		return nil, err
+	}
+
 	return &Container{
-		Plant: plant,
+		PlantHandler: plant.Handler,
+        AuthHandler:  auth.Handler,
+		MaterialHandler: material.Handler,
 	}, nil
 }
