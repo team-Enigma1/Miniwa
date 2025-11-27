@@ -24,7 +24,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   onClear,
   autoFocus = false,
   value,
-  placeholder = "Tìm kiếm...",
+  placeholder = "検索...",
   style, // style dành cho TextInput
   containerStyle, // style dành cho View ngoài
   ...props

@@ -175,7 +175,7 @@ const CreatePostScreen = () => {
       const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
       
       if (status !== 'granted') {
-        Alert.alert('Cần quyền truy cập', 'Ứng dụng cần quyền truy cập thư viện ảnh.');
+        Alert.alert('アクセスが必要です', 'アプリは写真ライブラリにアクセスする必要があります。');
         return;
       }
 
@@ -194,8 +194,8 @@ const CreatePostScreen = () => {
       }
       setImagePickerModalVisible(false);
     } catch (error) {
-      console.error('Lỗi khi chọn ảnh:', error);
-      Alert.alert('Lỗi', 'Không thể chọn ảnh. Vui lòng thử lại.');
+      console.error('写真の選択中にエラーが発生しました:', error);
+      Alert.alert('エラー', '写真を選択できません。もう一度お試しください。');
       setImagePickerModalVisible(false);
     }
   }, [selectedImages.length]);
@@ -205,7 +205,7 @@ const CreatePostScreen = () => {
       const { status } = await ImagePicker.requestCameraPermissionsAsync();
       
       if (status !== 'granted') {
-        Alert.alert('Cần quyền truy cập', 'Ứng dụng cần quyền truy cập camera.');
+        Alert.alert('アクセスが必要です', 'アプリにはカメラへのアクセスが必要です。');
         return;
       }
 
@@ -221,8 +221,8 @@ const CreatePostScreen = () => {
       }
       setImagePickerModalVisible(false);
     } catch (error) {
-      console.error('Lỗi khi chụp ảnh:', error);
-      Alert.alert('Lỗi', 'Không thể chụp ảnh. Vui lòng thử lại.');
+      console.error('写真撮影時のエラー:', error);
+      Alert.alert('エラー', '写真を撮ることができません。もう一度お試しください。');
       setImagePickerModalVisible(false);
     }
   }, []);
@@ -253,12 +253,12 @@ const CreatePostScreen = () => {
 
   const handlePost = useCallback(async () => {
     if (!content.trim()) {
-      Alert.alert('Thiếu nội dung', 'Vui lòng nhập nội dung bài viết.');
+      Alert.alert('コンテンツ不足', '記事の内容を入力してください。');
       return;
     }
 
     if (content.trim().length < 10) {
-      Alert.alert('Nội dung quá ngắn', 'Nội dung bài viết cần ít nhất 10 ký tự.');
+      Alert.alert('コンテンツが短すぎる', '投稿内容は少なくとも10文字必要です。');
       return;
     }
 
@@ -276,11 +276,11 @@ const CreatePostScreen = () => {
         timestamp: new Date(),
       };
 
-      console.log('Đăng bài thành công:', newPost);
+      console.log('投稿成功:', newPost);
       
       Alert.alert(
-        'Thành công',
-        'Bài viết đã được đăng thành công!',
+        '成功',
+        '記事は正常に投稿されました!',
         [
           {
             text: 'OK',
@@ -289,8 +289,8 @@ const CreatePostScreen = () => {
         ]
       );
     } catch (error) {
-      console.error('Lỗi khi đăng bài:', error);
-      Alert.alert('Lỗi', 'Không thể đăng bài. Vui lòng thử lại.');
+      console.error('投稿エラー:', error);
+      Alert.alert('エラー', '投稿できません。もう一度お試しください。');
     } finally {
       setIsLoading(false);
     }
@@ -299,12 +299,12 @@ const CreatePostScreen = () => {
   const handleCancel = useCallback(() => {
     if (content.trim() || selectedImages.length > 0 || selectedTags.length > 0) {
       Alert.alert(
-        'Hủy bài viết',
-        'Bài viết của bạn chưa được lưu. Bạn có chắc chắn muốn hủy?',
+        '投稿をキャンセル',
+        '投稿は保存されていません。キャンセルしてもよろしいですか？',
         [
-          { text: 'Ở lại', style: 'cancel' },
+          { text: '滞在する', style: 'cancel' },
           { 
-            text: 'Hủy', 
+            text: 'キャンセル', 
             style: 'destructive',
             onPress: () => router.back()
           },

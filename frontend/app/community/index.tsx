@@ -33,7 +33,7 @@ const mockPosts = [
       name: 'Hashimoto',
       avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
     },
-    content: 'Cây Monstera của mình đang ra lá mới đẹp quá! 🌿 Ai có kinh nghiệm chăm sóc Monstera không?',
+    content: 'うちのモンステラから綺麗な新葉が芽吹いてきました！🌿 モンステラの世話をした経験のある方はいらっしゃいますか？',
     images: ['https://images.unsplash.com/photo-1525498128493-380d1990a112?w=400&h=300&fit=crop'],
     timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 giờ trước
     likes: 24,
@@ -49,7 +49,7 @@ const mockPosts = [
       name: 'Gita',
       avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
     },
-    content: 'Vườn rau sạch tại nhà sau 1 tháng. Mọi người thấy thế nào? 😊',
+    content: '1ヶ月ぶりに家の菜園をきれいに掃除しました。どう思いますか？ 😊',
     images: [
       'https://images.unsplash.com/photo-1592417817098-8fd3d9eb14a5?w=400&h=300&fit=crop',
       'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=400&h=300&fit=crop',

@@ -310,7 +310,7 @@ export default function PostDetailScreen() {
       id: `comment${Date.now()}`,
       user: {
         id: 'currentUser',
-        name: 'Nguyễn Văn Hiện',
+        name: 'Trump',
         avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
       },
       content: newComment.trim(),
@@ -361,7 +361,7 @@ export default function PostDetailScreen() {
             <Ionicons name="chevron-back" size={24} color={Colors.text.inverse} />
           </TouchableOpacity>
           
-          <Text style={styles.headerTitle}>Bài viết</Text>
+          <Text style={styles.headerTitle}>記事</Text>
           
           <View style={styles.headerRight} />
         </View>
@@ -414,7 +414,7 @@ export default function PostDetailScreen() {
             {/* Post Stats */}
             <View style={styles.postStats}>
               <Text style={styles.postStatText}>
-                {post.likes} lượt thích • {post.comments} bình luận • {post.shares} lượt chia sẻ
+                {post.likes} いいね • {post.comments} コメント • {post.shares} 株式
               </Text>
             </View>
 
@@ -458,7 +458,7 @@ export default function PostDetailScreen() {
           {/* Comments Section */}
           <View style={styles.commentsSection}>
             <Text style={styles.commentsTitle}>
-              Bình luận ({comments.length})
+              コメント ({comments.length})
             </Text>
 
             {/* Comments List */}
