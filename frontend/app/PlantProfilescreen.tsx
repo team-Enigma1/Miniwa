@@ -8,16 +8,16 @@ import {
   TouchableOpacity,
   View,
   Image,
+  Modal,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 
-
-
-
 const PlantDetailScreen = () => {
   const router = useRouter();
+  const [growthDay, setGrowthDay] = useState(45);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const handleBack = () => {
     router.back();
@@ -27,12 +27,27 @@ const PlantDetailScreen = () => {
     router.push('/GrowthRecordScreen');
   };
 
-  const [growthDay, setGrowthDay] = useState(45); // default nilai hari pertumbuhan
+  const handleDeletePress = () => {
+    setShowDeleteModal(true);
+  };
 
+  const handleDeleteConfirm = () => {
+    console.log('Plant deleted');
+    setShowDeleteModal(false);
+    router.back();
+  };
+
+  const handleDeleteCancel = () => {
+    setShowDeleteModal(false);
+  };
+
+  const handleHarvest = () => {
+    console.log('Plant harvested');
+    // Handle harvest logic
+  };
 
   return (
     <SafeAreaView style={styles.container}>
-
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity
@@ -43,7 +58,13 @@ const PlantDetailScreen = () => {
           <Ionicons name="chevron-back" size={28} color="#000" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>イチゴ</Text>
-        <View style={styles.headerSpacer} />
+        <TouchableOpacity
+          style={styles.deleteButton}
+          onPress={handleDeletePress}
+          activeOpacity={0.7}
+        >
+          <Text style={styles.deleteButtonText}>削除</Text>
+        </TouchableOpacity>
       </View>
 
       <ScrollView
@@ -54,7 +75,7 @@ const PlantDetailScreen = () => {
         {/* Plant Image */}
         <View style={styles.modelContainer}>
           <Image
-            source={require('../assets/images/1.png')} 
+            source={require('../assets/images/1.png')}
             style={styles.plantImage}
             resizeMode="contain"
           />
@@ -84,7 +105,7 @@ const PlantDetailScreen = () => {
           </View>
         </View>
 
-{/* Growth Period Card */}
+        {/* Growth Period Card */}
         <View style={styles.card}>
           <View style={styles.cardHeader}>
             <Text style={styles.calendarIcon}>📅</Text>
@@ -137,14 +158,52 @@ const PlantDetailScreen = () => {
           </TouchableOpacity>
         </View>
 
+        {/* Harvest Button */}
+        <TouchableOpacity
+          style={styles.harvestButton}
+          onPress={handleHarvest}
+          activeOpacity={0.8}
+        >
+          <Text style={styles.harvestButtonText}>収穫する</Text>
+        </TouchableOpacity>
+
         <View style={{ height: 40 }} />
       </ScrollView>
+
+      {/* Delete Confirmation Modal */}
+      <Modal
+        visible={showDeleteModal}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={handleDeleteCancel}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>植物を削除しますか？</Text>
+            <Text style={styles.modalDescription}>
+              この操作は元に戻せません。リストからこの植物を完全に削除します。
+            </Text>
+
+            <View style={styles.modalButtons}>
+              <TouchableOpacity
+                style={[styles.modalButton, styles.cancelButton]}
+                onPress={handleDeleteCancel}
+              >
+                <Text style={styles.cancelButtonText}>キャンセル</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.modalButton, styles.confirmButton]}
+                onPress={handleDeleteConfirm}
+              >
+                <Text style={styles.confirmButtonText}>削除する</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
-
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -173,21 +232,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  backIcon: {
-    fontSize: 32,
-    color: '#1A1A1A',
-    fontWeight: '300',
-  },
   headerTitle: {
     fontSize: 18,
     fontWeight: '700',
     color: '#1A1A1A',
   },
+  deleteButton: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+  },
+  deleteButtonText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#FF6B6B',
+  },
   headerSpacer: {
     width: 40,
   },
 
-  // 3D Model Container
+  // Model Container
   modelContainer: {
     marginHorizontal: 20,
     marginTop: 20,
@@ -198,19 +261,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
   },
-  modelText: {
-    fontSize: 13,
-    color: '#FFFFFF',
-    textAlign: 'center',
-    lineHeight: 20,
-    marginBottom: 12,
-  },
-  modelSubtext: {
-    fontSize: 16,
-    color: '#FFFFFF',
-    fontWeight: '600',
-  },
-    plantImage: {
+  plantImage: {
     width: '100%',
     height: '100%',
   },
@@ -331,6 +382,86 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   recordButtonText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#FFFFFF',
+  },
+
+  // Harvest Button
+  harvestButton: {
+    marginHorizontal: 20,
+    marginTop: 12,
+    backgroundColor: '#2ECC71',
+    paddingVertical: 16,
+    borderRadius: 12,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
+    elevation: 4,
+  },
+  harvestButtonText: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#FFFFFF',
+  },
+
+  // Modal
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    width: '85%',
+    maxWidth: 400,
+    padding: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#1A1A1A',
+    textAlign: 'center',
+    marginBottom: 12,
+  },
+  modalDescription: {
+    fontSize: 14,
+    color: '#666666',
+    textAlign: 'center',
+    lineHeight: 20,
+    marginBottom: 24,
+  },
+  modalButtons: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  modalButton: {
+    flex: 1,
+    paddingVertical: 12,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  cancelButton: {
+    backgroundColor: '#F0F0F0',
+  },
+  cancelButtonText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#666666',
+  },
+  confirmButton: {
+    backgroundColor: '#FF6B6B',
+  },
+  confirmButtonText: {
     fontSize: 15,
     fontWeight: '600',
     color: '#FFFFFF',

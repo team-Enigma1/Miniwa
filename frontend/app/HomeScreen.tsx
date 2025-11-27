@@ -121,20 +121,6 @@ const HomeScreen = () => {
     console.log('Buy item:', item.name);
   };
 
-  // ========================================
-  // ナビゲーションハンドラー
-  // ========================================
-  
-  const handlePlantNav = () => router.push('/CatalogScreen');
-  const handleCalendarNav = () => console.log('/CalendarScreen');
-  const handleHomeNav = () => console.log('Home');
-  const handleCommunityNav = () => console.log('Community');
-  const handleProfileNav = () => console.log('Profile');
-
-  // ========================================
-  // レンダリング
-  // ========================================
-
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />

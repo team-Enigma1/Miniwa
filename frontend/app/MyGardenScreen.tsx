@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import BottomNav from "../components/ui/BottomNavigation";
+import { Ionicons } from '@expo/vector-icons';
 
 interface PlantItem {
   id: number;
@@ -18,14 +19,20 @@ interface PlantItem {
   type: string;
   plantDate: string;
   health: string;
+  harvestDate?: string;
 }
 
 const MyGardenScreen = () => {
   const router = useRouter();
+  const [activeTab, setActiveTab] = useState<'growing' | 'harvested'>('growing');
 
   const [plants, setPlants] = useState<PlantItem[]>([
     { id: 1, name: 'イチゴ', emoji: '🍓', type: '野菜', plantDate: '1日と前', health: '良好' },
     { id: 2, name: 'ミニトマト', emoji: '🍅', type: '野菜', plantDate: '1日と前', health: '良好' },
+  ]);
+
+  const [harvestedPlants, setHarvestedPlants] = useState<PlantItem[]>([
+    { id: 3, name: 'メロン', emoji: '🍈', type: '野菜', plantDate: '90日前', health: '収穫完了', harvestDate: '2025年12月04日' },
   ]);
 
   const handlePlantPress = (plant: PlantItem) => {
@@ -36,6 +43,8 @@ const MyGardenScreen = () => {
     router.push('/CatalogScreen');
   };
 
+  const displayedPlants = activeTab === 'growing' ? plants : harvestedPlants;
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
@@ -43,14 +52,51 @@ const MyGardenScreen = () => {
         <Text style={styles.headerTitle}>マイガーデン</Text>
       </View>
 
+      {/* Tab Buttons */}
+      <View style={styles.tabContainer}>
+        <TouchableOpacity
+          style={[
+            styles.tabButton,
+            activeTab === 'growing' && styles.tabButtonActive,
+          ]}
+          onPress={() => setActiveTab('growing')}
+          activeOpacity={0.7}
+        >
+          <Text
+            style={[
+              styles.tabText,
+              activeTab === 'growing' && styles.tabTextActive,
+            ]}
+          >
+            植物リスト
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[
+            styles.tabButton,
+            activeTab === 'harvested' && styles.tabButtonActive,
+          ]}
+          onPress={() => setActiveTab('harvested')}
+          activeOpacity={0.7}
+        >
+          <Text
+            style={[
+              styles.tabText,
+              activeTab === 'harvested' && styles.tabTextActive,
+            ]}
+          >
+            収穫済み
+          </Text>
+        </TouchableOpacity>
+      </View>
+
       <ScrollView
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
       >
-        <Text style={styles.sectionTitle}>植物リスト</Text>
         <View style={styles.plantList}>
-          {plants.map((plant) => (
+          {displayedPlants.map((plant) => (
             <TouchableOpacity
               key={plant.id}
               style={styles.plantCard}
@@ -62,23 +108,27 @@ const MyGardenScreen = () => {
               </View>
               <View style={styles.plantInfo}>
                 <Text style={styles.plantName}>{plant.name}</Text>
-                <View style={styles.plantMeta}>
-                  <View style={styles.metaItem}>
-                    <Text style={styles.metaIcon}>🌱</Text>
-                    <Text style={styles.metaText}>{plant.type}</Text>
+                {activeTab === 'harvested' && plant.harvestDate ? (
+                  <Text style={styles.harvestDate}>収穫日：{plant.harvestDate}</Text>
+                ) : (
+                  <View style={styles.plantMeta}>
+                    <View style={styles.metaItem}>
+                      <Text style={styles.metaIcon}>🌱</Text>
+                      <Text style={styles.metaText}>{plant.type}</Text>
+                    </View>
+                    <View style={styles.metaItem}>
+                      <Text style={styles.metaIcon}>📅</Text>
+                      <Text style={styles.metaText}>{plant.plantDate}</Text>
+                    </View>
+                    <View style={styles.metaItem}>
+                      <Text style={styles.metaIcon}>❤️</Text>
+                      <Text style={styles.metaText}>{plant.health}</Text>
+                    </View>
                   </View>
-                  <View style={styles.metaItem}>
-                    <Text style={styles.metaIcon}>📅</Text>
-                    <Text style={styles.metaText}>{plant.plantDate}</Text>
-                  </View>
-                  <View style={styles.metaItem}>
-                    <Text style={styles.metaIcon}>❤️</Text>
-                    <Text style={styles.metaText}>{plant.health}</Text>
-                  </View>
-                </View>
+                )}
               </View>
               <View style={styles.arrowContainer}>
-                <Text style={styles.arrowIcon}>›</Text>
+                <Ionicons name="chevron-forward" size={28} color="#CCCCCC" />
               </View>
             </TouchableOpacity>
           ))}
@@ -86,13 +136,16 @@ const MyGardenScreen = () => {
         <View style={{ height: 100 }} />
       </ScrollView>
 
-      <TouchableOpacity
-        style={styles.addButton}
-        onPress={handleAddPlant}
-        activeOpacity={0.9}
-      >
-        <Text style={styles.addButtonIcon}>+</Text>
-      </TouchableOpacity>
+      {/* Show Add Button only on growing tab */}
+      {activeTab === 'growing' && (
+        <TouchableOpacity
+          style={styles.addButton}
+          onPress={handleAddPlant}
+          activeOpacity={0.9}
+        >
+          <Text style={styles.addButtonIcon}>+</Text>
+        </TouchableOpacity>
+      )}
 
       <BottomNav />
     </SafeAreaView>
@@ -108,7 +161,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    paddingBottom: 120,
+    paddingBottom: 20,
+    paddingTop: 12,
   },
 
   // Header
@@ -124,14 +178,28 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 
-  // Section Title
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#050505ff',
+  // Tab Container
+  tabContainer: {
+    flexDirection: 'row',
     paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 12,
+    paddingVertical: 12,
+    gap: 16,
+  },
+  tabButton: {
+    paddingVertical: 8,
+    paddingHorizontal: 4,
+  },
+  tabButtonActive: {
+    borderBottomWidth: 2,
+    borderBottomColor: '#2ECC71',
+  },
+  tabText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#999999',
+  },
+  tabTextActive: {
+    color: '#2ECC71',
   },
 
   // Plant List
@@ -190,16 +258,15 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: '#666666',
   },
+  harvestDate: {
+    fontSize: 13,
+    color: '#666666',
+  },
   arrowContainer: {
     width: 24,
     height: 24,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  arrowIcon: {
-    fontSize: 24,
-    color: '#CCCCCC',
-    fontWeight: '300',
   },
 
   // Floating Add Button
@@ -224,9 +291,7 @@ const styles = StyleSheet.create({
     fontSize: 32,
     color: '#FFFFFF',
     fontWeight: '300',
-    bottom: 4,
   },
-
 });
 
 export default MyGardenScreen;
