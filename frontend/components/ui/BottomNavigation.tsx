@@ -1,3 +1,4 @@
+import { MaterialIcons } from '@expo/vector-icons';
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
@@ -7,40 +8,34 @@ const BottomNavigation = () => {
 
   const handlePlantNav = () => router.push("/CatalogScreen");
   const handleCalendarNav = () => console.log("Calendar");
-  const handleHomeNav = () => console.log("Home");
+  const handleHomeNav = () => router.push("/HomeScreen");
   const handleCommunityNav = () => console.log("Community");
-  const handleProfileNav = () => console.log("/ProfileScreen");
+  const handleProfileNav = () => router.push("/ProfileScreen");
 
   return (
     <View style={styles.bottomNav}>
       <TouchableOpacity style={styles.navItem} onPress={handlePlantNav} activeOpacity={0.7}>
-        <Text style={styles.navIcon}>🌱</Text>
+        <MaterialIcons name="local-florist" size={22}  color="" style={styles.navIcon}/>
         <Text style={styles.navLabel}>植物</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.navItem} onPress={handleCalendarNav} activeOpacity={0.7}>
-        <Text style={styles.navIcon}>📅</Text>
+        <MaterialIcons name="calendar-month" color="" style={styles.navIcon}/>
         <Text style={styles.navLabel}>カレンダー</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity
-        style={[styles.navItem, styles.navItemActive]}
-        onPress={handleHomeNav}
-        activeOpacity={0.7}
-      >
-        <View style={styles.navActiveIndicator}>
-          <Text style={styles.navIconActive}>🏠</Text>
-        </View>
-        <Text style={styles.navLabelActive}>ホーム</Text>
+      <TouchableOpacity style={styles.navItem} onPress={handleHomeNav} activeOpacity={0.7}>
+        <MaterialIcons name="home" color="" style={styles.navIcon}/>
+        <Text style={styles.navLabel}>ホーム</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.navItem} onPress={handleCommunityNav} activeOpacity={0.7}>
-        <Text style={styles.navIcon}>👥</Text>
+        <MaterialIcons name="connect-without-contact" color="" style={styles.navIcon}/>
         <Text style={styles.navLabel}>コミュニティ</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.navItem} onPress={handleProfileNav} activeOpacity={0.7}>
-        <Text style={styles.navIcon}>👤</Text>
+        <MaterialIcons name="person" color="" style={styles.navIcon}/>
         <Text style={styles.navLabel}>プロフィール</Text>
       </TouchableOpacity>
     </View>
