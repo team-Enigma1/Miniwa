@@ -20,7 +20,7 @@ const mockChats = [
   {
     id: '1',
     userId: 'user1',
-    userName: 'Nguyễn Văn A',
+    userName: 'Ito',
     userAvatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
     lastMessage: 'こんにちは！モンステラ、綺麗ですね！',
     timestamp: new Date(Date.now() - 300000), // 5 phút trước
@@ -30,7 +30,7 @@ const mockChats = [
   {
     id: '2',
     userId: 'user2',
-    userName: 'Trần Thị B',
+    userName: 'Gita',
     userAvatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
     lastMessage: 'アドバイスありがとうございます！',
     timestamp: new Date(Date.now() - 3600000), // 1 giờ trước
@@ -40,7 +40,7 @@ const mockChats = [
   {
     id: '3',
     userId: 'user3',
-    userName: 'Phạm Văn C',
+    userName: 'Canh',
     userAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
     lastMessage: '言われた通りに試してみたらうまくいきました！',
     timestamp: new Date(Date.now() - 86400000), // 1 ngày trước
@@ -50,7 +50,7 @@ const mockChats = [
   {
     id: '4',
     userId: 'user4',
-    userName: 'Lê Văn D',
+    userName: 'taro',
     userAvatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
     lastMessage: '盆栽を育てた経験について教えていただけますか？',
     timestamp: new Date(Date.now() - 172800000), // 2 ngày trước

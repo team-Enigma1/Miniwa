@@ -39,7 +39,7 @@ const mockMessages = [
 // Mock user data
 const mockUser = {
   id: 'user1',
-  name: 'Nguyễn Văn A',
+  name: 'Ito',
   avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
   isOnline: true,
 };

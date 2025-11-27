@@ -21,9 +21,9 @@ const mockNotifications = [
     id: '1',
     type: 'like',
     title: '誰かがあなたの投稿に「いいね！」しました',
-    message: 'Nguyen Van Bさんが「My Monstera」という投稿に「いいね！」しました',
+    message: 'Katoさんが「My Monstera」という投稿に「いいね！」しました',
     userId: 'user2',
-    userName: 'Nguyễn Văn B',
+    userName: 'Kato',
     userAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
     postId: 'post1',
     postImage: 'https://images.unsplash.com/photo-1525498128493-380d1990a112?w=400&h=300&fit=crop',
@@ -34,9 +34,9 @@ const mockNotifications = [
     id: '2',
     type: 'comment',
     title: '新しいコメント',
-    message: 'Tran Thi Cさんは「なんて美しい木なのでしょう！どうやって手入れしているのですか？」とコメントしました。',
+    message: 'Suzukiさんは「なんて美しい木なのでしょう！どうやって手入れしているのですか？」とコメントしました。',
     userId: 'user3',
-    userName: 'Trần Thị C',
+    userName: 'Suzuki',
     userAvatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
     postId: 'post1',
     timestamp: new Date(Date.now() - 600000), // 10 phút trước
@@ -46,9 +46,9 @@ const mockNotifications = [
     id: '3',
     type: 'follow',
     title: '新しいフォロワー',
-    message: 'Le Van Dがあなたをフォローし始めました',
+    message: 'Katoがあなたをフォローし始めました',
     userId: 'user4',
-    userName: 'Lê Văn D',
+    userName: 'Kato',
     userAvatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
     timestamp: new Date(Date.now() - 1800000), // 30 phút trước
     isRead: true,
@@ -57,9 +57,9 @@ const mockNotifications = [
     id: '5',
     type: 'like',
     title: '誰かがあなたのコメントを「いいね！」しました',
-    message: 'Pham Thi E さんが「自宅のきれいな野菜畑」へのコメントを「いいね！」しました',
+    message: 'Lisa さんが「自宅のきれいな野菜畑」へのコメントを「いいね！」しました',
     userId: 'user5',
-    userName: 'Phạm Thị E',
+    userName: 'Lisa',
     userAvatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face',
     postId: 'post2',
     timestamp: new Date(Date.now() - 7200000), // 2 giờ trước
@@ -291,7 +291,7 @@ export default function NotificationsScreen() {
         ListEmptyComponent={
           <View style={styles.emptyState}>
             <Ionicons name="notifications-off-outline" size={64} color={Colors.text.tertiary} />
-            <Text style={styles.emptyStateTitle}>Không có thông báo</Text>
+            <Text style={styles.emptyStateTitle}>No there is a report</Text>
             <Text style={styles.emptyStateMessage}>
               誰かがあなたの投稿に反応すると、ここに通知が表示されます。
             </Text>

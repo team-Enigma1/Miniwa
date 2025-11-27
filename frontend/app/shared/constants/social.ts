@@ -26,10 +26,10 @@ export const MAX_IMAGES = 4;
 export const MAX_TAGS = 5;
 
 export const COMMUNITY_GUIDELINES = [
-  'Chia sẻ kinh nghiệm chăm sóc cây thực tế',
-  'Đặt câu hỏi rõ ràng về vấn đề gặp phải',
-  'Thêm hình ảnh minh họa để nhận được hỗ trợ tốt hơn',
-  'Sử dụng tags phù hợp để nhiều người thấy bài viết',
-  'Tôn trọng ý kiến của người khác',
-  'Không spam hoặc quảng cáo không phù hợp'
+  '植物の世話に関する実践的な経験を共有する',
+  '問題について明確な質問をする',
+  'より良いサポートを得るためにイラストを追加してください',
+  '適切なタグを使用して、より多くの人にあなたの投稿を見てもらう',
+  '他人の意見を尊重する',
+  'スパムや無関係な広告はありません'
 ];

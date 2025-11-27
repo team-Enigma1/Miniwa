@@ -21,13 +21,13 @@ const { width: screenWidth } = Dimensions.get('window');
 // Mock data - sau này sẽ thay bằng API
 const mockUserProfile = {
   id: 'user1',
-  name: 'Nguyễn Văn A',
-  username: '@nguyenvana',
+  name: 'Ito',
+  username: '@ito',
   avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
   coverPhoto: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&h=200&fit=crop',
-  bio: 'Yêu thích trồng cây cảnh, đặc biệt là Monstera và Sen Đá. Chia sẻ kinh nghiệm chăm sóc cây 🌿',
-  location: 'Hà Nội, Việt Nam',
-  joinDate: 'Tham gia từ tháng 1, 2024',
+  bio: '観賞用植物、特にモンステラと多肉植物を育てるのが大好きです。植物の世話の経験を共有してください。🌿',
+  location: 'Osaka, Japan',
+  joinDate: '2024年1月入社',
   stats: {
     posts: 24,
     followers: 128,
@@ -204,7 +204,7 @@ export default function UserProfileScreen() {
           <Ionicons name="chevron-back" size={24} color={Colors.text.inverse} />
         </TouchableOpacity>
         
-        <Text style={styles.headerTitle}>ファイル</Text>
+        <Text style={styles.headerTitle}>プロフィール</Text>
         
         <View style={styles.headerRight} />
       </View>
@@ -313,7 +313,7 @@ export default function UserProfileScreen() {
               color={activeTab === 'posts' ? Colors.primary.main : Colors.text.tertiary} 
             />
             <Text style={[styles.tabText, activeTab === 'posts' && styles.activeTabText]}>
-              Bài viết
+              記事
             </Text>
           </TouchableOpacity>
           
@@ -327,7 +327,7 @@ export default function UserProfileScreen() {
               color={activeTab === 'photos' ? Colors.primary.main : Colors.text.tertiary} 
             />
             <Text style={[styles.tabText, activeTab === 'photos' && styles.activeTabText]}>
-              Ảnh
+              画像
             </Text>
           </TouchableOpacity>
           
