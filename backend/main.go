@@ -12,19 +12,17 @@ import (
 
 func main() {
 
-
 	e := echo.New()
 
 	container, err := di.NewContainer()
-    if err != nil {
-        log.Fatal(err)
-    }
-
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	middleware.Setup(e)
 
 	// Setup routes
-	router.Setup(e)
+	router.Setup(e, container)
 
 	// service.SignupWithEmail("ranyanastasia15@gmail.com", "Enigma12345")
 

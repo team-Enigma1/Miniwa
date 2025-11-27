@@ -14,16 +14,25 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from '../styles/LoginScreen.styles'; 
+import { login } from '../api/authApi'
+import { useGoogleAuth } from '../api/googleApi';
 
 const LoginScreen = () => {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { promptAsync } = useGoogleAuth();
 
-  const handleLogin = () => {
+  const handleLogin = async() => {
     // TODO: バックエンド側でログインAPIを接続する
+   const { data, error } = await login({ email, password })
+   if (error) {
+    alert(error.message);
+    return;
+   }
     // ログイン処理を実行
     console.log('Login with:', email, password);
+    router.push('/HomeScreen');
   };
 
   const handleForgotPassword = () => {
@@ -33,6 +42,7 @@ const LoginScreen = () => {
 
   const handleGoogleLogin = () => {
     // TODO: バックエンド（Googleログイン連携）
+    promptAsync();
     // Googleログイン処理を実行
     console.log('Google login pressed');
   };

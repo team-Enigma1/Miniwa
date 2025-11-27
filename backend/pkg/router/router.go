@@ -17,16 +17,11 @@ func Setup(e *echo.Echo, handlers ...interface{}) {
 		case *handler.AuthHandler:
 			AuthRouter(e, h)
 
+		case *handler.UserHandler:
+			UserRoute(e, h)
+
 		default:
 			panic("unknown handler type: router not implemented")
 		}
 	}
 }
-
-// func LoginRouter(e *echo.Echo) {
-// 	e.POST("/login", handler.LoginHandler)
-// }
-
-// func SignupRouter(e *echo.Echo) {
-// 	e.POST("/signup", handler.SignupHandler)
-// }

@@ -9,6 +9,7 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
+      "bundleIdentifier": "com.enigmaminiwa.frontend",
       "supportsTablet": true
     },
     "android": {
