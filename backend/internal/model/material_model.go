@@ -34,7 +34,7 @@ type Fertilizers struct {
 	Usage_frequency int
 	Plant_id int
 	Growth_id int
-	Prize int
+	Price int
 } 
 
 func (Fertilizers) TableName() string {
