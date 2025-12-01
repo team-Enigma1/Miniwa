@@ -11,5 +11,5 @@ func MaterialRouter (e *echo.Echo,  materialHandler *handler.MaterialHandler) {
 
 	api.GET("/seeds", materialHandler.FindAllSeeds)
 	api.GET("/fertilizers", materialHandler.FindAllFertilizers)
-	api.GET("/Soils", materialHandler.FindAllSoils)
+	api.GET("/soils", materialHandler.FindAllSoils)
 }
