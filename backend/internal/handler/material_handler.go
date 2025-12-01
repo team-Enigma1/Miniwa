@@ -7,6 +7,9 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+type Request struct {
+	Plant_id	int		`json:"plant_id"`
+}
 
 type MaterialHandler struct {
 	materialService service.IMaterialService
@@ -17,7 +20,13 @@ func NewMaterialHandler(materialService service.IMaterialService) *MaterialHandl
 }
 
 func (h *MaterialHandler) FindAllSeeds(c echo.Context) error {
-	seeds, err := h.materialService.FindAllSeeds()
+
+	req := new(Request)
+	if err := c.Bind(req); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "invalid request"})
+	}
+
+	seeds, err := h.materialService.FindAllSeeds(req.Plant_id)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{
 			"error": err.Error(),
@@ -27,7 +36,13 @@ func (h *MaterialHandler) FindAllSeeds(c echo.Context) error {
 }
 
 func (h *MaterialHandler) FindAllFertilizers(c echo.Context) error {
-	fertilizers, err := h.materialService.FindAllFertilizers()
+
+	req := new(Request)
+	if err := c.Bind(req); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "invalid request"})
+	}
+
+	fertilizers, err := h.materialService.FindAllFertilizers(req.Plant_id)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{
 			"error": err.Error(),
@@ -37,7 +52,13 @@ func (h *MaterialHandler) FindAllFertilizers(c echo.Context) error {
 }
 
 func (h *MaterialHandler) FindAllSoils(c echo.Context) error {
-	soils, err := h.materialService.FindAllSoils()
+
+	req := new(Request)
+	if err := c.Bind(req); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": "invalid request"})
+	}
+
+	soils, err := h.materialService.FindAllSoils(req.Plant_id)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{
 			"error": err.Error(),
