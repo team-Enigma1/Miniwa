@@ -152,7 +152,9 @@ const HomeScreen = () => {
   // ========================================
   
   const handlePlantNav = () => router.push('/CatalogScreen');
-  const handleCalendarNav = () => console.log('/CalendarScreen');
+  
+  const handleCalendarNav = () => router.push('/calendar');
+
   const handleHomeNav = () => console.log('Home');
   // const handleCommunityNav = () => console.log('Community');
   const handleCommunityNav = () => router.push('/community');
@@ -372,7 +374,7 @@ const HomeScreen = () => {
           activeOpacity={0.7}
         >
           <Text style={styles.navIcon}>💬</Text>
-          <Text style={styles.navLabel}>SNS</Text>
+          <Text style={styles.navLabel}>コミュニティ</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
