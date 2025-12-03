@@ -57,8 +57,10 @@ const ProfileScreen = () =>{
             <View style={styles.settingSection}>
                 <Text style={styles.settingTitle}>設定</Text>
                 {/* 通知設定 */}
-                <Click_Button label="通知設定" 
+                <Click_Button 
+                label="通知設定" 
                 IconComponent={<MaterialIcons name="notifications-active" size={22}  color="gold"/>}
+                onPress={() => router.push("/NotificationScreen")}
                 />
             </View>
 
