@@ -189,7 +189,7 @@ export default function TaskDetailScreen() {
             style={styles.backButton}
             onPress={() => router.back()}
           >
-            <Ionicons name="arrow-back" size={24} color={Colors.primary} />
+            <Ionicons name="chevron-back" size={24} color={Colors.primary} />
           </TouchableOpacity>
           <Text style={styles.title}>タスク詳細</Text>
           <View style={styles.placeholder} />
