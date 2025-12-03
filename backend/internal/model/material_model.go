@@ -23,7 +23,7 @@ type Seeds struct {
 }
 
 func (Seeds) TableName() string {
-    return "Seeds" // ← Supabase のテーブル名に合わせる
+    return "seeds" 
 }
 
 type Fertilizers struct {
@@ -34,9 +34,9 @@ type Fertilizers struct {
 	Usage_frequency int
 	Plant_id int
 	Growth_id int
-	Prize int
+	Price int
 } 
 
 func (Fertilizers) TableName() string {
-    return "fertilizer_type" // ← Supabase のテーブル名に合わせる
+    return "fertilizer_type" 
 }

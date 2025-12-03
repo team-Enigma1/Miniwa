@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-
+	"log"
 	"example.com/go-echo-crud/pkg/di"
 	"example.com/go-echo-crud/pkg/middleware"
 	"example.com/go-echo-crud/pkg/router"
@@ -11,16 +11,16 @@ import (
 
 func main() {
 
-
 	e := echo.New()
 
-	container, _ := di.NewContainer()
-
+	container, err := di.NewContainer()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	middleware.Setup(e)
 
-	// Setup routes
-	router.Setup(e,container)
+	router.Setup(e, container)
 
 	// service.SignupWithEmail("ranyanastasia15@gmail.com", "Enigma12345")
 

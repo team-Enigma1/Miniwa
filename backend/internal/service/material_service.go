@@ -6,9 +6,9 @@ import (
 )
 
 type IMaterialService interface {
-	FindAllSeeds() ([]model.Seeds, error)
-	FindAllFertilizers() ([]model.Fertilizers, error)
-	FindAllSoils() ([]model.Soils, error)
+	FindAllSeeds(plantID int) ([]model.Seeds, error)
+	FindAllFertilizers(plantID int) ([]model.Fertilizers, error)
+	FindAllSoils(plantID int) ([]model.Soils, error)
 }
 
 type MaterialService struct {
@@ -19,26 +19,44 @@ func NewMaterialService(db *gorm.DB) *MaterialService {
 	return &MaterialService{db: db}
 }
 
-func (s *MaterialService) FindAllSeeds() ([]model.Seeds, error) {
+func (s *MaterialService) FindAllSeeds(plantID int) ([]model.Seeds, error) {
 
 	var seeds []model.Seeds
-	if err := s.db.Find(&seeds).Error; err != nil {
+
+	query := s.db
+	if plantID != 0 {
+		query = query.Where("plant_id = ?", plantID)
+	}
+
+	if err := query.Find(&seeds).Error; err != nil {
 		return nil, err
 	}
 	return seeds, nil
 }
 
-func (s *MaterialService) FindAllFertilizers() ([]model.Fertilizers, error) {
+func (s *MaterialService) FindAllFertilizers(plantID int) ([]model.Fertilizers, error) {
 	var fertilizers []model.Fertilizers
-	if err := s.db.Find(&fertilizers).Error; err != nil {
+
+	query := s.db
+	if plantID != 0 {
+		query = query.Where("plant_id = ?", plantID)
+	}
+
+	if err := query.Find(&fertilizers).Error; err != nil {
 		return nil, err
 	}
 	return  fertilizers, nil
 }
 
-func (s *MaterialService) FindAllSoils() ([]model.Soils, error ) {
+func (s *MaterialService) FindAllSoils(plantID int) ([]model.Soils, error ) {
 	var soils []model.Soils
-	if err := s.db.Find(&soils).Error; err != nil {
+
+	query := s.db
+	if plantID != 0 {
+		query = query.Where("plant_id = ?", plantID)
+	}
+
+	if err := query.Find(&soils).Error; err != nil {
 		return  nil, err
 	}
 	return soils, nil
