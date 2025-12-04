@@ -1,69 +1,46 @@
+import { MaterialIcons } from '@expo/vector-icons';
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { useRouter, useSegments } from "expo-router";
+import { useRouter, usePathname } from "expo-router";
 
 const BottomNavigation = () => {
   const router = useRouter();
-  const segments = useSegments();
-  const currentRoute = `/${segments[segments.length - 1] || ""}`;
-
-  const isActive = (screen: string) => currentRoute === screen;
+  const pathname = usePathname(); 
 
   const handlePlantNav = () => router.push("/MyGardenScreen");
-  const handleCalendarNav = () => router.push("/CalendarScreen");
   const handleHomeNav = () => router.push("/HomeScreen");
-  const handleCommunityNav = () => {
-    // router.push("/CommunityScreen");
-    console.log("Navigasi ke CommunityScreen (sementara dinonaktifkan)");
-  };
+  const handleCommunityNav = () => console.log("Community");
   const handleProfileNav = () => router.push("/ProfileScreen");
 
   return (
     <View style={styles.bottomNav}>
-
-      {/* PLANT */}
       <TouchableOpacity style={styles.navItem} onPress={handlePlantNav} activeOpacity={0.7}>
-        <View style={[styles.navActiveIndicator, isActive("/MyGardenScreen") && { backgroundColor: "rgba(46, 204, 113, 0.15)" }]}>
-          <Text style={[styles.navIcon, isActive("/MyGardenScreen") && styles.navIconActive]}>🌱</Text>
-        </View>
-        <Text style={[styles.navLabel, isActive("/MyGardenScreen") && styles.navLabelActive]}>マイガーデン</Text>
+        <MaterialIcons name="local-florist" size={22}  color={pathname === "/MyGardenScreen" ? "#2ECC71" : "#666"} 
+        />
+        <Text style={[styles.navLabel, pathname === "/MyGardenScreen" && styles.navLabelActive]}>植物</Text>
       </TouchableOpacity>
 
-      {/* CALENDAR */}
-      <TouchableOpacity style={styles.navItem} onPress={handleCalendarNav} activeOpacity={0.7}>
-        <View style={[styles.navActiveIndicator, isActive("/CalendarScreen") && { backgroundColor: "rgba(46, 204, 113, 0.15)" }]}>
-          <Text style={[styles.navIcon, isActive("/CalendarScreen") && styles.navIconActive]}>📅</Text>
-        </View>
-        <Text style={[styles.navLabel, isActive("/CalendarScreen") && styles.navLabelActive]}>カレンダー</Text>
-      </TouchableOpacity>
-
-      {/* HOME */}
       <TouchableOpacity style={styles.navItem} onPress={handleHomeNav} activeOpacity={0.7}>
-        <View style={[styles.navActiveIndicator, isActive("/HomeScreen") && { backgroundColor: "rgba(46, 204, 113, 0.25)", paddingHorizontal: 20, paddingVertical: 10 }]}>
-          <Text style={[styles.navIcon, styles.navIconHome, isActive("/HomeScreen") && styles.navIconActive]}>🏠</Text>
-        </View>
-        <Text style={[styles.navLabel, isActive("/HomeScreen") && styles.navLabelActive]}>ホーム</Text>
+        <MaterialIcons name="home" size={22} color={pathname === "/HomeScreen" ? "#2ECC71" : "#666"} 
+        />
+        <Text style={[styles.navLabel, pathname === "/HomeScreen" && styles.navLabelActive]}>ホーム</Text>
       </TouchableOpacity>
 
-      {/* COMMUNITY */}
       <TouchableOpacity style={styles.navItem} onPress={handleCommunityNav} activeOpacity={0.7}>
-        <View style={[styles.navActiveIndicator, isActive("/CommunityScreen") && { backgroundColor: "rgba(46, 204, 113, 0.15)" }]}>
-          <Text style={[styles.navIcon, isActive("/CommunityScreen") && styles.navIconActive]}>💬</Text>
-        </View>
-        <Text style={[styles.navLabel, isActive("/CommunityScreen") && styles.navLabelActive]}>コミュニティ</Text>
+        <MaterialIcons name="connect-without-contact" size={22} color={pathname === "/CommunityScreen" ? "#2ECC71" : "#666"} 
+        />
+        <Text style={[styles.navLabel, pathname === "/CommunityScreen" && styles.navLabelActive]}>コミュニティ</Text>
       </TouchableOpacity>
 
-      {/* PROFILE */}
       <TouchableOpacity style={styles.navItem} onPress={handleProfileNav} activeOpacity={0.7}>
-        <View style={[styles.navActiveIndicator, isActive("/ProfileScreen") && { backgroundColor: "rgba(46, 204, 113, 0.15)" }]}>
-          <Text style={[styles.navIcon, isActive("/ProfileScreen") && styles.navIconActive]}>👤</Text>
-        </View>
-        <Text style={[styles.navLabel, isActive("/ProfileScreen") && styles.navLabelActive]}>プロフィール</Text>
+        <MaterialIcons name="person" size={22} color={pathname === "/ProfileScreen" ? "#2ECC71" : "#666"} 
+        />
+        <Text style={[styles.navLabel, pathname === "/ProfileScreen" && styles.navLabelActive]}>プロフィール</Text>
       </TouchableOpacity>
-
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   bottomNav: {
@@ -86,46 +63,26 @@ const styles = StyleSheet.create({
     elevation: 8,
     zIndex: 100,
   },
-
   navItem: {
     flex: 1,
     alignItems: "center",
     paddingVertical: 8,
   },
-
-  navActiveIndicator: {
-    backgroundColor: "transparent",
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 16,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
   navIcon: {
     fontSize: 22,
+    marginBottom: 4,
     opacity: 0.5,
   },
-
-  navIconHome: {
-    fontSize: 24,
-  },
-
-  navIconActive: {
-    opacity: 1,
-    color: "#2ECC71",
-  },
-
   navLabel: {
     fontSize: 10,
     color: "#666666",
     fontWeight: "500",
-    marginTop: 4,
   },
-
   navLabelActive: {
+    fontSize: 10,
     color: "#2ECC71",
     fontWeight: "600",
+    marginTop: 4,
   },
 });
 

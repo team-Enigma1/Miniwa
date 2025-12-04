@@ -185,21 +185,35 @@ const HomeScreen = () => {
           </ScrollView>
         </View>
 
-        
+        {/* 報告セクション */}
+        <View style={styles.section}>
+          <View style={styles.tipCardReportBox}>
+            <View style={styles.tipHeader}>
+              <Text style={styles.tipIcon}>❗</Text>
+              <Text style={styles.tipTitle}>報告</Text>
+            </View>
+
+            <Text style={styles.tipDescription}>
+              ミニトマトが５日に収穫できます
+            </Text>
+          </View>
+        </View>
+
         {/* 今日のアドバイスセクション */}
         {/* TODO (Backend): GET /api/tips で天気・季節・ユーザーの植物に基づいたアドバイスを取得 */}
-        {/* レスポンス例: { tip: { title, description, icon, priority, ... } } */}
         <View style={styles.section}>
           <View style={styles.tipCard}>
             <View style={styles.tipHeader}>
               <Text style={styles.tipIcon}>💡</Text>
               <Text style={styles.tipTitle}>今日のアドバイス</Text>
             </View>
+
             <Text style={styles.tipDescription}>
               今日は気温が適温です。午前中に水やりをすると、植物がより効率的に水分を吸収できます。
             </Text>
           </View>
         </View>
+
 
         {/* 今日のToDoセクション */}
         <View style={styles.section}>

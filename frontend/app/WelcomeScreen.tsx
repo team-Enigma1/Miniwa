@@ -19,7 +19,7 @@ const WelcomeScreen = () => {
       <View style={styles.content}>
         <View style={styles.potsContainer}>
           <View style={styles.pot}>
-            <Image source={require('../assets/images/1.png')} />
+           <Image source={require('../assets/images/1.png')}  />
           </View>
         </View>
 

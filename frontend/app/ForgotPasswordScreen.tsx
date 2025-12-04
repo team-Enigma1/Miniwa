@@ -42,7 +42,7 @@ const ForgotPasswordScreen = () => {
       {/* メールアドレス入力 */}
       <TextInput
         style={styles.input}
-        placeholder="メールアドレス"
+        placeholder="XXX@example.com"
         placeholderTextColor="#999"
         keyboardType="email-address"
         autoCapitalize="none"

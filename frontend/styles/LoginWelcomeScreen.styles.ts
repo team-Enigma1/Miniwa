@@ -14,18 +14,22 @@ const styles = StyleSheet.create({
   
   potsContainer: {
     position: 'absolute',
-    top: '35%',
+    top: '25%',
     alignSelf: 'center',
   },
   pot: {
     alignItems: 'center',
+  },
+  potImage: {
+  width: 350,   
+  height: 350,  
   },
 
   // Text Styles
   textContainer: {
     alignItems: 'center',
     marginTop: 'auto',
-    marginBottom: 20,
+    marginBottom: 50,
   },
   title: {
     fontSize: 22,
@@ -47,7 +51,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: '100%',
     gap: 12,
-    marginBottom: 40,
+    marginBottom: 50,
   },
   loginButton: {
     width: '100%',
