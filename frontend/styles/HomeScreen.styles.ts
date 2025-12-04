@@ -159,19 +159,19 @@ weatherText: {
     fontWeight: '600',
   },
 
-// 報告カード
-tipCardReportBox: {
-  marginHorizontal: 20,
-  padding: 16,
-  borderRadius: 16,
-  backgroundColor: '#E8F5E9',      
-  borderColor: 'rgba(53, 58, 55, 0.08)',
-  borderWidth: 1,
-  shadowOffset: { width: 0, height: 2 },
-  shadowOpacity: 0.02,
-  shadowRadius: 4,
-  elevation: 2,
-},
+  // 報告カード
+  tipCardReportBox: {
+    marginHorizontal: 20,
+    padding: 16,
+    borderRadius: 16,
+    backgroundColor: '#E8F5E9',      
+    borderColor: 'rgba(53, 58, 55, 0.08)',
+    borderWidth: 1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.02,
+    shadowRadius: 4,
+    elevation: 2,
+  },
   
     // アドバイスカード
   tipCard: {

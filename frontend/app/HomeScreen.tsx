@@ -13,6 +13,7 @@ import styles from '../styles/HomeScreen.styles';
 import { TodoItem, Plant, RecommendedItem } from '../types/HomeScreen';
 import BottomNav from "../components/ui/BottomNavigation";
 
+
 const { width } = Dimensions.get('window');
 
 // ========================================
