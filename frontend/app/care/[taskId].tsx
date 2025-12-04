@@ -4,13 +4,14 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
     Alert,
-    SafeAreaView,
     ScrollView,
     StyleSheet,
     Text,
     TouchableOpacity,
     View
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 import PrimaryButton from '../shared/components/buttons/PrimaryButton';
 import { Colors, Spacing } from '../shared/constants/app';
 import { usePlants } from '../shared/contexts/PlantsContext';
@@ -182,14 +183,15 @@ export default function TaskDetailScreen() {
 
   return (
     <View style={styles.background}>
-      <SafeAreaView style={styles.safeArea}>
+      <SafeAreaView style={styles.safeArea} edges={['top', 'right', 'left']}>
+
         {/* Header */}
         <View style={styles.header}>
           <TouchableOpacity 
             style={styles.backButton}
             onPress={() => router.back()}
           >
-            <Ionicons name="arrow-back" size={24} color={Colors.primary} />
+            <Ionicons name="chevron-back" size={24} color={Colors.primary} />
           </TouchableOpacity>
           <Text style={styles.title}>タスク詳細</Text>
           <View style={styles.placeholder} />
@@ -328,7 +330,7 @@ export default function TaskDetailScreen() {
           </View>
 
           {/* Spacer */}
-          <View style={styles.spacer} />
+          {/* <View style={styles.spacer} /> */}
         </ScrollView>
       </SafeAreaView>
     </View>

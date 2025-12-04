@@ -50,11 +50,11 @@ const SocialPostCard: React.FC<SocialPostCardProps> = ({
     const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
     
     if (diffInHours < 1) {
-      return 'Vài phút trước';
+      return '数分前';
     } else if (diffInHours < 24) {
-      return `${diffInHours} giờ trước`;
+      return `${diffInHours} 時間前`;
     } else {
-      return `${Math.floor(diffInHours / 24)} ngày trước`;
+      return `${Math.floor(diffInHours / 24)} 前日`;
     }
   };
 

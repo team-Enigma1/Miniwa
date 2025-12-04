@@ -5,13 +5,15 @@ import React, { useRef, useState } from 'react';
 import {
     Animated,
     PanResponder,
-    SafeAreaView,
+  
     ScrollView,
     StyleSheet,
     Text,
     TouchableOpacity,
     View
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 import { Calendar } from 'react-native-calendars';
 import { Colors, Spacing } from './shared/constants/app';
 import { usePlants } from './shared/contexts/PlantsContext';
@@ -236,7 +238,9 @@ export default function CareCalendarScreen() {
 
   return (
     <View style={styles.background}>
-      <SafeAreaView style={styles.safeArea}>
+      <SafeAreaView style={styles.safeArea} edges={['top', 'right', 'left']}>
+
+      
         {/* Header */}
         <View style={styles.header}>
           <TouchableOpacity 
@@ -594,7 +598,7 @@ const styles = StyleSheet.create({
     padding: Spacing.md,
     borderRadius: 12,
     marginHorizontal: Spacing.md,
-    marginBottom: Spacing.xxl,
+    marginBottom: Spacing.md,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,

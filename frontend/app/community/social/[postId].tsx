@@ -433,7 +433,7 @@ export default function PostDetailScreen() {
                   styles.postActionText,
                   post.isLiked && styles.postActionTextActive
                 ]}>
-                  Thích
+                  いいね
                 </Text>
               </TouchableOpacity>
 
