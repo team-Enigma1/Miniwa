@@ -24,8 +24,6 @@ func main() {
 	// Setup routes
 	router.Setup(e, container)
 
-	// service.SignupWithEmail("ranyanastasia15@gmail.com", "Enigma12345")
-
 	port := "8080"
 	fmt.Println("サーバー起動 http://localhost:" + port + "/")
 	e.Logger.Fatal(e.Start(":" + port))

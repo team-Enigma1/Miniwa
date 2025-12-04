@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ScrollView,
   StatusBar,
@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from '../styles/CatalogScreen.styles'; 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // ========================================
 // 型定義
@@ -34,8 +35,9 @@ interface Favorites {
 // メインコンポーネント
 // ========================================
 
-const CatalogScreen = () => {
+const CatalogScreen = async () => {
   const router = useRouter();
+  const access_token = await AsyncStorage.getItem("access_token");
   
   // ========================================
   // 状態管理
@@ -114,6 +116,26 @@ const CatalogScreen = () => {
   // ========================================
   // レンダリング
   // ========================================
+
+  useEffect(() => {
+  const fetchUserPlants = async () => {
+    if (!access_token) return;
+
+    const response = await fetch("https://hsysypmwztiyyonpcgjq/api/user/userPlants", {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${access_token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    console.log(data);
+  };
+
+  fetchUserPlants();
+}, []);
+
 
   return (
     <SafeAreaView style={styles.container}>

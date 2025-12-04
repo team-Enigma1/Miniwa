@@ -1,6 +1,8 @@
 package service
 
 import (
+	"errors"
+
 	"example.com/go-echo-crud/internal/model"
 	"gorm.io/gorm"
 )
@@ -38,20 +40,36 @@ func (s *UserService) GetUserData(user_id string) (*model.User, error) {
 }
 
 func (s *UserService) UpdateUserData(user_id string, data *model.User) (*model.User, error) {
-	var user model.User
-	err := s.db.Model(&user).
-		Where("user_id = ?", user_id).
-		Updates(map[string]interface{}{
-			"username":    data.Username,
-			"profile_img": data.ProfileImg,
-			"description": data.Description,
-		}).Error
+	updates := make(map[string]interface{})
 
-	if err != nil {
+	if data.Username != "" {
+		updates["username"] = data.Username
+	}
+
+	if data.ProfileImg != "" {
+		updates["profile_img"] = data.ProfileImg
+	}
+
+	if data.Description != "" {
+		updates["description"] = data.Description
+	}
+
+	if len(updates) == 0 {
+		return nil, errors.New("更新情報は見つかりません！")
+	}
+
+	//Update user data
+	if err := s.db.Model(&model.User{}).
+		Where("user_id = ?", user_id).
+		Updates(updates).Error; err != nil {
 		return nil, err
 	}
 
-	s.db.First(&user, "user_id = ?", user_id)
+	//Get update data
+	var user model.User
+	if err := s.db.First(&user, "user_id = ?", user_id).Error; err != nil {
+		return nil, err
+	}
 
 	return &user, nil
 }

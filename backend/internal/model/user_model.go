@@ -1,8 +1,9 @@
 package model
 
 type UserPlant struct {
-	UserID  string `json:"user_id" gorm:"primaryKey"`
-	PlantID string `json:"plant_id"`
+	UserID   string `json:"user_id" gorm:"primaryKey"`
+	PlantID  string `json:"plant_id"`
+	GrowthID int    `json:"growth_id`
 }
 
 type User struct {
