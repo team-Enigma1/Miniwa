@@ -70,30 +70,6 @@ export default StyleSheet.create({
         fontWeight: '600',
         marginBottom: 10,
     },
-
-    /* 通知設定 */
-    settingRow: {
-        width: '100%',
-        backgroundColor: '#fff',
-        paddingVertical: 14,
-        paddingHorizontal: 16,
-        borderRadius: 10,
-        borderColor: '#ddd',
-        borderWidth: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-
-    settingRowLeft: {
-        fontSize: 16,
-    },
-
-    settingRowRight: {
-        fontSize: 24,
-        color: '#555',
-        marginLeft: 10,
-    },
 });
 
 

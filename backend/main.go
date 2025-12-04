@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"log"
-
 	"example.com/go-echo-crud/pkg/di"
 	"example.com/go-echo-crud/pkg/middleware"
 	"example.com/go-echo-crud/pkg/router"
@@ -21,7 +20,6 @@ func main() {
 
 	middleware.Setup(e)
 
-	// Setup routes
 	router.Setup(e, container)
 
 	port := "8080"

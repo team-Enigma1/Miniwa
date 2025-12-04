@@ -4,12 +4,12 @@ import {
   Dimensions,
   ScrollView,
   StatusBar,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View
 } from 'react-native';
 import styles from '../styles/HomeScreen.styles'; 
+import BottomNav from '../components/ui/BottomNavigation'
 
 // ========================================
 // 型定義
@@ -151,11 +151,7 @@ const HomeScreen = () => {
   // ナビゲーションハンドラー
   // ========================================
   
-  const handlePlantNav = () => router.push('/CatalogScreen');
-  const handleCalendarNav = () => console.log('/CalendarScreen');
-  const handleHomeNav = () => console.log('Home');
-  const handleCommunityNav = () => console.log('Community');
-  const handleProfileNav = () => console.log('Profile');
+
 
   // ========================================
   // レンダリング
@@ -334,54 +330,7 @@ const HomeScreen = () => {
       </ScrollView>
 
       {/* 底部ナビゲーション */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity
-          style={styles.navItem}
-          onPress={handlePlantNav}
-          activeOpacity={0.7}
-        >
-          <Text style={styles.navIcon}>🌱</Text>
-          <Text style={styles.navLabel}>マイガーデン</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.navItem}
-          onPress={handleCalendarNav}
-          activeOpacity={0.7}
-        >
-          <Text style={styles.navIcon}>📅</Text>
-          <Text style={styles.navLabel}>カレンダー</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.navItem, styles.navItemActive]}
-          onPress={handleHomeNav}
-          activeOpacity={0.7}
-        >
-          <View style={styles.navActiveIndicator}>
-            <Text style={styles.navIconActive}>🏠</Text>
-          </View>
-          <Text style={styles.navLabelActive}>ホーム</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.navItem}
-          onPress={handleCommunityNav}
-          activeOpacity={0.7}
-        >
-          <Text style={styles.navIcon}>💬</Text>
-          <Text style={styles.navLabel}>SNS</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.navItem}
-          onPress={handleProfileNav}
-          activeOpacity={0.7}
-        >
-          <Text style={styles.navIcon}>👤</Text>
-          <Text style={styles.navLabel}>プロフィール</Text>
-        </TouchableOpacity>
-      </View>
+      <BottomNav/>
     </View>
   );
 };
