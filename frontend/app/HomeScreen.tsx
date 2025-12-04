@@ -159,7 +159,7 @@ const HomeScreen = () => {
   // const handleCommunityNav = () => console.log('Community');
   const handleCommunityNav = () => router.push('/community');
 
-  const handleProfileNav = () => console.log('Profile');
+  const handleProfileNav = () => console.log('/ProfileScreen');
 
   // ========================================
   // レンダリング

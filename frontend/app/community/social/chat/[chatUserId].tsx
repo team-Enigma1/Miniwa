@@ -229,7 +229,7 @@ export default function ChatScreen() {
               style={styles.textInput}
               value={newMessage}
               onChangeText={setNewMessage}
-              placeholder="メッセージを入力してください..."
+              placeholder="メッセージを入力。。。"
               placeholderTextColor={Colors.text.tertiary}
               multiline
               maxLength={500}

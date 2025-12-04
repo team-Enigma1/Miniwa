@@ -33,13 +33,28 @@ export default function CommunityLayout() {
             fontWeight: 'bold',
           },
           animation: 'slide_from_right',
-          // 🆕 THÊM HEADER RIGHT VỚI 2 ICON THÔNG BÁO
+
+          // 🆕 HEADER LEFT: NÚT QUAY VỀ
+          headerLeft: () => (
+            <TouchableOpacity
+              style={{ paddingHorizontal: 8 }}
+              onPress={() => router.back()}
+            >
+              <Ionicons
+                name="chevron-back"
+                size={24}
+                color={Colors.text.inverse}
+              />
+            </TouchableOpacity>
+          ),
+
+          // HEADER RIGHT: Chat + Notification
           headerRight: () => (
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
-              {/* Icon tin nhắn */}
-              <TouchableOpacity 
+              {/* Chat icon */}
+              <TouchableOpacity
                 style={{ position: 'relative' }}
-                onPress={() => router.push('/community/social/chat')} // Tạm thời link đến chat với user1
+                onPress={() => router.push('/community/social/chat')}
               >
                 <Ionicons name="chatbubble-outline" size={24} color={Colors.text.inverse} />
                 {mockMessageUnreadCount > 0 && (
@@ -64,8 +79,8 @@ export default function CommunityLayout() {
                 )}
               </TouchableOpacity>
 
-              {/* Icon thông báo */}
-              <TouchableOpacity 
+              {/* Notification icon */}
+              <TouchableOpacity
                 style={{ position: 'relative' }}
                 onPress={() => router.push('/community/social/notifications')}
               >
@@ -95,6 +110,7 @@ export default function CommunityLayout() {
           ),
         }}
       />
+
       <Stack.Screen
         name="social"
         options={{
