@@ -1,17 +1,16 @@
-import { MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet, View, ViewStyle, } from "react-native";
 
     type Props = {
         label: string;
         IconComponent?: React.ReactNode; // MaterialIcons 
-        onPress?: () => void;
         style?: ViewStyle;
+        data: number;
     };
 
-    export default function Click_Button({ label, IconComponent, onPress, style }: Props) {
+    export default function Click_Button({ label, IconComponent, style, data }: Props) {
     return (
-        <TouchableOpacity style={[styles.settingRow, style]} onPress={onPress}>
+        <TouchableOpacity style={[styles.settingRow, style]} >
         
         <View style={styles.leftWrap}>
             <View style={styles.icon}>
@@ -20,9 +19,7 @@ import { TouchableOpacity, Text, StyleSheet, View, ViewStyle, } from "react-nati
             <Text style={styles.settingRowLeft}>{label}</Text>
         </View>
 
-        <View style={styles.settingRowRight}>
-            <MaterialIcons name="east" size={24}  color="#555"/>
-        </View>
+        <Text style={styles.settingRowRight}>{data}</Text>
         </TouchableOpacity>
     );
     }
@@ -39,6 +36,7 @@ import { TouchableOpacity, Text, StyleSheet, View, ViewStyle, } from "react-nati
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
+        marginBottom: 5,
     },
 
     leftWrap: {
@@ -57,6 +55,8 @@ import { TouchableOpacity, Text, StyleSheet, View, ViewStyle, } from "react-nati
     },
 
     settingRowRight: {
+        fontSize: 18,
+        color: "#666",
         marginLeft: 10,
     },
 }); 

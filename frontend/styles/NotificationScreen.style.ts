@@ -31,6 +31,7 @@ export default StyleSheet.create({
         fontWeight: "600",
         marginBottom: 10,
         marginTop: 30,
+        marginRight: 40,
     },
 
     /* カード */
