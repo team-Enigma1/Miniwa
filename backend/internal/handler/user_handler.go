@@ -20,25 +20,6 @@ func NewUserHandler(userService service.IUserService) *UserHandler {
 	return &UserHandler{userService: userService}
 }
 
-func (h *UserHandler) RegisterUserPlant(c echo.Context) error {
-	var req model.UserPlant
-
-	if err := c.Bind(&req); err != nil {
-		return c.JSON(http.StatusBadRequest, map[string]string{
-			"error": err.Error(),
-		})
-	}
-
-	result, err := h.userService.RegisterUserPlant(&req)
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{
-			"error": err.Error(),
-		})
-	}
-
-	return c.JSON(http.StatusOK, result)
-}
-
 func (h *UserHandler) GetUserData(c echo.Context) error {
 	var req GetUserRequest
 
@@ -80,4 +61,29 @@ func (h *UserHandler) UpdateUserData(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, updatedUser)
+}
+
+func (h *UserHandler) RegisterUserPlant(c echo.Context) error {
+	var req model.UserPlant
+
+	if err := c.Bind(&req); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{
+			"error": err.Error(),
+		})
+	}
+
+	plant := &model.UserPlant{
+		UserID:   req.UserID,
+		PlantID:  req.PlantID,
+		GrowthID: 1001,
+	}
+
+	newPlant, err := h.userService.RegisterUserPlant(plant)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{
+			"error": err.Error(),
+		})
+	}
+
+	return c.JSON(http.StatusCreated, newPlant)
 }

@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from '../styles/RegisterScreen.styles'; 
-import { signup } from '../api/authApi'
+import { signup } from '../api/supabaseAuth'
 
 const RegisterScreen = () => {
   const router = useRouter();
