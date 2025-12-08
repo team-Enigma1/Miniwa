@@ -27,7 +27,7 @@ const mockPostDetail = {
   id: '1',
   user: {
     id: 'user1',
-    name: 'Hashimoto',
+    name: 'Bill Gates',
     avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
     followers: 124,
     following: 56,
@@ -51,7 +51,7 @@ const mockComments = [
     id: 'comment1',
     user: {
       id: 'user2',
-      name: 'Rany',
+      name: 'Jeff Bezos',
       avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
     },
     content: 'なんて美しい植物なのでしょう！どうやって手入れしているのですか？',
@@ -63,7 +63,7 @@ const mockComments = [
         id: 'reply1',
         user: {
           id: 'user1',
-          name: 'Hashimoto',
+          name: 'Bill Gates',
           avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
         },
         content: '週に2回水をあげて、月に1回肥料を与えています。',
@@ -77,7 +77,7 @@ const mockComments = [
     id: 'comment2',
     user: {
       id: 'user3',
-      name: 'Gita',
+      name: 'Larry Ellison',
       avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
     },
     content: 'モンステラの手入れはとても簡単です。明るい場所に置いておくことを忘れないようにしてください。',
@@ -358,7 +358,7 @@ export default function PostDetailScreen() {
             style={styles.headerButton}
             onPress={() => router.back()}
           >
-            <Ionicons name="chevron-back" size={24} color={Colors.text.inverse} />
+            <Ionicons name="chevron-back" size={28} color={Colors.text.inverse} />
           </TouchableOpacity>
           
           <Text style={styles.headerTitle}>記事</Text>

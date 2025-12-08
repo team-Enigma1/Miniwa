@@ -26,7 +26,7 @@ export default function ChatLayout() {
             onPress={() => router.back()}
             style={{ marginLeft: 8, padding: 8 }}
           >
-            <Ionicons name="chevron-back" size={24} color={Colors.text.inverse} />
+            <Ionicons name="chevron-back" size={28} color={Colors.text.inverse} />
           </TouchableOpacity>
         ),
       }}

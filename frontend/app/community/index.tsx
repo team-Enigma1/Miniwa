@@ -30,7 +30,7 @@ const mockPosts = [
     id: '1',
     user: {
       id: 'user1',
-      name: 'Hashimoto',
+      name: 'Bill Gates',
       avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
     },
     content: 'うちのモンステラから綺麗な新葉が芽吹いてきました！🌿 モンステラの世話をした経験のある方はいらっしゃいますか？',
@@ -46,7 +46,7 @@ const mockPosts = [
     id: '2',
     user: {
       id: 'user2',
-      name: 'Gita',
+      name: 'Zuckerberg',
       avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
     },
     content: '1ヶ月ぶりに家の菜園をきれいに掃除しました。どう思いますか？ 😊',
@@ -65,7 +65,7 @@ const mockPosts = [
     id: '3',
     user: {
       id: 'user3',
-      name: 'Canh',
+      name: 'Larry Ellison',
       avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
     },
     content: '金のなる木の葉が黄色くなってきました。原因をご存知の方はいらっしゃいますか？とても心配です。 😔',
@@ -100,7 +100,7 @@ const CreatePostBox: React.FC<CreatePostBoxProps> = React.memo(({
           style={styles.textInputContainer}
           onPress={onNavigateToCreatePost}
         >
-          <Text style={styles.textInputPlaceholder}>何を考えてるんですか？?</Text>
+          <Text style={styles.textInputPlaceholder}>何を考えてるんですか？</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.createPostActions}>

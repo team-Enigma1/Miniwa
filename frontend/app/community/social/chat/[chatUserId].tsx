@@ -175,7 +175,7 @@ export default function ChatScreen() {
             style={styles.headerButton}
             onPress={handleBack}
           >
-            <Ionicons name="chevron-back" size={24} color={Colors.text.inverse} />
+            <Ionicons name="chevron-back" size={28} color={Colors.text.inverse} />
           </TouchableOpacity>
           
           <TouchableOpacity 

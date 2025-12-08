@@ -21,9 +21,9 @@ import Colors from '../../shared/constants/colors';
 
 // Mock tags data - ĐẶT NGOÀI COMPONENT ĐỂ TRÁNH RE-RENDER
 const SUGGESTED_TAGS = [
-  'caycanh', 'chamsoc', 'vuonnha', 'rausach', 'huongdan',
-  'monstera', 'senđa', 'xươngrồng', 'cayphongthuy', 'thuocnam',
-  'benhcay', 'tuoiNuoc', 'bonsai', 'caynoithat', 'thucvat'
+  'plants', 'care', 'homegarden', 'vegetables', 'guide',
+  'monstera', 'lotus', 'cactus', 'fengshuiplants', 'herbalmedicine',
+  'plantdiseases', 'watering', 'bonsai', 'indoorplants', 'vegetation'
 ];
 
 // Tách component ImageGrid để tối ưu re-render
@@ -324,7 +324,7 @@ const CreatePostScreen = () => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container} edges={['right', 'left', 'bottom']}>
+    <SafeAreaView style={styles.container} edges={['right', 'left']}>
       <KeyboardAvoidingView 
         style={styles.keyboardAvoid}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -336,7 +336,7 @@ const CreatePostScreen = () => {
           { paddingTop: Math.max(insets.top, 8) }
         ]}>
           <TouchableOpacity onPress={handleCancel} style={styles.headerButton}>
-            <Ionicons name="chevron-back" size={24} color={Colors.text.inverse} />
+            <Ionicons name="chevron-back" size={28} color={Colors.text.inverse} />
           </TouchableOpacity>
           
           <Text style={styles.headerTitle}>投稿を作成する</Text>
@@ -442,6 +442,7 @@ const CreatePostScreen = () => {
             <Text style={styles.tip}>• より良いサポートを得るためにイラストを追加してください</Text>
             <Text style={styles.tip}>• 適切なタグを使用して、より多くの人にあなたの投稿を見てもらう</Text>
           </View>
+          
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
