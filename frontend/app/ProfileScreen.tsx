@@ -6,6 +6,7 @@ import styles from '../styles/ProfileScreen.style';
 import BottomNav from "../components/ui/BottomNavigation";
 import { USER_PROFILE } from "../constants/user";
 import Click_Button from "../components/ui/ClickButton";
+import CardBox from "../components/ui/CardBox";
 
 
 const ProfileScreen = () =>{
@@ -34,22 +35,25 @@ const ProfileScreen = () =>{
             {/* 活動実績 */}
             <View style={styles.settingSection}>
                 <Text style={styles.settingTitle}>活動実績</Text>
-                <Click_Button 
+                <CardBox 
                 label="育てている植物" 
                 IconComponent={<MaterialIcons name="grass" size={22}  color="green"/>}
-                onPress={() => router.push("/CatalogScreen")}
+                data={USER_PROFILE.plant}
                 />
-                <Click_Button 
+                <CardBox
                 label="収穫数" 
                 IconComponent={<MaterialIcons name="all-inbox" size={22}  color=""/>}
+                data={USER_PROFILE.crop}
                 />
-                <Click_Button 
+                <CardBox
                 label="投稿数" 
                 IconComponent={<MaterialIcons name="comment" size={22}  color="#555"/>}
+                data={USER_PROFILE.posts}
                 />
-                <Click_Button 
+                <CardBox
                 label="もらったいいね"
                 IconComponent={<MaterialIcons name="favorite" size={22}  color="red"/>}
+                data={USER_PROFILE.good}
                 />
             </View>
 
