@@ -11,7 +11,6 @@ import {
     View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
 import PrimaryButton from '../shared/components/buttons/PrimaryButton';
 import { Colors, Spacing } from '../shared/constants/app';
 import { usePlants } from '../shared/contexts/PlantsContext';
@@ -191,7 +190,7 @@ export default function TaskDetailScreen() {
             style={styles.backButton}
             onPress={() => router.back()}
           >
-            <Ionicons name="chevron-back" size={24} color={Colors.primary} />
+            <Ionicons name="chevron-back" size={28} color={Colors.primary} />
           </TouchableOpacity>
           <Text style={styles.title}>タスク詳細</Text>
           <View style={styles.placeholder} />

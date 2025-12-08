@@ -42,7 +42,7 @@ export default function CommunityLayout() {
             >
               <Ionicons
                 name="chevron-back"
-                size={24}
+                size={28}
                 color={Colors.text.inverse}
               />
             </TouchableOpacity>

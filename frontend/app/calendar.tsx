@@ -109,7 +109,12 @@ export default function CareCalendarScreen() {
 
   const handleDateSelect = (date: any) => {
     setSelectedDate(date.dateString);
+
+    // Cập nhật tháng để đồng bộ header phía trên
+    const month = new Date(date.dateString);
+    setCurrentMonth(month);
   };
+
 
   // Lấy tasks cho ngày được chọn từ PlantsContext
   const selectedDateTasks = getTasksByDate(selectedDate);
@@ -247,7 +252,7 @@ export default function CareCalendarScreen() {
             style={styles.backButton}
             onPress={() => router.back()}
           >
-            <Ionicons name="chevron-back" size={24} color={Colors.primary} />
+            <Ionicons name="chevron-back" size={28} color={Colors.primary} />
           </TouchableOpacity>
           <Text style={styles.title}>ケアカレンダー</Text>
           <View style={styles.placeholder} />
@@ -260,7 +265,7 @@ export default function CareCalendarScreen() {
               style={styles.monthNavButton}
               onPress={() => handleMonthChange('prev')}
             >
-              <Ionicons name="chevron-back" size={28} color={Colors.primary} />
+              <Ionicons name="chevron-back" size={24} color={Colors.primary} />
             </TouchableOpacity>
             
             <Text style={styles.monthText}>{currentMonthFormatted}</Text>
@@ -288,6 +293,7 @@ export default function CareCalendarScreen() {
             {...panResponder.panHandlers}
           >
             <Calendar
+              key={currentMonth.toISOString().slice(0, 7)} // Thay đổi key khi đổi tháng
               current={currentMonth.toISOString().split('T')[0]}
               onDayPress={handleDateSelect}
               markedDates={getMarkedDates()}
