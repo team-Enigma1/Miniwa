@@ -1,36 +1,62 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import React from 'react';
+import React, { useState } from 'react';
 import { router } from 'expo-router';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Image} from 'react-native';
 import styles from '../styles/ProfileScreen.style';
 import BottomNav from "../components/ui/BottomNavigation";
 import { USER_PROFILE } from "../constants/user";
 import Click_Button from "../components/ui/ClickButton";
 import CardBox from "../components/ui/CardBox";
-
+import ProfileEditModal from "../app/ProfileEditModal";
 
 const ProfileScreen = () =>{
-    
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    // 編集前の値を保存
+    const [originalName, setOriginalName] = useState(USER_PROFILE.name);
+    const [originalBio, setOriginalBio] = useState(USER_PROFILE.bio);
+    // 編集に使う値
+    const [name, setName] = useState(USER_PROFILE.name);
+    const [bio, setBio] = useState(USER_PROFILE.bio);
+
+    const handleSave = () => {
+    setIsModalVisible(false);
+    console.log("保存:", { name, bio });
+    // ここでAPI保存やAsyncStorageに保存も可能
+    };
+
     return (
     <View style={{ flex: 1 }}>
         <View style={styles.container}>
+
             {/* プロフィールアイコン */}
             <View style={styles.iconCircle}>
-            <Text style={styles.iconText}></Text>
+                <Image
+                    source={USER_PROFILE.icon}
+                    style={{ width: 90, height: 90, borderRadius: 45 }}
+                />
             </View>
 
             {/* 名前 */}
-            <Text style={styles.name}>{USER_PROFILE.name}</Text>
+            <Text style={styles.name}>{name}</Text>
 
             {/* 自己紹介 */}
             <View style={styles.bioBox}>
-                <Text style={styles.bioText}>{USER_PROFILE.bio}</Text>
+                <Text style={styles.bioText}>{bio}</Text>
             </View>
 
             {/* プロフィール編集 */}
-            <TouchableOpacity style={styles.editButton}>
-                <Text style={styles.editButtonText}>プロフィールを編集</Text>
+            <TouchableOpacity
+            style={styles.editButton}
+            onPress={() => {
+                // 編集前の値を保存
+                setOriginalName(name);
+                setOriginalBio(bio);
+
+                setIsModalVisible(true);
+            }}>
+            <Text style={styles.editButtonText}>プロフィールを編集</Text>
             </TouchableOpacity>
+
 
             {/* 活動実績 */}
             <View style={styles.settingSection}>
@@ -70,6 +96,22 @@ const ProfileScreen = () =>{
 
             {/* 下部ナビ */}
             <BottomNav />
+
+            {/* モーダル表示 */}
+            <ProfileEditModal
+                visible={isModalVisible}
+                name={name}
+                bio={bio}
+                onChangeName={setName}
+                onChangeBio={setBio}
+                onSave={handleSave}
+                onClose={() => {
+                    // 変更を破棄して元の値に戻す
+                    setName(originalName);
+                    setBio(originalBio);
+                    setIsModalVisible(false);
+                }}
+            />
         </View>
     </View>
     );
