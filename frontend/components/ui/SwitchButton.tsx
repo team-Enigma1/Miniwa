@@ -25,8 +25,8 @@ export default function Switch_Button({ label, IconComponent, onPress, style }: 
             <Switch
                 value={isEnabled}
                 onValueChange={toggleSwitch}
-                thumbColor={isEnabled ? "#fff" : "#f4f3f4"}
-                trackColor={{ false: "#ccc", true: "#2ECC71" }}
+                thumbColor={isEnabled ? "#fff" : "#fff"}
+                trackColor={{ false: "#666", true: "#2ECC71" }}
             />
 
         </TouchableOpacity>
