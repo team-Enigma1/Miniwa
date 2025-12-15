@@ -10,4 +10,5 @@ func Setup(e *echo.Echo, c *di.Container) {
     AuthRouter(e, c.AuthHandler)
 	MaterialRouter(e,c.MaterialHandler)
 	UserRoute(e, c.UserHandler)
+	TodosRouter(e, c.TodosHandler)
 }

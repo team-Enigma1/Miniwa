@@ -24,12 +24,3 @@ func ( h *TodosHandler) GetUserTodo(c echo.Context) error {
 	}
 	return  c.JSON(http.StatusOK, todos)
 }
-// func (h *PlantHandler) GetPlan(c echo.Context) error {
-// 	plans, err := h.plantService.GetPlan()
-// 	if err != nil {
-// 		return c.JSON(http.StatusInternalServerError, map[string]string{
-// 			"error": err.Error(),
-// 		})
-// 	}
-// 	return c.JSON(http.StatusOK, plans)
-// }
