@@ -29,7 +29,7 @@ const BottomNavigation = () => {
         </Text>
       </TouchableOpacity>
 
-      {/* カレンダー */}
+      {/* カレンダー 
       <TouchableOpacity
         style={styles.navItem}
         onPress={() => router.push("/calendar")}
@@ -45,6 +45,7 @@ const BottomNavigation = () => {
           カレンダー
         </Text>
       </TouchableOpacity>
+      */}
 
       {/* ホーム */}
       <TouchableOpacity
