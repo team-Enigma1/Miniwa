@@ -22,7 +22,6 @@ go install github.com/air-verse/air@latest
 <!-- 実行 CLI-->
 air
 
-
 <!-- 実行 CLI-->
 go run main.go
 

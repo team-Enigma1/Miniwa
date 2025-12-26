@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Dimensions,
   ScrollView,
@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import { updateTodo, getTodos } from '@/api/todos';
+import { Todo } from '@/types/todo';
 import styles from '../styles/HomeScreen.styles'; 
 import BottomNav from '../components/ui/BottomNavigation'
 
@@ -15,14 +17,6 @@ import BottomNav from '../components/ui/BottomNavigation'
 // 型定義
 // ========================================
 
-interface TodoItem {
-  id: number;
-  text: string;
-  description: string;
-  completed: boolean;
-  icon: string;
-  type: 'water' | 'check' | 'fertilize';
-}
 
 interface Plant {
   id: number;
@@ -41,12 +35,27 @@ interface RecommendedItem {
 
 const { width } = Dimensions.get('window');
 
+
+
 // ========================================
 // メインコンポーネント
 // ========================================
 
 const HomeScreen = () => {
   const router = useRouter();
+
+  useEffect(() => {
+    const fetchTodos = async () => {
+      try {
+        const data = await getTodos(); 
+        setTodos(data);
+      } catch (e) {
+        console.error(e)
+      }
+    };
+    fetchTodos();
+  }, []);
+
   
   // ========================================
   // 状態管理
@@ -68,35 +77,33 @@ const HomeScreen = () => {
       emoji: '🍓',
     },
   ]);
+  
 
-  // TODO (Backend): GET /api/todos でユーザーの今日のタスクを取得
-  // レスポンス例: { todos: [{ id, text, description, completed, icon, type, dueDate, plantId?, ... }] }
-  const [todos, setTodos] = useState<TodoItem[]>([
-    {
-      id: 1,
-      text: '水やり',
-      description: '土の表面が乾いたらたっぷりと。',
-      completed: false,
-      icon: '💧',
-      type: 'water',
-    },
-    {
-      id: 2,
-      text: '害虫チェック',
-      description: '葉の裏を中心に確認しましょう。',
-      completed: false,
-      icon: '🐛',
-      type: 'check',
-    },
-    {
-      id: 3,
-      text: '肥料やり',
-      description: '2週間に1度、液体肥料を。',
-      completed: true,
-      icon: '🌿',
-      type: 'fertilize',
-    },
-  ]);
+  const [todos, setTodos] = useState<Todo[]>([]);
+
+  const handleTodoWaterUpdate = async (todo: Todo) => {
+    try {
+      const updateTodos = await updateTodo({
+        user_plant_id: todo.user_plant_id,
+        water_count: 1,//加算していくから＋１固定
+      });
+      setTodos(updateTodos);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+    const handleTodoFertilizerUpdate = async (todo: Todo) => {
+    try {
+      const updateTodos = await updateTodo({
+        user_plant_id: todo.user_plant_id,
+        fertilizer: true,
+      });
+      setTodos(updateTodos);
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
   // TODO (Backend): GET /api/recommendations でユーザーに合わせたおすすめアイテムを取得
   // レスポンス例: { items: [{ id, name, category, emoji, price?, url?, ... }] }
@@ -124,17 +131,6 @@ const HomeScreen = () => {
   // ========================================
   // イベントハンドラー
   // ========================================
-
-  // ToDoの完了状態を切り替え
-  // TODO (Backend): PUT /api/todos/:id で完了状態を更新
-  // リクエスト例: { completed: true/false }
-  const toggleTodo = (id: number) => {
-    setTodos(prev =>
-      prev.map(todo =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
-      )
-    );
-  };
 
   // 植物カードがタップされた時の処理
   const handlePlantPress = (plant: Plant) => {
@@ -240,64 +236,39 @@ const HomeScreen = () => {
           </ScrollView>
         </View>
 
-        {/* 今日のToDoセクション */}
-        <View style={styles.section}>
-            <Text style={styles.sectionTitle}>今日のToDo</Text>
-       
-          <View style={styles.todoContainer}>
-            {todos.map((todo) => (
-              <TouchableOpacity
-                key={todo.id}
-                style={[
-                  styles.todoItem,
-                  todo.completed && styles.todoItemCompleted,
-                ]}
-                onPress={() => toggleTodo(todo.id)}
-                activeOpacity={0.7}
-              >
-                <View style={styles.todoLeft}>
-                  <View
-                    style={[
-                      styles.todoIconContainer,
-                      todo.completed && styles.todoIconContainerCompleted,
-                    ]}
-                  >
-                    <Text style={styles.todoIcon}>{todo.icon}</Text>
-                  </View>
-                  <View style={styles.todoContent}>
-                    <Text
-                      style={[
-                        styles.todoTitle,
-                        todo.completed && styles.todoTitleCompleted,
-                      ]}
-                    >
-                      {todo.text}
-                    </Text>
-                    <Text
-                      style={[
-                        styles.todoDescription,
-                        todo.completed && styles.todoDescriptionCompleted,
-                      ]}
-                    >
-                      {todo.description}
-                    </Text>
-                  </View>
-                </View>
+        {/* Todo */}
+        {todos.map(todo => (
+          <View key={todo.id} style={styles.todoItem}>
+            {/* 水やり */}
+            <Text>
+              💧 水やり：
+              {todo.water ? '完了' : `未完了（${todo.water_count}回）`}
+            </Text>
 
-                <View
-                  style={[
-                    styles.todoCheckbox,
-                    todo.completed && styles.todoCheckboxCompleted,
-                  ]}
-                >
-                  {todo.completed && (
-                    <Text style={styles.todoCheckmark}>✓</Text>
-                  )}
-                </View>
+            {!todo.water && (
+              <TouchableOpacity
+                onPress={() => handleTodoWaterUpdate(todo)}
+              >
+                <Text>水やりした</Text>
               </TouchableOpacity>
-            ))}
+            )}
+
+            {/* 肥料 */}
+            <Text>
+              🌿 肥料：{todo.fertilizer ? '完了' : '未完了'}
+            </Text>
+
+            {!todo.fertilizer && (
+              <TouchableOpacity
+                onPress={() => handleTodoFertilizerUpdate(todo)}
+              >
+                <Text>肥料あげた</Text>
+              </TouchableOpacity>
+            )}
           </View>
-        </View>
+        ))}
+
+
 
         {/* おすすめアイテムセクション */}
         <View style={styles.section}>
