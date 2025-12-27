@@ -1,5 +1,5 @@
 export interface Todo {
-    id: string;
+    id: number;
     user_plant_id: number;
 
     water: boolean;

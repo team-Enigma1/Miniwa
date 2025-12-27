@@ -370,6 +370,66 @@ weatherText: {
     fontWeight: '600',
     marginTop: 4,
   },
+  // todoCard 関連のスタイル
+  todoCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    padding: 12,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: '#F0F0F0',
+    // 軽い影（iOS）
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 5,
+    // 軽い影（Android）
+    elevation: 2,
+  },
+    s: {
+    width: 48,
+    height: 48,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+  },
+  todoEmoji: {
+    fontSize: 24,
+  },
+  todoTextContainer: {
+    flex: 1,
+  },
+  todoTaskName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  todoSubText: {
+    fontSize: 12,
+    color: '#888',
+    marginTop: 2,
+  },
+  todoCheckCircle: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    borderWidth: 2,
+    borderColor: '#E0E0E0',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  todoCheckCircleActive: {
+    backgroundColor: '#A5D6A7', // 薄い緑
+    borderColor: '#A5D6A7',
+  },
+  checkMark: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });
 
 
