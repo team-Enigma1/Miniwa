@@ -48,9 +48,16 @@ const HomeScreen = () => {
     const fetchTodos = async () => {
       try {
         const data = await getTodos(); 
-        setTodos(data);
+        // もし配列でないものが返ってきてもエラーにならないようにする
+        if (Array.isArray(data)) {
+          setTodos(data);
+        } else if (data && typeof data === 'object') {
+          // オブジェクトの中にデータが入っているパターンに対応
+          const arrayData = Object.values(data).find(Array.isArray);
+          setTodos(arrayData || []);
+        }
       } catch (e) {
-        console.error(e)
+        console.error("Fetch error:", e);
       }
     };
     fetchTodos();
@@ -236,37 +243,65 @@ const HomeScreen = () => {
           </ScrollView>
         </View>
 
-        {/* Todo */}
-        {todos.map(todo => (
-          <View key={todo.id} style={styles.todoItem}>
-            {/* 水やり */}
-            <Text>
-              💧 水やり：
-              {todo.water ? '完了' : `未完了（${todo.water_count}回）`}
-            </Text>
+        {/* デバック */}
+        {/* <View style={styles.section}>
+          <Text>データ件数: {todos.length}</Text>
+        </View> */}
 
-            {!todo.water && (
-              <TouchableOpacity
-                onPress={() => handleTodoWaterUpdate(todo)}
-              >
-                <Text>水やりした</Text>
-              </TouchableOpacity>
-            )}
+        {/* --- 今日のToDoセクション --- */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>今日のToDo</Text>
 
-            {/* 肥料 */}
-            <Text>
-              🌿 肥料：{todo.fertilizer ? '完了' : '未完了'}
-            </Text>
+          {todos.length > 0 ? (
+            todos.map((todo) => (
+              <View key={String(todo.id)}>
+                {/* 水やりカード */}
+                <TouchableOpacity 
+                  style={styles.todoCard}
+                  onPress={() => !todo.water && handleTodoWaterUpdate(todo)}
+                  activeOpacity={0.7}
+                >
+                  <View style={[styles.todoIconContainer, { backgroundColor: '#E3F2FD' }]}>
+                    <Text style={styles.todoEmoji}>💧</Text>
+                  </View>
+                  <View style={styles.todoTextContainer}>
+                    <Text style={styles.todoTaskName}>水やり</Text>
+                    <Text style={styles.todoSubText}>
+                      {todo.water ? "完了しました" : "土の表面が乾いたらたっぷりと。"}
+                    </Text>
+                  </View>
+                  <View style={[styles.todoCheckCircle, todo.water && styles.todoCheckCircleActive]}>
+                    {todo.water ? <Text style={styles.checkMark}>✓</Text> : null}
+                  </View>
+                </TouchableOpacity>
 
-            {!todo.fertilizer && (
-              <TouchableOpacity
-                onPress={() => handleTodoFertilizerUpdate(todo)}
-              >
-                <Text>肥料あげた</Text>
-              </TouchableOpacity>
-            )}
-          </View>
-        ))}
+                {/* 肥料やりカード */}
+                <TouchableOpacity 
+                  style={styles.todoCard}
+                  onPress={() => !todo.fertilizer && handleTodoFertilizerUpdate(todo)}
+                  activeOpacity={0.7}
+                >
+                  <View style={[styles.todoIconContainer, { backgroundColor: '#F1F8E9' }]}>
+                    <Text style={styles.todoEmoji}>🌿</Text>
+                  </View>
+                  <View style={styles.todoTextContainer}>
+                    <Text style={styles.todoTaskName}>肥料やり</Text>
+                    <Text style={styles.todoSubText}>
+                      {todo.fertilizer ? "完了しました" : "2週間に1度、液体肥料を。"}
+                    </Text>
+                  </View>
+                  <View style={[styles.todoCheckCircle, todo.fertilizer && styles.todoCheckCircleActive]}>
+                    {todo.fertilizer ? <Text style={styles.checkMark}>✓</Text> : null}
+                  </View>
+                </TouchableOpacity>
+              </View>
+            ))
+          ) : (
+            <View style={{ padding: 20, alignItems: 'center' }}>
+              <Text style={{ color: '#888' }}>ToDoを読み込み中、またはありません</Text>
+            </View>
+          )}
+        </View>
 
 
 

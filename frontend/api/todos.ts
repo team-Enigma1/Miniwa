@@ -1,11 +1,11 @@
 import { UpdateTodoPayload, Todo } from "@/types/todo";
 
-const TODO_API_URL = 'http://10.0.2.2:8080/todos';
+const TODO_API_URL = 'http://192.168.10.120:8080/todos/';
 // const TODO_API_URL = 'http://localhost:8080/todos';
 
 export const getTodos = async (): Promise<Todo[]> => {
     const res = await fetch(`${TODO_API_URL}`, {
-        method: 'GET',
+        method: 'POST',
         headers: {
         'Content-Type': 'application/json',
         // Authorization: `Bearer ${token}`, // JWT使うなら
