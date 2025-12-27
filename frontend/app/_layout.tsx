@@ -13,6 +13,7 @@ export default function Layout() {
       <PlantsProvider>
         <Stack screenOptions={{ headerShown: false }}>
           {/* Quan trọng: khai báo các route cấp cao */}
+          <Stack.Screen name="index" /> 
           <Stack.Screen name="(tabs)" />
           <Stack.Screen name="calendar" />
           <Stack.Screen name="onboarding" />
