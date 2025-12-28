@@ -8,6 +8,7 @@ import (
 
 type TodosDi struct {
 	Handler *handler.TodosHandler
+	Service *service.TodosService
 }
 
 func NewTodosDi() (*TodosDi, error) {
