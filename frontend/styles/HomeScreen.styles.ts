@@ -378,6 +378,8 @@ weatherText: {
     borderRadius: 16,
     padding: 12,
     marginBottom: 12,
+    marginRight: 12,
+    marginLeft: 12,
     borderWidth: 1,
     borderColor: '#F0F0F0',
     // 軽い影（iOS）
