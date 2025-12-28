@@ -1,6 +1,9 @@
 package di
 
-import "example.com/go-echo-crud/internal/handler"
+import (
+	"example.com/go-echo-crud/internal/handler"
+	"example.com/go-echo-crud/internal/service"
+)
 
 type Container struct {
 	PlantHandler *handler.PlantHandler
@@ -8,6 +11,7 @@ type Container struct {
 	MaterialHandler	*handler.MaterialHandler
 	UserHandler *handler.UserHandler
 	TodosHandler *handler.TodosHandler
+	TodosService service.ITodosService
 }
 
 func NewContainer() (*Container, error) {
@@ -36,11 +40,14 @@ func NewContainer() (*Container, error) {
 		return  nil, err
 	}
 
+	
+
 	return &Container{
 		PlantHandler: plant.Handler,
         AuthHandler:  auth.Handler,
 		MaterialHandler: material.Handler,
 		UserHandler: user.Handler,
 		TodosHandler: todos.Handler,
+		TodosService: todos.Service,
 	}, nil
 }

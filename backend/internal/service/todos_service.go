@@ -9,6 +9,7 @@ import (
 type ITodosService interface {
 	GetUserTodo(UserId string) ([]model.Todos, error)
 	UpdateTodo(req model.UpdeteUserTodo) ([]model.Todos, error)
+    ResetTodos() error
 }
 
 type TodosService struct {
@@ -83,4 +84,13 @@ func (s *TodosService) UpdateTodo(req model.UpdeteUserTodo) ([]model.Todos, erro
     }
 
     return todos, tx.Commit().Error
+}
+
+func (s *TodosService) ResetTodos() error {
+    return s.db.Model(&model.Todos{}).
+        Updates(map[string]interface{}{
+            "water": false,
+            "water_count":  0,
+            "fertilizer": false, // 肥料は毎日更新じゃないはずだから一旦調整待ち
+        }).Error
 }

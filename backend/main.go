@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"log"
+
+	"example.com/go-echo-crud/internal/infra/cron"
 	"example.com/go-echo-crud/pkg/di"
 	"example.com/go-echo-crud/pkg/middleware"
 	"example.com/go-echo-crud/pkg/router"
@@ -12,11 +14,13 @@ import (
 func main() {
 
 	e := echo.New()
-
+	
 	container, err := di.NewContainer()
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	cron.Start(container.TodosService)
 
 	middleware.Setup(e)
 
