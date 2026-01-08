@@ -1,6 +1,6 @@
 import { UpdateTodoPayload, Todo } from "@/types/todo";
 
-const TODO_API_URL = 'http://192.168.10.120:8080/todos/';
+const TODO_API_URL = 'http://10.200.2.54:8080/todos/';
 // const TODO_API_URL = 'http://localhost:8080/todos';
 
 export const getTodos = async (): Promise<Todo[]> => {

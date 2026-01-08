@@ -10,6 +10,6 @@ func TodosRouter(e *echo.Echo, TodosHandler *handler.TodosHandler) {
 	api := e.Group("/todos")
 
 	api.POST("/", TodosHandler.GetUserTodo)
-	api.PUT("/", TodosHandler.UpdeteTodo)
+	api.PUT("/", TodosHandler.UpdateTodo)
 	
 }

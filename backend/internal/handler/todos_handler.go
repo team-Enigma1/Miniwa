@@ -37,8 +37,8 @@ func (h *TodosHandler) GetUserTodo(c echo.Context) error {
 	return c.JSON(http.StatusOK, todos)
 }
 
-func (h *TodosHandler) UpdeteTodo(c echo.Context) error {
-	var req model.UpdeteUserTodo
+func (h *TodosHandler) UpdateTodo(c echo.Context) error {
+	var req model.UpdateUserTodo
 
 	if err := c.Bind(&req); err != nil {
 		return c.JSON(http.StatusBadRequest, map[string]string{"error": err.Error()})

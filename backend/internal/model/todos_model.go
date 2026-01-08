@@ -9,7 +9,7 @@ type Todos struct {
 	Fertilizer    bool `gorm:"column:fertilizer" json:"fertilizer"`
 }
 
-type UpdeteUserTodo struct {
+type UpdateUserTodo struct {
 	User_plant_id int   `json:"user_plant_id"`
 	Water_count   *int8 `json:"water_count"`
 	Fertilizer    *bool `json:"fertilizer"`
