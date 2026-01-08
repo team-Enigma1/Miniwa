@@ -8,7 +8,7 @@ import (
 
 type ITodosService interface {
 	GetUserTodo(UserId string) ([]model.Todos, error)
-	UpdateTodo(req model.UpdeteUserTodo) ([]model.Todos, error)
+	UpdateTodo(req model.UpdateUserTodo) ([]model.Todos, error)
     ResetTodos() error
 }
 
@@ -29,7 +29,7 @@ func (s *TodosService) GetUserTodo(UserId string) ([]model.Todos, error) {
 	return todos, nil
 }
 
-func (s *TodosService) UpdateTodo(req model.UpdeteUserTodo) ([]model.Todos, error) {
+func (s *TodosService) UpdateTodo(req model.UpdateUserTodo) ([]model.Todos, error) {
     tx := s.db.Begin()
 
     var userPlant model.UserPlant
@@ -41,7 +41,7 @@ func (s *TodosService) UpdateTodo(req model.UpdeteUserTodo) ([]model.Todos, erro
         return nil, err
     }
 
-    if err := tx.Where("id = ?", userPlant.PlantID).First(&plant).Error; err != nil {
+    if err := tx.Where("plant_id = ?", userPlant.PlantID).First(&plant).Error; err != nil {
         tx.Rollback()
         return nil, err
     }
