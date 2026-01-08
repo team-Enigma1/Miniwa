@@ -26,7 +26,7 @@ const RegisterScreen = () => {
 
   // 登録ボタンが押されたときの処理
   const handleRegister = async() => {
-    const { data, error} = await signup({ email, password });
+    const { data, error } = await signup({ email, password });
 
     if (error) {
       alert(error.message);
@@ -34,7 +34,7 @@ const RegisterScreen = () => {
     }
     
     console.log('Register with:', data)
-    router.push('/CatalogScreen');
+    router.push('/LoginScreen');
   };
 
   // 戻るボタンが押されたときの処理

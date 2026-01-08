@@ -16,8 +16,6 @@ export function useGoogleAuth() {
         preferLocalhost: false,
     });
 
-    console.log("REDIRECT USED => ", REDIRECT_URI);
-
     const [request, response, promptAsync] = Google.useAuthRequest({
         clientId: Platform.OS === "ios" ? IOS_CLIENT_ID : WEB_CLIENT_ID,
         redirectUri: REDIRECT_URI,

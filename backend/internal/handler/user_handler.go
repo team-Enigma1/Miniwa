@@ -29,6 +29,15 @@ func (h *UserHandler) RegisterUserPlant(c echo.Context) error {
 		})
 	}
 
+	userID, ok := c.Get("user_id").(string)
+	if !ok || userID == "" {
+		return c.JSON(http.StatusUnauthorized, echo.Map{
+			"error": "unauthorized",
+		})
+	}
+
+	req.UserID = userID
+
 	result, err := h.userService.RegisterUserPlant(&req)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{
@@ -36,26 +45,23 @@ func (h *UserHandler) RegisterUserPlant(c echo.Context) error {
 		})
 	}
 
-	return c.JSON(http.StatusOK, result)
+	return c.JSON(http.StatusOK, echo.Map{
+		"success": true,
+		"data":    result,
+	})
 }
 
 func (h *UserHandler) GetUserData(c echo.Context) error {
-	var req GetUserRequest
-
-	if err := c.Bind(&req); err != nil {
-		return c.JSON(http.StatusBadRequest, map[string]string{
-			"error": err.Error(),
+	userID, ok := c.Get("user_id").(string)
+	if !ok || userID == "" {
+		return c.JSON(http.StatusUnauthorized, echo.Map{
+			"error": "unauthorized",
 		})
 	}
 
-	user, err := h.userService.GetUserData(req.UserID)
-	if err != nil {
-		return c.JSON(http.StatusNotFound, map[string]string{
-			"error": "User not found",
-		})
-	}
-
-	return c.JSON(http.StatusOK, user)
+	return c.JSON(http.StatusOK, echo.Map{
+		"user_id": userID,
+	})
 }
 
 func (h *UserHandler) UpdateUserData(c echo.Context) error {

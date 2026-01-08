@@ -5,6 +5,10 @@ interface AuthData {
     password: string;
 }
 
+type LoginResult = 
+    | { session: any; user: any; accessToken: string}
+    | { error: any}
+
 export const signup = async ({ email, password }: AuthData): Promise<any> => {
     const { data, error } = await supabase.auth.signUp({ email, password });
 
@@ -15,12 +19,16 @@ export const signup = async ({ email, password }: AuthData): Promise<any> => {
     return { data };
 }
 
-export const login = async ({ email, password }: AuthData): Promise<any> => {
+export const login = async ({ email, password }: AuthData): Promise<LoginResult> => {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
-    if (error) {
+    if (error || !data.session) {
         return { error };
     }
 
-    return { data };
+    return { 
+        session: data.session,
+        user: data.user,
+        accessToken: data.session.access_token
+     };
 }

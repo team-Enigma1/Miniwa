@@ -3,26 +3,38 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
+
 	"example.com/go-echo-crud/pkg/di"
 	"example.com/go-echo-crud/pkg/middleware"
 	"example.com/go-echo-crud/pkg/router"
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 )
 
 func main() {
+	// Load .env
+	if err := godotenv.Load(); err != nil {
+		log.Println(".env file not found:", err)
+	}
+
+	supabaseURL := os.Getenv("Project_URL")
+	if supabaseURL == "" {
+		log.Fatal("Project_URL is not set in environment variables")
+	}
 
 	e := echo.New()
+
+	middleware.SupabaseJWT()
+
+	middleware.Setup(e)
 
 	container, err := di.NewContainer()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	middleware.Setup(e)
-
 	router.Setup(e, container)
-
-	// service.SignupWithEmail("ranyanastasia15@gmail.com", "Enigma12345")
 
 	port := "8080"
 	fmt.Println("サーバー起動 http://localhost:" + port + "/")

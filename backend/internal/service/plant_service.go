@@ -1,6 +1,8 @@
 package service
 
 import (
+	"fmt"
+
 	"example.com/go-echo-crud/internal/model"
 	"gorm.io/gorm"
 )
@@ -21,6 +23,7 @@ func (s *PlantService) GetPlan() ([]model.Plant, error) {
 
 	var plants []model.Plant
 	if err := s.db.Find(&plants).Error; err != nil {
+		fmt.Println("DB ERROR:", err)
 		return nil, err
 	}
 	return plants, nil
