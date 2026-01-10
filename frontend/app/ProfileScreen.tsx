@@ -8,15 +8,18 @@ import { USER_PROFILE } from "../constants/user";
 import Click_Button from "../components/ui/ClickButton";
 import CardBox from "../components/ui/CardBox";
 import ProfileEditModal from "../app/ProfileEditModal";
+import RegionSelectModal from '../components/RegionSelectModal';
 
 const ProfileScreen = () =>{
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isRegionModalVisible, setIsRegionModalVisible] = useState(false);
     // 編集前の値を保存
     const [originalName, setOriginalName] = useState(USER_PROFILE.name);
     const [originalBio, setOriginalBio] = useState(USER_PROFILE.bio);
     // 編集に使う値
     const [name, setName] = useState(USER_PROFILE.name);
     const [bio, setBio] = useState(USER_PROFILE.bio);
+    const [prefecture, setPrefecture] = useState(USER_PROFILE.prefecture);
 
     const handleSave = () => {
     setIsModalVisible(false);
@@ -32,7 +35,7 @@ const ProfileScreen = () =>{
             <View style={styles.iconCircle}>
                 <Image
                     source={USER_PROFILE.icon}
-                    style={{ width: 90, height: 90, borderRadius: 45 }}
+                    style={styles.iconImage}
                 />
             </View>
 
@@ -72,11 +75,6 @@ const ProfileScreen = () =>{
                 data={USER_PROFILE.crop}
                 />
                 <CardBox
-                label="投稿数" 
-                IconComponent={<MaterialIcons name="comment" size={22}  color="#555"/>}
-                data={USER_PROFILE.posts}
-                />
-                <CardBox
                 label="もらったいいね"
                 IconComponent={<MaterialIcons name="favorite" size={22}  color="red"/>}
                 data={USER_PROFILE.good}
@@ -91,6 +89,12 @@ const ProfileScreen = () =>{
                 label="通知設定" 
                 IconComponent={<MaterialIcons name="notifications-active" size={22}  color="gold"/>}
                 onPress={() => router.push("/NotificationScreen")}
+                />
+                {/* 地域設定 */}
+                <Click_Button
+                label={`地域設定：${prefecture}`}
+                IconComponent={<MaterialIcons name="location-pin" size={22} />}
+                onPress={() => {setIsRegionModalVisible(true);}}
                 />
             </View>
 
@@ -110,6 +114,17 @@ const ProfileScreen = () =>{
                     setName(originalName);
                     setBio(originalBio);
                     setIsModalVisible(false);
+                }}
+            />
+            <RegionSelectModal
+                visible={isRegionModalVisible}
+                value={prefecture}
+                onSave={(value) => {
+                setPrefecture(value);
+                setIsRegionModalVisible(false);
+                }}
+                onClose={() => {
+                setIsRegionModalVisible(false);
                 }}
             />
         </View>

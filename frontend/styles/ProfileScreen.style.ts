@@ -21,6 +21,11 @@ export default StyleSheet.create({
     iconText: {
         fontSize: 45,
     },
+    iconImage: { 
+        width: 90, 
+        height: 90, 
+        borderRadius: 45,
+    },
 
     /* 名前 */
     name: {
@@ -69,6 +74,14 @@ export default StyleSheet.create({
         fontSize: 16,
         fontWeight: '600',
         marginBottom: 10,
+    },
+    dropdown: {
+        width: "100%",
+        backgroundColor: "#fff",
+        borderRadius: 12,
+        marginTop: 8,
+        paddingHorizontal: 8,
+        elevation: 4,
     },
 });
 

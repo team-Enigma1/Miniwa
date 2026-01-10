@@ -7,4 +7,5 @@ export const USER_PROFILE = {
     crop: 7,
     good: 150,
     posts: 12,
+    prefecture: "東京都"
 };
