@@ -13,19 +13,14 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from '../styles/CatalogScreen.styles'; 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Plant } from '@/types/plant';
 
 // ========================================
 // 型定義
 // ========================================
 
 // 植物データの型定義
-interface Plant {
-  id: number;
-  name: string;
-  description: string;
-  img: string;
-  season: string;
-}
+
 
 // お気に入り状態の型定義
 interface Favorites {
@@ -150,7 +145,7 @@ const CatalogScreen = () => {
 
       const userData = await userRes.json();
       setUserData(userData);
-
+      
       const plantRes = await fetch("http://10.200.2.14:8080/plant/plan");
 
       const text = await plantRes.text();
