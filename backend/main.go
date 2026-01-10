@@ -14,6 +14,8 @@ import (
 func main() {
 
 	e := echo.New()
+
+	middleware.Setup(e)
 	
 	container, err := di.NewContainer()
 	if err != nil {

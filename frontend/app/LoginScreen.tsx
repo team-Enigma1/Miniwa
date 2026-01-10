@@ -11,10 +11,12 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Alert
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from '../styles/LoginScreen.styles'; 
-import { login } from '../api/supabaseAuth'
+import { login } from '../lib/supabaseAuth'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = () => {
   const router = useRouter();
@@ -22,15 +24,23 @@ const LoginScreen = () => {
   const [password, setPassword] = useState('');
 
   const handleLogin = async() => {
-    // TODO: バックエンド側でログインAPIを接続する
-   const { data, error } = await login({ email, password })
-   if (error) {
-    alert(error.message);
-    return;
-   }
-    // ログイン処理を実行
-    console.log('Login with:', email, password);
-    router.push('/HomeScreen');
+    try {
+      const res = await login({ email, password });
+
+      if ('error' in res) {
+        Alert.alert("ログイン失敗しました！");
+        return;
+      }
+
+        // ログイン処理を実行
+        await AsyncStorage.setItem("access_token", res.accessToken)
+
+        console.log('ログイン成功しました。');
+        router.push('/HomeScreen');
+    } catch (err) {
+      console.error(err);
+      Alert.alert("ログイン中にエラーが発生しました！");
+    }
   };
 
   const handleForgotPassword = () => {

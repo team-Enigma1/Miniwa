@@ -1,14 +1,19 @@
 import { UpdateTodoPayload, Todo } from "@/types/todo";
+import { supabase } from "@/lib/supabase";
 
-const TODO_API_URL = 'http://10.200.2.54:8080/todos/';
+const TODO_API_URL = 'http://192.168.10.120:8080/todos/';
 // const TODO_API_URL = 'http://localhost:8080/todos';
 
 export const getTodos = async (): Promise<Todo[]> => {
+
+    const { data } = await supabase.auth.getSession();
+    const token = data.session?.access_token;
+
     const res = await fetch(`${TODO_API_URL}`, {
         method: 'POST',
         headers: {
         'Content-Type': 'application/json',
-        // Authorization: `Bearer ${token}`, // JWT使うなら
+        'Authorization': `Bearer ${token}`, 
         },
     });
 
