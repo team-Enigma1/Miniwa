@@ -27,10 +27,11 @@ const RegisterScreen = () => {
   // 登録ボタンが押されたときの処理
   const handleRegister = async() => {
     
-    const result = await signup({ email, password });
+    const result = await signup({ email, password, username });
 
-    if (!result) {
-      alert("signup error");
+    if ("error" in result) {
+      alert(result.error.message ?? "登録に失敗しました");
+      console.log(result.error.message )
       return;
     }
     

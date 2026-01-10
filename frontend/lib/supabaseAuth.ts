@@ -2,11 +2,16 @@ import { supabase } from "./supabase";
 import { AuthData, SignupResult, LoginResult  } from "@/types/auth";
 
 export const signup = async (
-    { email, password }: AuthData
+    { email, password, username }: AuthData
 ): Promise<SignupResult> => {
     const { data, error } = await supabase.auth.signUp({
         email,
         password,
+        options: {
+            data: {
+                username,
+            },
+        },
     });
 
     if (error || !data.user) {

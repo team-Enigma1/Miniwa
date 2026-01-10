@@ -3,6 +3,7 @@ import type { User, Session } from "@supabase/supabase-js";
 export type AuthData = {
     email: string;
     password: string;
+    username?: string;
 }
 
 export type SignupResult =
