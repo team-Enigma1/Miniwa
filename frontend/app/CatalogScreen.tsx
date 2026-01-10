@@ -7,7 +7,8 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View
+  View,
+  Alert
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from '../styles/CatalogScreen.styles'; 
@@ -22,7 +23,7 @@ interface Plant {
   id: number;
   name: string;
   description: string;
-  emoji: string;
+  img: string;
   season: string;
 }
 
@@ -35,9 +36,11 @@ interface Favorites {
 // メインコンポーネント
 // ========================================
 
-const CatalogScreen = async () => {
+const CatalogScreen = () => {
   const router = useRouter();
-  const access_token = await AsyncStorage.getItem("access_token");
+  const [token, setToken] = useState<string | null>(null);
+  const [userData, setUserData] = useState<any>(null);
+  const [plantsData, setPlantsData] = useState<any>(null);
   
   // ========================================
   // 状態管理
@@ -51,29 +54,12 @@ const CatalogScreen = async () => {
   
   // お気に入り状態の管理
   // TODO (Backend): GET /api/favorites でユーザーのお気に入りリストを取得
-  const [favorites, setFavorites] = useState<Favorites>({});
+  const [favorites, setFavorites] = useState<{ [id:number]: boolean}>({});
 
   // 季節フィルター用のオプション
   const seasons: string[] = ['すべて', '春', '夏', '秋', '冬'];
 
   // TODO (Backend): GET /api/plants でサーバーから植物カタログを取得
-
-  const plants: Plant[] = [
-    {
-      id: 1,
-      name: 'ミニトマト',
-      description: 'ベランダで簡単に育てられ、夏に収穫が楽しめます。',
-      emoji: '🍅',
-      season: '夏',
-    },
-    {
-      id: 2,
-      name: 'イチゴ',
-      description: '甘くて美味しい、家庭菜園の定番。春に収穫できます。',
-      emoji: '🍓',
-      season: '春',
-    },
-  ];
 
   // ========================================
   // イベントハンドラー
@@ -85,11 +71,10 @@ const CatalogScreen = async () => {
   // リクエスト例: { plantId: number }
   // レスポンス例: { success: true, isFavorite: boolean }
   const toggleFavorite = (plantId: number): void => {
-    setFavorites(prev => {
-      const newFavorites = { ...prev };
-      newFavorites[plantId] = !newFavorites[plantId];
-      return newFavorites;
-    });
+    setFavorites(prev => ({
+      ...prev,
+      [plantId]: !prev[plantId]
+    }));
   };
 
   // 植物カードタップ時の処理（詳細画面へ遷移）
@@ -100,7 +85,7 @@ const CatalogScreen = async () => {
       params: {
         plantId: plant.id,
         plantName: plant.name,
-        plantEmoji: plant.emoji,
+        plantEmoji: plant.img,
       }
     });
   };
@@ -109,7 +94,36 @@ const CatalogScreen = async () => {
   // TODO (Backend): POST /api/user/garden で選択した植物をユーザーのガーデンに追加
   // リクエスト例: { plantId: number, nickname?: string, plantedDate: string }
   // レスポンス例: { success: true, gardenPlantId: number }
-  const handleAddToGarden = (): void => {
+  const handleAddToGarden = async () => {
+
+    if (!Object.values(favorites).includes(true)){
+      Alert.alert("植物を選択してください！");
+      return;
+    }
+
+    const selectedPlantId = Object.keys(favorites).
+          filter(id => favorites[Number(id)] === true).
+          map(id => Number(id));
+
+    const res = await fetch("http://10.200.2.14:8080/user/registerPlant", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          plant_id: selectedPlantId[0],   //　植物を１つしか選べられない
+        })
+      });
+
+      const data = await res.json();
+
+      if (!data.ok) {
+        Alert.alert("植物の登録に失敗しました。")
+        return;
+      }
+
+    Alert.alert("マイガーデンに追加しました！"); 
     router.push('./HomeScreen');
   };
 
@@ -117,24 +131,64 @@ const CatalogScreen = async () => {
   // レンダリング
   // ========================================
 
+  //Use Effect
   useEffect(() => {
-  const fetchUserPlants = async () => {
-    if (!access_token) return;
+    const LoadData = async () => {
+      const token = await AsyncStorage.getItem("access_token");
+      setToken(token);
 
-    const response = await fetch("https://hsysypmwztiyyonpcgjq/api/user/userPlants", {
-      method: "GET",
-      headers: {
-        "Authorization": `Bearer ${access_token}`,
-        "Content-Type": "application/json",
-      },
-    });
+      if (!token) return;
 
-    const data = await response.json();
-    console.log(data);
-  };
+      //ユーザデータの取得
+      const userRes = await fetch("http://10.200.2.14:8080/user/data", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          }
+      }); 
 
-  fetchUserPlants();
-}, []);
+      const userData = await userRes.json();
+      setUserData(userData);
+
+      const plantRes = await fetch("http://10.200.2.14:8080/plant/plan");
+
+      const text = await plantRes.text();
+
+      let plantsData;
+      try {
+        plantsData = JSON.parse(text);
+      } catch (err) {
+        console.log("JSON ERROR:", err);
+        return;
+      }
+
+      setPlantsData(plantsData);
+    };
+
+    LoadData();
+  }, []);
+
+  // ============================
+  // LOADING STATE
+  // ============================
+  if (!plantsData || !userData) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
+    const plants: Plant[] = plantsData.map((item: any) => ({
+      id: item.plant_id,
+      name: item.name,
+      description: item.description,
+      img: item.image_url,
+      season: item.season,
+    }));
+
+
 
 
   return (
@@ -213,7 +267,7 @@ const CatalogScreen = async () => {
                 <View style={styles.imageContainer}>
                   <View style={styles.imagePlaceholder}>
                     <Text style={styles.imagePlaceholderText}>
-                      {plant.emoji}
+                      {plant.img}
                     </Text>
                   </View>
 

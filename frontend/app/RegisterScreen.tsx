@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from '../styles/RegisterScreen.styles'; 
-import { signup } from '../api/supabaseAuth'
+import { signup } from '../lib/supabaseAuth'
 
 const RegisterScreen = () => {
   const router = useRouter();
@@ -26,14 +26,15 @@ const RegisterScreen = () => {
 
   // 登録ボタンが押されたときの処理
   const handleRegister = async() => {
-    const { data, error} = await signup({ email, password });
+    
+    const result = await signup({ email, password });
 
-    if (error) {
-      alert(error.message);
+    if (!result) {
+      alert("signup error");
       return;
     }
     
-    console.log('Register with:', data)
+    console.log('Register with:', result)
     router.push('/CatalogScreen');
   };
 
