@@ -14,6 +14,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from '../styles/CatalogScreen.styles'; 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Plant } from '@/types/plant';
+import { 
+  REGISTER_USER_PLANT_API_URL,
+  USER_DATA_API_URL,
+  PLANT_PLAN_API_URL
+} from '@/api/url';
 
 // ========================================
 // 型定義
@@ -100,7 +105,7 @@ const CatalogScreen = () => {
           filter(id => favorites[Number(id)] === true).
           map(id => Number(id));
 
-    const res = await fetch("http://192.168.10.120:8080/user/registerPlant", {
+    const res = await fetch(REGISTER_USER_PLANT_API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -135,7 +140,7 @@ const CatalogScreen = () => {
       if (!token) return;
 
       //ユーザデータの取得
-      const userRes = await fetch("http://192.168.10.120:8080/user/data", {
+      const userRes = await fetch(USER_DATA_API_URL, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -146,7 +151,7 @@ const CatalogScreen = () => {
       const userData = await userRes.json();
       setUserData(userData);
 
-      const plantRes = await fetch("http://192.168.10.120:8080/plant/plan");
+      const plantRes = await fetch(PLANT_PLAN_API_URL);
 
       const text = await plantRes.text();
 
