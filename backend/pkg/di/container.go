@@ -12,6 +12,7 @@ type Container struct {
 	UserHandler *handler.UserHandler
 	TodosHandler *handler.TodosHandler
 	TodosService service.ITodosService
+	AdviceHandler *handler.AdviceHandler
 }
 
 func NewContainer() (*Container, error) {
@@ -40,8 +41,11 @@ func NewContainer() (*Container, error) {
 		return  nil, err
 	}
 
+	advices, err := NewAdviceDi()
+	if err != nil {
+		return nil, err
+	}
 	
-
 	return &Container{
 		PlantHandler: plant.Handler,
         AuthHandler:  auth.Handler,
@@ -49,5 +53,6 @@ func NewContainer() (*Container, error) {
 		UserHandler: user.Handler,
 		TodosHandler: todos.Handler,
 		TodosService: todos.Service,
+		AdviceHandler: advices.Handler,
 	}, nil
 }

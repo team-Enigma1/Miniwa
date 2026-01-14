@@ -6,7 +6,7 @@ import (
 
 	"example.com/go-echo-crud/internal/infra/cron"
 	"example.com/go-echo-crud/pkg/di"
-	"example.com/go-echo-crud/pkg/middleware"
+	// "example.com/go-echo-crud/pkg/middleware"
 	"example.com/go-echo-crud/pkg/router"
 	"github.com/labstack/echo/v4"
 )
@@ -15,7 +15,7 @@ func main() {
 
 	e := echo.New()
 
-	middleware.Setup(e)
+	// middleware.Setup(e)
 	
 	container, err := di.NewContainer()
 	if err != nil {
@@ -23,8 +23,6 @@ func main() {
 	}
 
 	cron.Start(container.TodosService)
-
-	middleware.Setup(e)
 
 	router.Setup(e, container)
 
