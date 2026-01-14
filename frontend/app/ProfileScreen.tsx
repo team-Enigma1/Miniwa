@@ -9,6 +9,7 @@ import Click_Button from "../components/ui/ClickButton";
 import CardBox from "../components/ui/CardBox";
 import ProfileEditModal from "../app/ProfileEditModal";
 import RegionSelectModal from '../components/RegionSelectModal';
+import { updateLocation } from '@/api/user';
 
 const ProfileScreen = () =>{
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -92,7 +93,11 @@ const ProfileScreen = () =>{
                 />
                 {/* 地域設定 */}
                 <Click_Button
-                label={`地域設定：${prefecture}`}
+                label={
+                    prefecture
+                    ? `地域設定：${prefecture}`
+                    : "地域設定：未設定"
+                }
                 IconComponent={<MaterialIcons name="location-pin" size={22} />}
                 onPress={() => {setIsRegionModalVisible(true);}}
                 />
@@ -119,9 +124,16 @@ const ProfileScreen = () =>{
             <RegionSelectModal
                 visible={isRegionModalVisible}
                 value={prefecture}
-                onSave={(value) => {
-                setPrefecture(value);
-                setIsRegionModalVisible(false);
+                onSave={async (value) => {
+                    try {
+                        setPrefecture(value);
+
+                        await updateLocation({ location: value });
+
+                        setIsRegionModalVisible(false)
+                    } catch (e) {
+                        console.error(e)
+                    }
                 }}
                 onClose={() => {
                 setIsRegionModalVisible(false);

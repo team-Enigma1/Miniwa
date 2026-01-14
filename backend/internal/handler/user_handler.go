@@ -82,3 +82,22 @@ func (h *UserHandler) RegisterUserPlant(c echo.Context) error {
 
 	return c.JSON(http.StatusCreated, newPlant)
 }
+
+func (h *UserHandler) UpdateLocation(c echo.Context) error {
+	userID, ok := c.Get("user_id").(string)
+	if !ok || userID == "" {
+		return echo.NewHTTPError(http.StatusUnauthorized, "unauthorized")
+	}
+
+	var req model.UpdateLocationRequest
+	if err := c.Bind(&req); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+
+	err := h.userService.UpdateLocation(userID, req.Location)
+    if err != nil {
+        return c.JSON(http.StatusInternalServerError, err)
+    }
+
+    return c.NoContent(http.StatusOK)
+}

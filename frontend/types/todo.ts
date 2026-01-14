@@ -1,4 +1,4 @@
-export interface Todo {
+export type Todo = {
     id: number;
     user_plant_id: number;
 
@@ -8,7 +8,7 @@ export interface Todo {
 }
 
 
-export interface UpdateTodoPayload {
+export type UpdateTodoPayload = {
     user_plant_id: number;
     water_count?: number;
     fertilizer?: boolean;

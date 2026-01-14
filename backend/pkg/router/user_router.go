@@ -14,4 +14,5 @@ func UserRoute(e *echo.Echo, userHandler *handler.UserHandler) {
 	api.GET("/data", userHandler.GetUserData)
 	api.POST("/update", userHandler.UpdateUserData)
 	api.POST("/userPlant", userHandler.RegisterUserPlant)
+	api.PUT("/location", userHandler.UpdateLocation)
 }
