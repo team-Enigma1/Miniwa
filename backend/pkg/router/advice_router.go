@@ -8,5 +8,5 @@ import (
 func AdvicesRouter(e *echo.Echo, adviceHandler * handler.AdviceHandler) {
 	api := e.Group("/advice")
 
-	api.GET("/", adviceHandler.GetAdvice)
+	api.GET("", adviceHandler.GetAdvice)
 }
