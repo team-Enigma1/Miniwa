@@ -9,9 +9,11 @@ import {
   View
 } from 'react-native';
 import { updateTodo, getTodos } from '@/api/todos';
+import { getAdvice } from '@/api/advice';
 import { Todo } from '@/types/todo';
 import styles from '../styles/HomeScreen.styles'; 
 import BottomNav from '../components/ui/BottomNavigation'
+import { Advice } from '@/types/advice';
 
 // ========================================
 // 型定義
@@ -59,6 +61,21 @@ const HomeScreen = () => {
       }
     };
     fetchTodos();
+  }, []);
+
+  const [advice, setAdvice] = useState<Advice | null>(null);
+
+  useEffect(() => {
+    const fetchAdvice = async () => {
+      try {
+        const data = await getAdvice();
+        setAdvice(data);
+      } catch (e) {
+        console.error("Advice fetch error:", e);
+      }
+    };
+
+    fetchAdvice();
   }, []);
 
   
@@ -109,7 +126,6 @@ const HomeScreen = () => {
       console.error(e);
     }
   }
-
   // TODO (Backend): GET /api/recommendations でユーザーに合わせたおすすめアイテムを取得
   // レスポンス例: { items: [{ id, name, category, emoji, price?, url?, ... }] }
   const [recommendedItems] = useState<RecommendedItem[]>([
@@ -143,6 +159,23 @@ const HomeScreen = () => {
     // router.push({ pathname: '/PlantDetailScreen', params: { plantId: plant.id } });
   };
 
+  // おすすめアイテムの購入ボタンがタップされた時の処理
+  const handleBuyItem = (item: RecommendedItem) => {
+    console.log('Buy item:', item.name);
+  };
+
+
+
+  // ========================================
+  // ナビゲーションハンドラー
+  // ========================================
+  
+
+
+  // ========================================
+  // レンダリング
+  // ========================================
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
@@ -170,7 +203,7 @@ const HomeScreen = () => {
               <Text style={styles.tipTitle}>今日のアドバイス</Text>
             </View>
             <Text style={styles.tipDescription}>
-              今日は気温が適温です。午前中に水やりをすると、植物がより効率的に水分を吸収できます。
+              {advice?.advice || "ワンポイントアドバイスを読み込み中..."}
             </Text>
           </View>
         </View>

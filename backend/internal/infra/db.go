@@ -2,34 +2,40 @@ package gorm
 
 import (
 	"fmt"
-	"log"
 	"os"
+	"sync"
 
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
+var (
+	db   *gorm.DB
+	once sync.Once
+)
+
 func InitDB() (*gorm.DB, error) {
+	var err error
 
-	err := godotenv.Load(".env")
-	if err != nil {
-		log.Println("Warning: .env file not found")
-	}
+	once.Do(func() {
+		if e := godotenv.Load("config/.env"); e != nil {
+			fmt.Println("Warning: .env file not found")
+		}
 
-	url := os.Getenv("DATABASE_URL")
-	if url == "" {
-		log.Fatal("DATABASE_URL not found")
-	}
+		url := os.Getenv("DATABASE_URL")
+		if url == "" {
+			err = fmt.Errorf("DATABASE_URL not found")
+			return
+		}
 
-	var err2 error
+		db, err = gorm.Open(postgres.Open(url), &gorm.Config{})
+		if err != nil {
+			return
+		}
 
-	db, err2 := gorm.Open(postgres.Open(url), &gorm.Config{})
-	if err2 != nil {
-		log.Fatalf("Failed to connect database: %v", err2)
-	}
+		fmt.Println("DB connect 200")
+	})
 
-	fmt.Println("DB connect 200")
-
-	return db, nil
+	return db, err
 }

@@ -11,4 +11,9 @@ type User struct {
 	Username    string `json:"username"`
 	ProfileImg  string `json:"profile_img"`
 	Description string `json:"description"`
+	Location	string `json:"location"`
+}
+
+type UpdateLocationRequest struct {
+	Location string `json:"location"`
 }

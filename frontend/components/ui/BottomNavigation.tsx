@@ -64,10 +64,10 @@ const BottomNavigation = () => {
         </Text>
       </TouchableOpacity>
 
-      {/* コミュニティ */}
+      {/* コミュニティ
       <TouchableOpacity
         style={styles.navItem}
-        onPress={() => router.push("../Community")}
+        onPress={() => router.push("../CommunityScreen")}
       >
         <MaterialIcons
           name="connect-without-contact"
@@ -80,6 +80,7 @@ const BottomNavigation = () => {
           コミュニティ
         </Text>
       </TouchableOpacity>
+       */}
 
       {/* プロフィール */}
       <TouchableOpacity

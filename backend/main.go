@@ -24,8 +24,6 @@ func main() {
 
 	cron.Start(container.TodosService)
 
-	middleware.Setup(e)
-
 	router.Setup(e, container)
 
 	port := "8080"

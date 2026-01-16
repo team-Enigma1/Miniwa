@@ -11,6 +11,7 @@ type IUserService interface {
 	RegisterUserPlant(data *model.UserPlant) (*model.UserPlant, error)
 	GetUserData(user_id string) (*model.User, error)
 	UpdateUserData(user_id string, data *model.User) (*model.User, error)
+	UpdateLocation(userID string, location string) error
 }
 
 type UserService struct {
@@ -72,4 +73,12 @@ func (s *UserService) UpdateUserData(user_id string, data *model.User) (*model.U
 	}
 
 	return &user, nil
+}
+
+func(s *UserService) UpdateLocation(userID, location string) error {
+	return s.db.
+		Model(&model.User{}).
+		Where("user_id = ?", userID).
+        Update("location", location).
+        Error
 }

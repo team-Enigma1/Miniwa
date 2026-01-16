@@ -1,8 +1,6 @@
 import { UpdateTodoPayload, Todo } from "@/types/todo";
 import { supabase } from "@/lib/supabase";
-
-const TODO_API_URL = 'http://192.168.10.120:8080/todos/';
-// const TODO_API_URL = 'http://localhost:8080/todos';
+import { TODO_API_URL } from "./url";
 
 export const getTodos = async (): Promise<Todo[]> => {
 
