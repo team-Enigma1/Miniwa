@@ -12,7 +12,7 @@ import (
 
 func InitDB() (*gorm.DB, error) {
 
-	err := godotenv.Load("config/.env")
+	err := godotenv.Load(".env")
 	if err != nil {
 		log.Println("Warning: .env file not found")
 	}

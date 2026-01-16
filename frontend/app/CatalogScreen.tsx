@@ -100,7 +100,7 @@ const CatalogScreen = () => {
           filter(id => favorites[Number(id)] === true).
           map(id => Number(id));
 
-    const res = await fetch("http://192.168.10.120:8080/user/registerPlant", {
+    const res = await fetch("http://10.105.1.49:8080/user/registerPlant", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -135,7 +135,7 @@ const CatalogScreen = () => {
       if (!token) return;
 
       //ユーザデータの取得
-      const userRes = await fetch("http://192.168.10.120:8080/user/data", {
+      const userRes = await fetch("http://10.105.1.49:8080/user/data", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -146,7 +146,7 @@ const CatalogScreen = () => {
       const userData = await userRes.json();
       setUserData(userData);
 
-      const plantRes = await fetch("http://192.168.10.120:8080/plant/plan");
+      const plantRes = await fetch("http://10.105.1.49:8080/plant/plan");
 
       const text = await plantRes.text();
 
@@ -182,9 +182,6 @@ const CatalogScreen = () => {
       img: item.image_url,
       season: item.season,
     }));
-
-
-
 
   return (
     <SafeAreaView style={styles.container}>
