@@ -153,6 +153,39 @@ weatherText: {
     fontWeight: '600',
   },
 
+  //報告
+reportCard: {
+  backgroundColor: '#FFF3C4',
+  borderRadius: 16,
+  padding: 16,
+  marginBottom: 16,
+  marginLeft: 16,
+  marginRight: 16,
+},
+
+reportHeader: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  marginBottom: 6,
+},
+
+reportHeaderIcon: {
+  fontSize: 14,
+  marginRight: 6,
+},
+
+reportHeaderText: {
+  fontSize: 16,
+  fontWeight: '700',
+  color: '#333',
+},
+
+reportText: {
+  fontSize: 14,
+  color: '#000',
+},
+
+
   // ToDoコンテナ
   todoContainer: {
     paddingHorizontal: 20,

@@ -37,8 +37,6 @@ interface RecommendedItem {
 
 const { width } = Dimensions.get('window');
 
-
-
 // ========================================
 // メインコンポーネント
 // ========================================
@@ -239,11 +237,6 @@ const HomeScreen = () => {
                   <Text style={styles.plantName}>{plant.name}</Text>
                   <Text style={styles.plantStatus}>{plant.status}</Text>
                 </View>
-
-                {/* アクションボタン（詳細表示） */}
-                <TouchableOpacity style={styles.plantActionButton}>
-                  <Text style={styles.plantActionIcon}>📊</Text>
-                </TouchableOpacity>
               </TouchableOpacity>
             ))}
 
@@ -266,6 +259,20 @@ const HomeScreen = () => {
           <Text>データ件数: {todos.length}</Text>
         </View> */}
 
+
+          {/* 報告*/}
+          <View style={styles.reportCard}>
+          {/* header */}
+          <View style={styles.reportHeader}>
+            <Text style={styles.reportHeaderIcon}>📋</Text>
+            <Text style={styles.reportHeaderText}>報告</Text>
+          </View>
+          
+          <Text style={styles.reportText}>
+            ミニトマトが5日に収穫できます !
+          </Text>
+        </View>
+          
         {/* --- 今日のToDoセクション --- */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>今日のToDo</Text>
@@ -273,31 +280,49 @@ const HomeScreen = () => {
           {todos.length > 0 ? (
             todos.map((todo) => (
               <View key={String(todo.id)}>
-                {/* 水やりカード */}
-                <TouchableOpacity 
-                  style={styles.todoCard}
-                  onPress={() => !todo.water && handleTodoWaterUpdate(todo)}
-                  activeOpacity={0.7}
-                >
-                  <View style={[styles.todoIconContainer, { backgroundColor: '#E3F2FD' }]}>
-                    <Text style={styles.todoEmoji}>💧</Text>
-                  </View>
-                  <View style={styles.todoTextContainer}>
-                    <Text style={styles.todoTaskName}>水やり</Text>
-                    <Text style={styles.todoSubText}>
-                      {todo.water ? "完了しました" : "土の表面が乾いたらたっぷりと。"}
-                    </Text>
-                  </View>
-                  <View style={[styles.todoCheckCircle, todo.water && styles.todoCheckCircleActive]}>
-                    {todo.water ? <Text style={styles.checkMark}>✓</Text> : null}
-                  </View>
-                </TouchableOpacity>
+
+          {/* 水やりカード */}
+          <TouchableOpacity 
+            style={styles.todoCard}
+            onPress={() =>
+              todo.water < todo.water_required && handleTodoWaterUpdate(todo)
+            }
+            activeOpacity={0.7}
+            disabled={todo.water >= todo.water_required}
+          >
+            <View style={[styles.todoIconContainer, { backgroundColor: '#E3F2FD' }]}>
+              <Text style={styles.todoEmoji}>💧</Text>
+            </View>
+
+            <View style={styles.todoTextContainer}>
+              <Text style={styles.todoTaskName}>水やり</Text>
+              <Text style={styles.todoSubText}>
+                {todo.water >= todo.water_required
+                  ? "完了しました"
+                  : `あと${todo.water_required - todo.water}回`}
+              </Text>
+            </View>
+
+            <View
+              style={[
+                styles.todoCheckCircle,
+                todo.water >= todo.water_required && styles.todoCheckCircleActive,
+              ]}
+            >
+              {todo.water >= todo.water_required ? (
+                <Text style={styles.checkMark}>✓</Text>
+              ) : todo.water > 0 ? (
+                <Text style={styles.checkMark}>{todo.water}</Text>
+              ) : null}
+            </View>
+          </TouchableOpacity>
 
                 {/* 肥料やりカード */}
                 <TouchableOpacity 
                   style={styles.todoCard}
                   onPress={() => !todo.fertilizer && handleTodoFertilizerUpdate(todo)}
                   activeOpacity={0.7}
+                  disabled={todo.fertilizer}
                 >
                   <View style={[styles.todoIconContainer, { backgroundColor: '#F1F8E9' }]}>
                     <Text style={styles.todoEmoji}>🌿</Text>
@@ -319,37 +344,6 @@ const HomeScreen = () => {
               <Text style={{ color: '#888' }}>ToDoを読み込み中、またはありません</Text>
             </View>
           )}
-        </View>
-
-
-
-        {/* おすすめアイテムセクション */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>おすすめのアイテム</Text>
-          
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.itemsScroll}
-          >
-            {recommendedItems.map((item) => (
-              <View key={item.id} style={styles.itemCard}>
-                <View style={styles.itemImage}>
-                  <Text style={styles.itemEmoji}>{item.emoji}</Text>
-                </View>
-                <Text style={styles.itemCategory}>{item.category}</Text>
-                <Text style={styles.itemName}>{item.name}</Text>
-                <TouchableOpacity 
-                  style={styles.itemButton}
-                  onPress={() => handleBuyItem(item)}
-                  activeOpacity={0.8}
-                >
-                  <Text style={styles.itemButtonText}>購入する</Text>
-                  <Text style={styles.itemButtonIcon}>🛒</Text>
-                </TouchableOpacity>
-              </View>
-            ))}
-          </ScrollView>
         </View>
       </ScrollView>
 

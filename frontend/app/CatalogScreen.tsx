@@ -188,9 +188,6 @@ const CatalogScreen = () => {
       season: item.season,
     }));
 
-
-
-
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />

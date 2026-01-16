@@ -2,9 +2,9 @@ export type Todo = {
     id: number;
     user_plant_id: number;
 
-    water: boolean;
+    water: number;
+    water_required: number;
     fertilizer: boolean;
-    water_count: number;
 }
 
 
