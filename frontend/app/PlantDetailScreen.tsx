@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
 import {
   Modal,
   ScrollView,
@@ -12,119 +12,107 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from '../styles/PlantDetailScreen.styles'; 
+import { Plant } from '@/types/plant';
+import { Seeds, Fertilizers, Soils } from '@/types/material';
+import { 
+  SEEDS_API_URL,
+  FERTILIZERS_API_URL,
+  SOILS_API_URL
+} from '@/api/url';
+import { openURL } from 'expo-linking';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+type MaterialType = 'seed' | 'fertilizer' | 'soil';
 
 // Itemの型定義
-interface Item {
-  id: number;
+type Material = {      
+  id: number;        
+  plantId?: number;
   name: string;
   description: string;
-  emoji: string;
+  price: number;
+  url: string;
+  type: MaterialType;
 }
 
-// PlantDataの型定義
-interface PlantData {
+const itemCategories: {
+  id: MaterialType;
   name: string;
   emoji: string;
-  heroTitle: string;
-  heroSubtitle: string;
-  items: Item[];
-}
+  description: string;
+}[] = [
+  { id: "seed", name: "種", emoji: "🌱", description: "植物を育てるための種" },
+  { id: "fertilizer", name: "肥料", emoji: "🧪", description: "成長を促進する肥料" },
+  { id: "soil", name: "土", emoji: "🪴", description: "植物に適した土" },
+];
+
 
 const PlantDetailScreen = () => {
   const router = useRouter();
-  const params = useLocalSearchParams();
+  const [token, setToken] = useState<string | null>(null);
 
   // 選択されたアイテムとモーダルの状態管理
-  const [selectedItem, setSelectedItem] = useState<Item | null>(null);
+  const [materials, setMaterials] = useState<Material[]>([]);
+  const [selectedItems, setSelectedItems] = useState<Material[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalTitle, setModalTitle] = useState<string>('');
 
   // Backendで取得する植物データ（TODO: 本番ではAPIから取得）
-  const plantsData: { [key: string]: PlantData } = {
-    'ミニトマト': {
-      name: 'ミニトマト',
-      emoji: '🍅',
-      heroTitle: 'ミニトマトを育てよう！',
-      heroSubtitle: 'これらのアイテムがあれば今日から始められます！',
-      items: [
-        {
-          id: 1,
-          name: 'ミニトマトの種子',
-          description:
-            '糖度の高い品種のミニトマトの種子。発芽率が高く、初心者でも育てやすい品種です。',
-          emoji: '🌱',
-        },
-        {
-          id: 2,
-          name: 'トマト専用培養土',
-          description:
-            'トマトの成長に必要な栄養分をバランス良く配合。水はけと保水性に優れています。',
-          emoji: '🪴',
-        },
-        {
-          id: 3,
-          name: 'ミニトマト用支柱',
-          description:
-            '成長したミニトマトを支える丈夫な支柱。高さ調整可能で、長期間使用できます。',
-          emoji: '🎋',
-        },
-      ],
-    },
-    'イチゴ': {
-      name: 'イチゴ',
-      emoji: '🍓',
-      heroTitle: 'イチゴを育てよう！',
-      heroSubtitle: 'これらのアイテムがあれば今日から始められます！',
-      items: [
-        {
-          id: 1,
-          name: 'イチゴの苗',
-          description:
-            '厳選された甘い品種のイチゴの苗。発芽率が高く、家庭菜園に最適です。日当たりの良い場所を選びましょう。',
-          emoji: '🌱',
-        },
-        {
-          id: 2,
-          name: '高品質培養土',
-          description:
-            'イチゴの成長に必要な栄養分をバランス良く含んだ、水はけと水持ちの良い培養土です。根張りを促進し、健康な苗を育てます。',
-          emoji: '🪴',
-        },
-        {
-          id: 3,
-          name: 'イチゴ用プランター',
-          description:
-            'イチゴの栽培に適した深さと広さを持つ、通気性の良いプランターです。複数の苗を植えることができます。',
-          emoji: '🪴',
-        },
-      ],
-    },
-  };
+  const {
+    plantId,
+    plantName,
+    plantEmoji,
+    plantDescription,
+    plantSeason
+  } = useLocalSearchParams<{
+    plantId: string;
+    plantName: string;
+    plantEmoji: string;
+    plantDescription: string;
+    plantSeason: string;
+  }>();
 
-  // URLパラメータから植物名を取得
-  const plantName = params.plantName as string;
-  const currentPlant = plantsData[plantName] || plantsData['イチゴ']; // デフォルト fallback
+  const plantData: Plant = {
+    id: Number(plantId),
+    name: plantName,
+    description: plantDescription,
+    season: plantSeason,
+    img: plantEmoji,
+  }
+
+  const mapSeed = (raw: any): Material => ({
+    id: raw.Seed_id,
+    type: 'seed',
+    plantId: raw.Plant_id,
+    name: raw.Seed_name,
+    description: raw.Desc,
+    url: raw.Url,
+    price: raw.Price,
+  });
+
+  const mapFertilizer = (raw: any): Material => ({
+    id: raw.Fertilizer_id,
+    type: 'fertilizer',
+    plantId: raw.Plant_id,
+    name: raw.Fname,
+    description: raw.Npk_ratio,
+    url: raw.Url,
+    price: raw.Price,
+  });
+
+  const mapSoil = (raw: any): Material => ({
+    id: raw.Rec_id,
+    type: 'soil',
+    plantId: raw.Plant_id,
+    name: raw.Sname,
+    description: raw.Desc,
+    url: raw.Url,
+    price: raw.Price,
+  });
 
   // 戻るボタン処理
   const handleGoBack = () => {
     router.back();
-  };
-
-  // アイテム選択時にモーダルを表示
-  const handleItemPress = (item: Item) => {
-    setSelectedItem(item);
-    setModalVisible(true);
-  };
-
-  // モーダルを閉じる処理
-  const handleCloseModal = () => {
-    setModalVisible(false);
-    setTimeout(() => setSelectedItem(null), 300);
-  };
-
-  // TODO: バックエンド連携（購入リンク）
-  const handleAmazonPurchase = () => {
-    console.log('Amazon purchase:', selectedItem?.name);
-    // ここでAPIや外部リンクを開く処理
   };
 
   // 準備完了ボタン処理
@@ -133,6 +121,87 @@ const PlantDetailScreen = () => {
     router.back(); // 次画面への遷移も可能
   };
 
+  useEffect(() => {
+    if (!plantId) {
+      console.error("Invalid plantId");
+      return;
+    }
+
+    const materialData = async () => {
+      const token = await AsyncStorage.getItem("access_token");
+      setToken(token);
+
+      if (!token) return;
+
+      try {
+        const [seedRes, fertilizerRes, soilRes] = await Promise.all([
+          fetch(`${SEEDS_API_URL}?plant_id=${plantId}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${token}`
+            },
+          }),
+          fetch(`${FERTILIZERS_API_URL}?plant_id=${plantId}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${token}`,
+            },
+          }),
+          fetch(`${SOILS_API_URL}?plant_id=${plantId}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${token}`,
+            },
+          }),
+        ]);
+
+        if (!seedRes.ok || !fertilizerRes.ok || !soilRes.ok) {
+          throw new Error("Failed to fetch material data");
+        }
+
+        const [seedsData, fertilizersData, soilsData] = await Promise.all([
+          seedRes.json(),
+          fertilizerRes.json(),
+          soilRes.json(),
+        ]);
+
+        const merged: Material[] = [
+          ...seedsData.map(mapSeed),
+          ...fertilizersData.map(mapFertilizer),
+          ...soilsData.map(mapSoil),
+        ];
+        setMaterials(merged);
+      } catch (error) {
+        console.error("Material fetch error:", error);
+      }
+    };
+
+    materialData();
+}, [plantId]);
+
+const openModal = (type: MaterialType) => {
+    const filtered = materials.filter((m) => m.type === type);
+
+    setSelectedItems(filtered);
+    setModalTitle(
+      type === "seed"
+        ? "おすすめの種"
+        : type === "fertilizer"
+        ? "おすすめの肥料"
+        : "おすすめの土"
+    );
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+    setSelectedItems([]);
+  };
+
+  
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
@@ -142,7 +211,7 @@ const PlantDetailScreen = () => {
         <TouchableOpacity style={styles.backButton} onPress={handleGoBack}>
           <Ionicons name="chevron-back" size={28} color="#000" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>{currentPlant.name}を育てよう</Text>
+        <Text style={styles.headerTitle}>{plantData.name}を育てよう</Text>
         <View style={styles.placeholder} />
       </View>
 
@@ -150,11 +219,11 @@ const PlantDetailScreen = () => {
         {/* Hero Banner */}
         <View style={styles.heroBanner}>
           <View style={styles.heroOverlay}>
-            <Text style={styles.heroTitle}>{currentPlant.heroTitle}</Text>
-            <Text style={styles.heroSubtitle}>{currentPlant.heroSubtitle}</Text>
+            <Text style={styles.heroTitle}>{plantData.name}を育てよう</Text>
+            <Text style={styles.heroSubtitle}>{plantData.description}</Text>
           </View>
           <View style={styles.heroImagePlaceholder}>
-            <Text style={styles.heroEmoji}>{currentPlant.emoji}</Text>
+            <Text style={styles.heroEmoji}>{plantData.img}</Text>
           </View>
         </View>
 
@@ -162,11 +231,11 @@ const PlantDetailScreen = () => {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>必要なアイテム</Text>
 
-          {currentPlant.items.map((item) => (
+          {itemCategories.map((item) => (
             <TouchableOpacity
               key={item.id}
               style={styles.itemCard}
-              onPress={() => handleItemPress(item)}
+              onPress={() => openModal(item.id)}
               activeOpacity={0.7}
             >
               <View style={styles.itemImageContainer}>
@@ -201,14 +270,14 @@ const PlantDetailScreen = () => {
         animationType="fade"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={handleCloseModal}
+        onRequestClose={closeModal}
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             {/* 閉じるボタン */}
             <TouchableOpacity
               style={styles.closeButton}
-              onPress={handleCloseModal}
+              onPress={closeModal}
               activeOpacity={0.7}
             >
               <Text style={styles.closeIcon}>✕</Text>
@@ -216,55 +285,23 @@ const PlantDetailScreen = () => {
 
             {/* モーダル本文 */}
             <ScrollView showsVerticalScrollIndicator={false}>
-              <Text style={styles.modalTitle}>{selectedItem?.name}</Text>
+              <Text style={styles.modalTitle}>{modalTitle}</Text>
 
               {/* アイテム詳細（例1） */}
-              <View style={styles.modalSection}>
-                <Text style={styles.modalSectionTitle}>高品質{selectedItem?.name}</Text>
-                <Text style={styles.modalDescription}>
-                  {selectedItem?.description} プロフェッショナルな栽培者も推奨する高品質な商品です。
-                </Text>
+              {selectedItems.map((item) =>  (
+                <View key={`${item.type}-${item.id}`} style={styles.modalSection}>
+                <Text style={styles.modalSectionTitle}>{item.name}</Text>
+                <Text style={styles.modalDescription}>{item.description}</Text>
                 <TouchableOpacity
                   style={styles.amazonButton}
-                  onPress={handleAmazonPurchase} // TODO: バックエンド連携
+                  onPress={() => openURL(item.url)} // TODO: バックエンド連携
                   activeOpacity={0.8}
                 >
                   <Text style={styles.amazonIcon}>🛒</Text>
                   <Text style={styles.amazonButtonText}>Amazonで購入</Text>
                 </TouchableOpacity>
               </View>
-
-              {/* アイテム詳細（例2） */}
-              <View style={styles.modalSection}>
-                <Text style={styles.modalSectionTitle}>有機{selectedItem?.name}</Text>
-                <Text style={styles.modalDescription}>
-                  天然素材を使用した有機栽培向けの商品。環境にも優しく、安心して使用できます。
-                </Text>
-                <TouchableOpacity
-                  style={styles.amazonButton}
-                  onPress={handleAmazonPurchase} // TODO: バックエンド連携
-                  activeOpacity={0.8}
-                >
-                  <Text style={styles.amazonIcon}>🛒</Text>
-                  <Text style={styles.amazonButtonText}>Amazonで購入</Text>
-                </TouchableOpacity>
-              </View>
-
-              {/* アイテム詳細（例3） */}
-              <View style={styles.modalSection}>
-                <Text style={styles.modalSectionTitle}>お得な{selectedItem?.name}セット</Text>
-                <Text style={styles.modalDescription}>
-                  初心者向けのお得なセット商品。必要なものが全て揃っているので、すぐに始められます。
-                </Text>
-                <TouchableOpacity
-                  style={styles.amazonButton}
-                  onPress={handleAmazonPurchase} // TODO: バックエンド連携
-                  activeOpacity={0.8}
-                >
-                  <Text style={styles.amazonIcon}>🛒</Text>
-                  <Text style={styles.amazonButtonText}>Amazonで購入</Text>
-                </TouchableOpacity>
-              </View>
+              ))}
             </ScrollView>
           </View>
         </View>

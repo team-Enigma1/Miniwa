@@ -40,7 +40,7 @@ const CatalogScreen = () => {
   const router = useRouter();
   const [token, setToken] = useState<string | null>(null);
   const [userData, setUserData] = useState<any>(null);
-  const [plantsData, setPlantsData] = useState<any>(null);
+  const [plantsData, setPlantsData] = useState<any[]>([]);
   
   // ========================================
   // 状態管理
@@ -86,6 +86,8 @@ const CatalogScreen = () => {
         plantId: plant.id,
         plantName: plant.name,
         plantEmoji: plant.img,
+        plantDescription: plant.description,
+        plantSeason: plant.season
       }
     });
   };
@@ -151,19 +153,22 @@ const CatalogScreen = () => {
       const userData = await userRes.json();
       setUserData(userData);
 
-      const plantRes = await fetch(PLANT_PLAN_API_URL);
+      const plantRes = await fetch(PLANT_PLAN_API_URL, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          }
+      });
 
-      const text = await plantRes.text();
-
-      let plantsData;
-      try {
-        plantsData = JSON.parse(text);
-      } catch (err) {
-        console.log("JSON ERROR:", err);
+      if (!plantRes.ok) {
+        console.error("Failed to fetch plants");
+        setPlantsData([]);
         return;
       }
 
-      setPlantsData(plantsData);
+      const plantsJson = await plantRes.json();
+      setPlantsData(plantsJson); //Arrayの形で保存
     };
 
     LoadData();
