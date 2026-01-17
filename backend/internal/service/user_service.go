@@ -10,6 +10,7 @@ import (
 type IUserService interface {
 	RegisterUserPlant(data *model.UserPlant) (*model.UserPlant, error)
 	GetUserData(user_id string) (*model.User, error)
+	GetUserPlants(userID string) ([]model.Plant, error)
 	UpdateUserData(user_id string, data *model.User) (*model.User, error)
 	UpdateLocation(userID string, location string) error
 }
@@ -75,10 +76,23 @@ func (s *UserService) UpdateUserData(user_id string, data *model.User) (*model.U
 	return &user, nil
 }
 
-func(s *UserService) UpdateLocation(userID, location string) error {
+func (s *UserService) UpdateLocation(userID, location string) error {
 	return s.db.
 		Model(&model.User{}).
 		Where("user_id = ?", userID).
-        Update("location", location).
-        Error
+		Update("location", location).
+		Error
+}
+
+func (s *UserService) GetUserPlants(userID string) ([]model.Plant, error) {
+	var plants []model.Plant
+
+	if err := s.db.Table("user_plants").
+		Select("plants.*").
+		Joins("JOIN plants ON plants.plant_id = user_plants.plant_id").
+		Where("user_plants.user_id = ?", userID).
+		Scan(&plants).Error; err != nil {
+		return nil, err
+	}
+	return plants, nil
 }

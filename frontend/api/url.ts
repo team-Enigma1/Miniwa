@@ -5,6 +5,8 @@ const BASE_URL = `http://${IP}:8080`;
 export const LOCATION_API_URL = `${BASE_URL}/user/location`;
 export const REGISTER_USER_PLANT_API_URL = `${BASE_URL}/user/userPlant`;
 export const USER_DATA_API_URL = `${BASE_URL}/user/data`;
+export const UPDATE_USER_API_URL = `${BASE_URL}/user/update`;
+export const USER_PLANTS_API_URL = `${BASE_URL}/user/plants`;
 
 // plant
 export const PLANT_PLAN_API_URL = `${BASE_URL}/plant/plan`;
