@@ -30,7 +30,6 @@ func (h *UserHandler) GetUserData(c echo.Context) error {
 	return c.JSON(http.StatusOK, user)
 }
 
-
 func (h *UserHandler) UpdateUserData(c echo.Context) error {
 	userID, ok := c.Get("user_id").(string)
 	if !ok || userID == "" {
@@ -69,8 +68,8 @@ func (h *UserHandler) RegisterUserPlant(c echo.Context) error {
 	}
 
 	plant := &model.UserPlant{
-		UserID:   userID,
-		PlantID:  req.PlantID,
+		UserID:  userID,
+		PlantID: req.PlantID,
 	}
 
 	newPlant, err := h.userService.RegisterUserPlant(plant)
@@ -95,9 +94,23 @@ func (h *UserHandler) UpdateLocation(c echo.Context) error {
 	}
 
 	err := h.userService.UpdateLocation(userID, req.Location)
-    if err != nil {
-        return c.JSON(http.StatusInternalServerError, err)
-    }
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err)
+	}
 
-    return c.NoContent(http.StatusOK)
+	return c.NoContent(http.StatusOK)
+}
+
+func (h *UserHandler) GetUserPlants(c echo.Context) error {
+	userID, ok := c.Get("user_id").(string)
+	if !ok || userID == "" {
+		return echo.NewHTTPError(http.StatusUnauthorized, "unauthorized")
+	}
+
+	plants, err := h.userService.GetUserPlants(userID)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, plants)
 }

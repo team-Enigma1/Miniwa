@@ -1,5 +1,5 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { router } from 'expo-router';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 import styles from '../styles/ProfileScreen.style';
@@ -9,36 +9,93 @@ import Click_Button from "../components/ui/ClickButton";
 import CardBox from "../components/ui/CardBox";
 import ProfileEditModal from "../app/ProfileEditModal";
 import RegionSelectModal from '../components/RegionSelectModal';
-import { updateLocation } from '@/api/user';
+import { getUserData, updateLocation, updateUserData, getUserPlants } from '@/api/user';
+import * as ImagePicker from 'expo-image-picker';
 
 const ProfileScreen = () =>{
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isRegionModalVisible, setIsRegionModalVisible] = useState(false);
     // 編集前の値を保存
-    const [originalName, setOriginalName] = useState(USER_PROFILE.name);
-    const [originalBio, setOriginalBio] = useState(USER_PROFILE.bio);
+    const [originalName, setOriginalName] = useState('');
+    const [originalBio, setOriginalBio] = useState('');
+    const [originalIcon, setOriginalIcon] = useState('');
     // 編集に使う値
-    const [name, setName] = useState(USER_PROFILE.name);
-    const [bio, setBio] = useState(USER_PROFILE.bio);
-    const [prefecture, setPrefecture] = useState(USER_PROFILE.prefecture);
+    const [name, setName] = useState('');
+    const [bio, setBio] = useState('');
+    const [icon, setIcon] = useState('');
+    const [userPlants, setUserPlants] = useState([]);
+    const [prefecture, setPrefecture] = useState('');
 
-    const handleSave = () => {
-    setIsModalVisible(false);
-    console.log("保存:", { name, bio });
-    // ここでAPI保存やAsyncStorageに保存も可能
+    const openIconPicker = async () => {
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            quality: 0.8,
+        });
+
+        if (!result.canceled) {
+            const uri = result.assets[0].uri;
+            setIcon(uri);
+        }
     };
+
+    const handleSave = async () => {
+        if (name === originalName && bio === originalBio && icon === originalIcon) return;
+
+         try {
+            setIsModalVisible(false);
+
+            const updatedUser = await updateUserData({
+                ...(name !== originalName && { username: name }),
+                ...(bio !== originalBio && { description: bio }),
+                ...(icon !== originalIcon && { profile_img: icon }),
+            });
+
+            setOriginalName(updatedUser.username);
+            setOriginalBio(updatedUser.description);
+            setOriginalIcon(updatedUser.profile_img);
+        } catch (error) {
+            console.error("ユーザーデータ更新失敗:", error);
+        }
+    };
+
+    useEffect(() => {
+        const loadUser = async () => {
+            try {
+            const data = await getUserData();
+
+            setName(data.username ?? "");
+            setBio(data.description ?? "");
+            setIcon(data.profile_img ?? "");
+            setPrefecture(data.location ?? "");
+
+            setOriginalName(data.username ?? "");
+            setOriginalBio(data.description ?? "");
+            setOriginalIcon(data.profile_img ?? "");
+
+            const userPlants = await getUserPlants();
+            setUserPlants(userPlants);
+
+            } catch (e) {
+            console.error("ユーザーデータ取得失敗:", e);
+            }
+        };
+
+        loadUser();
+    }, []);
 
     return (
     <View style={{ flex: 1 }}>
         <View style={styles.container}>
 
             {/* プロフィールアイコン */}
-            <View style={styles.iconCircle}>
-                <Image
-                    source={USER_PROFILE.icon}
+            <TouchableOpacity onPress={openIconPicker}>
+                <View style={styles.iconCircle}>
+                    <Image
+                    source={icon ? { uri: icon } : require('../assets/images/IMAGE.png')}
                     style={styles.iconImage}
-                />
-            </View>
+                    />
+                </View>
+            </TouchableOpacity>
 
             {/* 名前 */}
             <Text style={styles.name}>{name}</Text>
@@ -68,7 +125,7 @@ const ProfileScreen = () =>{
                 <CardBox 
                 label="育てている植物" 
                 IconComponent={<MaterialIcons name="grass" size={22}  color="green"/>}
-                data={USER_PROFILE.plant}
+                data={userPlants.length}
                 />
                 <CardBox
                 label="収穫数" 
