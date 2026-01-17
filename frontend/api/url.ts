@@ -1,4 +1,4 @@
-const IP = "10.105.0.1"; 
+const IP = "192.168.11.87"; 
 const BASE_URL = `http://${IP}:8080`;
 
 // user
@@ -14,3 +14,8 @@ export const TODO_API_URL = `${BASE_URL}/todos`;
 
 //advice
 export const ADVICE_API_URL = `${BASE_URL}/advice`
+
+//material
+export const SEEDS_API_URL = `${BASE_URL}/material/seeds`;
+export const FERTILIZERS_API_URL = `${BASE_URL}/material/fertilizers`;
+export const SOILS_API_URL = `${BASE_URL}/material/soils`;
