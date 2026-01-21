@@ -10,7 +10,9 @@ export const USER_PLANTS_API_URL = `${BASE_URL}/user/plants`;
 
 // plant
 export const PLANT_PLAN_API_URL = `${BASE_URL}/plant/plan`;
-
+export const HARVESTED_PLANTS_API_URL = `${BASE_URL}/plant/harvested`;
+export const DELETE_PLANT_API_URL = (userPlantId: number) => `${BASE_URL}/plant/user/${userPlantId}`;
+export const HARVEST_PLANT_API_URL = (userPlantId: number) => `${BASE_URL}/plant/user/${userPlantId}/harvest`;
 // todo
 export const TODO_API_URL = `${BASE_URL}/todos`;
 

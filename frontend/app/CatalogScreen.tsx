@@ -118,9 +118,7 @@ const CatalogScreen = () => {
         })
       });
 
-      const data = await res.json();
-
-      if (!data.ok) {
+      if (!res.ok) {
         Alert.alert("植物の登録に失敗しました。")
         return;
       }
@@ -191,6 +189,7 @@ const CatalogScreen = () => {
       description: item.description,
       img: item.image_url,
       season: item.season,
+      harvestAt: item.harvest_at
     }));
 
   return (
