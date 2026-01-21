@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ScrollView,
   StatusBar,
@@ -12,35 +12,23 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import BottomNav from "../components/ui/BottomNavigation";
 import { Ionicons } from '@expo/vector-icons';
 import styles from '../styles/MyGarden.styles'; 
-
-interface PlantItem {
-  id: number;
-  name: string;
-  emoji: string;
-  watering?: string;
-  plantDate?: string;
-  sunlight?: string;
-  harvestDate?: string;
-}
+import { Plant, HarvestedPlant } from '../types/plant';
+import { getUserPlants } from '@/api/user';
+import { getHarvestedPlants } from '@/api/plant';
 
 const MyGardenScreen = () => {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'growing' | 'harvested'>('growing');
 
-  const [plants] = useState<PlantItem[]>([
-    { id: 1, name: 'イチゴ', emoji: '🍓', watering: '3日に1回', plantDate: '1日と前', sunlight: '日向' },
-    { id: 2, name: 'ミニトマト', emoji: '🍅', watering: '3日に1回', plantDate: '1日と前', sunlight: '日向' },
-  ]);
+  const [plants, setPlants] = useState<Plant[]>([]);
 
-const [harvestedPlants] = useState<PlantItem[]>([
-  { id: 3, name: 'メロン', emoji: '🍈', harvestDate: '2025年12月04日' },
-]);
+const [harvestedPlants, setHarvestedPlants] = useState<HarvestedPlant[]>([]);
 
-const handlePlantPress = (plant: PlantItem) => {
+const handlePlantPress = (plant: Plant | HarvestedPlant) => {
   if (activeTab === 'growing') {
     router.push({
       pathname: '/PlantProfileScreen',
-      params: { plantId: plant.id },
+      params: { userPlantId: plant.userPlantId },
     });
   }
 };
@@ -49,6 +37,24 @@ const handlePlantPress = (plant: PlantItem) => {
   const handleAddPlant = () => {
     router.push('/CatalogScreen');
   };
+
+  useEffect(() => {
+    const fetchPlants = async () => {
+      try {
+        if (activeTab === "growing") {
+          const data = await getUserPlants();
+          setPlants(Array.isArray(data) ? data : []);
+        } else {
+          const data = await getHarvestedPlants();
+          setHarvestedPlants(Array.isArray(data) ? data : []);
+        }
+      } catch (error) {
+        console.error("Error fetching plants:", error);
+      }
+    };
+
+    fetchPlants();
+  }, [activeTab]);
 
   const displayedPlants = activeTab === 'growing' ? plants : harvestedPlants;
 
@@ -103,37 +109,45 @@ const handlePlantPress = (plant: PlantItem) => {
         contentContainerStyle={styles.scrollContent}
       >
         <View style={styles.plantList}>
-          {displayedPlants.map((plant) => (
+          {displayedPlants?.map((plant) => (
             <TouchableOpacity
-              key={plant.id}
+              key={(plant as Plant).userPlantId || (plant as HarvestedPlant).id}
               style={styles.plantCard}
               onPress={() => handlePlantPress(plant)}
               activeOpacity={activeTab === 'harvested' ? 1 : 0.7}
               disabled={activeTab === 'harvested'}
             >
               <View style={styles.plantImageContainer}>
-                <Text style={styles.plantEmoji}>{plant.emoji}</Text>
+                {activeTab === 'growing' && (
+                  <Text style={styles.plantEmoji}>{plant.img}</Text>
+                )}
+
+                {activeTab === 'harvested' && (
+                  <Text style={styles.plantEmoji}>{plant.img}</Text>
+                )}
+                
               </View>
               <View style={styles.plantInfo}>
                 <Text style={styles.plantName}>{plant.name}</Text>
-                {activeTab === 'harvested' && plant.harvestDate && (
-                  <Text style={styles.harvestDate}>収穫日：{plant.harvestDate}</Text>
+                {activeTab === 'harvested' && (
+                  <Text style={styles.harvestDate}>収穫日：{(plant as HarvestedPlant).harvestedDate}</Text>
                 )}
+
                 {activeTab === 'growing' && (
                   <View style={styles.plantMeta}>
         
                     <View style={styles.metaItem}>
                       <Text style={styles.metaIcon}>💧</Text>
-                      <Text style={styles.metaText}>{plant.watering}</Text>
+                      <Text style={styles.metaText}>{(plant as Plant).wateringSched}</Text>
                     </View>
 
                     <View style={styles.metaItem}>
                       <Text style={styles.metaIcon}>☀️</Text>
-                      <Text style={styles.metaText}>{plant.sunlight}</Text>
+                      <Text style={styles.metaText}>{(plant as Plant).sunlight}</Text>
                     </View>
                   <View style={styles.metaItem}>
                       <Text style={styles.metaIcon}>📅</Text>
-                      <Text style={styles.metaText}>{plant.plantDate}</Text>
+                      <Text style={styles.metaText}>{new Date((plant as Plant).harvestAt).toLocaleDateString()}</Text>
                     </View>
                   </View>
                 )}

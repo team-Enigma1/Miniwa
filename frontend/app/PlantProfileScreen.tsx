@@ -1,5 +1,5 @@
-import { useRouter } from 'expo-router';
-import React from 'react';
+import { useRouter, useLocalSearchParams } from 'expo-router';
+import React, { useEffect } from 'react';
 import {
   ScrollView,
   StatusBar,
@@ -14,11 +14,16 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import styles from '../styles/PlantProfile.styles'; 
+import { getUserPlants } from '@/api/user';
+import { Plant } from '@/types/plant';
+import { deleteUserPlant, harvestPlant } from '@/api/plant';
 
 const PlantDetailScreen = () => {
   const router = useRouter();
+  const {userPlantId} = useLocalSearchParams<{ userPlantId: string }>();
   const [growthDay, setGrowthDay] = useState(45);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [plant, setPlant] = useState<Plant | null >(null);
 
   const handleBack = () => {
     router.back();
@@ -32,20 +37,60 @@ const PlantDetailScreen = () => {
     setShowDeleteModal(true);
   };
 
-  const handleDeleteConfirm = () => {
-    console.log('Plant deleted');
-    setShowDeleteModal(false);
-    router.back();
+  const handleDeleteConfirm = async () => {
+    if (!plant?.userPlantId) return;
+
+    try {
+      await deleteUserPlant(plant.userPlantId);
+      setShowDeleteModal(false);
+      router.back();
+    } catch (err) {
+      console.error("Failed to delete plant:", err);
+    }
   };
 
   const handleDeleteCancel = () => {
     setShowDeleteModal(false);
   };
 
-  const handleHarvest = () => {
-    console.log('Plant harvested');
-    // Handle harvest logic
+  const handleHarvest = async () => {
+    if (!plant?.userPlantId) return;
+
+    try {
+      await harvestPlant(plant.userPlantId);
+      router.back();
+    } catch (err) {
+      console.error("Failed to harvest plant:", err);
+    }
   };
+
+  useEffect(() => {
+    if (!userPlantId) return;
+
+    const fetchUserPlants = async () => {
+      try {
+        const data = await getUserPlants();
+
+        const selectedPlant = data.find(
+          p => String(p.userPlantId) === String(userPlantId)
+        );
+
+        setPlant(selectedPlant ?? null);
+      } catch (error) {
+        console.error('Error fetching plants:', error);
+      }
+    };
+
+    fetchUserPlants();
+  }, [userPlantId]);
+
+  if (!plant) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <Text>Loading...</Text>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -58,7 +103,7 @@ const PlantDetailScreen = () => {
         >
           <Ionicons name="chevron-back" size={28} color="#000" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>イチゴ</Text>
+        <Text style={styles.headerTitle}>{plant.name}</Text>
         <TouchableOpacity
           style={styles.deleteButton}
           onPress={handleDeletePress}
@@ -88,7 +133,7 @@ const PlantDetailScreen = () => {
             <Text style={styles.waterIcon}>💧</Text>
             <View style={styles.cardHeaderText}>
               <Text style={styles.cardTitle}>水やりのスケジュール</Text>
-              <Text style={styles.cardSubtitle}>午前中と夕方の一日2回</Text>
+              <Text style={styles.cardSubtitle}>午前中と夕方の一日{plant.wateringSched}回</Text>
             </View>
           </View>
         </View>
@@ -100,7 +145,7 @@ const PlantDetailScreen = () => {
             <View style={styles.cardHeaderText}>
               <Text style={styles.cardTitle}>日光条件</Text>
               <Text style={styles.cardSubtitle}>
-                直射日光6時間以上（午前中が最適）
+                {plant.sunlight}
               </Text>
             </View>
           </View>
@@ -112,7 +157,7 @@ const PlantDetailScreen = () => {
             <Text style={styles.calendarIcon}>📅</Text>
             <View style={styles.cardHeaderText}>
               <Text style={styles.cardTitle}>生育期間</Text>
-              <Text style={styles.cardSubtitle}>約90日</Text>
+              <Text style={styles.cardSubtitle}>{plant.growthDuration}</Text>
             </View>
           </View>
 
@@ -120,7 +165,12 @@ const PlantDetailScreen = () => {
           <View style={styles.timeline}>
             <View style={styles.timelineHeader}>
               <Text style={styles.timelineStartDate}>植付け 5月1日</Text>
-              <Text style={styles.timelineEndDate}>収穫まであと10日</Text>
+              <Text style={styles.timelineEndDate}>収穫まであと{plant.harvestAt
+                ? Math.ceil(
+                    (new Date(plant.harvestAt).getTime() - Date.now()) /
+                    (1000 * 60 * 60 * 24)
+                  )
+                : '-'}日</Text>
             </View>
 
             {/* Slider */}

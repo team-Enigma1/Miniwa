@@ -1,5 +1,6 @@
 import { User, UpdateLocation } from "@/types/user";
 import { supabase } from "@/lib/supabase";
+import { Plant } from "@/types/plant";
 import { USER_DATA_API_URL, LOCATION_API_URL, UPDATE_USER_API_URL, USER_PLANTS_API_URL } from "./url";
 
 export const updateLocation = async (
@@ -72,7 +73,7 @@ export const updateUserData = async (payload: User) => {
     return await res.json();
 }
 
-export const getUserPlants = async () => {
+export const getUserPlants = async (): Promise<Plant[]> => {
     const { data } = await supabase.auth.getSession();
     const token = data.session?.access_token;
     

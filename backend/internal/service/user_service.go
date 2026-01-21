@@ -10,7 +10,7 @@ import (
 type IUserService interface {
 	RegisterUserPlant(data *model.UserPlant) (*model.UserPlant, error)
 	GetUserData(user_id string) (*model.User, error)
-	GetUserPlants(userID string) ([]model.Plant, error)
+	GetUserPlants(userID string) ([]model.UserPlants, error)
 	UpdateUserData(user_id string, data *model.User) (*model.User, error)
 	UpdateLocation(userID string, location string) error
 }
@@ -84,15 +84,26 @@ func (s *UserService) UpdateLocation(userID, location string) error {
 		Error
 }
 
-func (s *UserService) GetUserPlants(userID string) ([]model.Plant, error) {
-	var plants []model.Plant
+func (s *UserService) GetUserPlants(userID string) ([]model.UserPlants, error) {
+	var plants []model.UserPlants
 
 	if err := s.db.Table("user_plants").
-		Select("plants.*").
+		Select(`
+			plants.plant_id AS id,
+			plants.pname AS name,
+			plants.image_url AS img,
+			plants.growth_duration AS growth_duration,
+			plants.watering_sched AS watering_sched,
+			plants.sunlight AS sunlight,
+			user_plants.id,
+			user_plants.planted_at AS planted_at,
+			user_plants.planted_at + (plants.growth_duration || ' days')::interval AS harvest_at
+		`).
 		Joins("JOIN plants ON plants.plant_id = user_plants.plant_id").
 		Where("user_plants.user_id = ?", userID).
 		Scan(&plants).Error; err != nil {
 		return nil, err
 	}
+
 	return plants, nil
 }

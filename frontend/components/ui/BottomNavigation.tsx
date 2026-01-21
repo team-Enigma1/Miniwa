@@ -15,15 +15,15 @@ const BottomNavigation = () => {
       {/* 植物 */}
       <TouchableOpacity
         style={styles.navItem}
-        onPress={() => router.push("/CatalogScreen")}
+        onPress={() => router.push("/MyGardenScreen")}
       >
         <MaterialIcons
           name="local-florist"
-          size={isActive("/CatalogScreen") ? 24 : 22}
-          color={isActive("/CatalogScreen") ? "#2ECC71" : "#999"}
+          size={isActive("/MyGardenScreen") ? 24 : 22}
+          color={isActive("/MyGardenScreen") ? "#2ECC71" : "#999"}
         />
         <Text
-          style={[styles.navLabel, isActive("/CatalogScreen") && styles.navLabelActive]}
+          style={[styles.navLabel, isActive("/MyGardenScreen") && styles.navLabelActive]}
         >
           植物
         </Text>
