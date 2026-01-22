@@ -29,7 +29,7 @@ const BottomNavigation = () => {
         </Text>
       </TouchableOpacity>
 
-      {/* カレンダー 
+      カレンダー 
       <TouchableOpacity
         style={styles.navItem}
         onPress={() => router.push("/calendar")}
@@ -45,7 +45,7 @@ const BottomNavigation = () => {
           カレンダー
         </Text>
       </TouchableOpacity>
-      */}
+     
 
       {/* ホーム */}
       <TouchableOpacity
@@ -64,23 +64,23 @@ const BottomNavigation = () => {
         </Text>
       </TouchableOpacity>
 
-      {/* コミュニティ
+      コミュニティ
       <TouchableOpacity
         style={styles.navItem}
-        onPress={() => router.push("../CommunityScreen")}
+        onPress={() => router.push("./community")}
       >
         <MaterialIcons
           name="connect-without-contact"
-          size={isActive("/CommunityScreen") ? 24 : 22}
-          color={isActive("/CommunityScreen") ? "#2ECC71" : "#999"}
+          size={isActive("/community") ? 24 : 22}
+          color={isActive("/community") ? "#2ECC71" : "#999"}
         />
         <Text
-          style={[styles.navLabel, isActive("/CommunityScreen") && styles.navLabelActive]}
+          style={[styles.navLabel, isActive("/community") && styles.navLabelActive]}
         >
           コミュニティ
         </Text>
       </TouchableOpacity>
-       */}
+      
 
       {/* プロフィール */}
       <TouchableOpacity
