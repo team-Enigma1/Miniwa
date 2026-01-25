@@ -6,13 +6,14 @@ import (
 )
 
 type Container struct {
-	PlantHandler *handler.PlantHandler
-	AuthHandler  *handler.AuthHandler
-	MaterialHandler	*handler.MaterialHandler
-	UserHandler *handler.UserHandler
-	TodosHandler *handler.TodosHandler
-	TodosService service.ITodosService
-	AdviceHandler *handler.AdviceHandler
+	PlantHandler    *handler.PlantHandler
+	AuthHandler     *handler.AuthHandler
+	MaterialHandler *handler.MaterialHandler
+	UserHandler     *handler.UserHandler
+	TodosHandler    *handler.TodosHandler
+	TodosService    service.ITodosService
+	AdviceHandler   *handler.AdviceHandler
+	RecordHandler   *handler.RecordHandler
 }
 
 func NewContainer() (*Container, error) {
@@ -24,7 +25,7 @@ func NewContainer() (*Container, error) {
 	material, err := NewMaterialDi()
 	if err != nil {
 		return nil, err
-	} 
+	}
 
 	auth, err := NewAuthDI()
 	if err != nil {
@@ -33,26 +34,32 @@ func NewContainer() (*Container, error) {
 
 	user, err := NewRegisterDi()
 	if err != nil {
-		return  nil, err
+		return nil, err
 	}
 
 	todos, err := NewTodosDi()
 	if err != nil {
-		return  nil, err
+		return nil, err
 	}
 
 	advices, err := NewAdviceDi()
 	if err != nil {
 		return nil, err
 	}
-	
+
+	record, err := NewRecordDi()
+	if err != nil {
+		return nil, err
+	}
+
 	return &Container{
-		PlantHandler: plant.Handler,
-        AuthHandler:  auth.Handler,
+		PlantHandler:    plant.Handler,
+		AuthHandler:     auth.Handler,
 		MaterialHandler: material.Handler,
-		UserHandler: user.Handler,
-		TodosHandler: todos.Handler,
-		TodosService: todos.Service,
-		AdviceHandler: advices.Handler,
+		UserHandler:     user.Handler,
+		TodosHandler:    todos.Handler,
+		TodosService:    todos.Service,
+		AdviceHandler:   advices.Handler,
+		RecordHandler:   record.Handler,
 	}, nil
 }

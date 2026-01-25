@@ -30,7 +30,10 @@ const PlantDetailScreen = () => {
   };
 
   const handleRecord = () => {
-    router.push('/GrowthRecordScreen');
+    router.push({
+      pathname: "/GrowthRecordScreen",
+      params: { userPlantId: plant?.userPlantId }
+    });
   };
 
   const handleDeletePress = () => {
@@ -70,6 +73,7 @@ const PlantDetailScreen = () => {
     const fetchUserPlants = async () => {
       try {
         const data = await getUserPlants();
+        console.log(data)
 
         const selectedPlant = data.find(
           p => String(p.userPlantId) === String(userPlantId)

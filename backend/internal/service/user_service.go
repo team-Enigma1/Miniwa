@@ -90,12 +90,12 @@ func (s *UserService) GetUserPlants(userID string) ([]model.UserPlants, error) {
 	if err := s.db.Table("user_plants").
 		Select(`
 			plants.plant_id AS id,
+			user_plants.id AS user_plant_id,
 			plants.pname AS name,
 			plants.image_url AS img,
 			plants.growth_duration AS growth_duration,
 			plants.watering_sched AS watering_sched,
 			plants.sunlight AS sunlight,
-			user_plants.id,
 			user_plants.planted_at AS planted_at,
 			user_plants.planted_at + (plants.growth_duration || ' days')::interval AS harvest_at
 		`).

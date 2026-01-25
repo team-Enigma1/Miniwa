@@ -23,3 +23,9 @@ export const ADVICE_API_URL = `${BASE_URL}/advice`
 export const SEEDS_API_URL = `${BASE_URL}/material/seeds`;
 export const FERTILIZERS_API_URL = `${BASE_URL}/material/fertilizers`;
 export const SOILS_API_URL = `${BASE_URL}/material/soils`;
+
+//records
+export const GET_PLANT_RECORD_API_URL = (user_plant_id: number) => `${BASE_URL}/record/get/${user_plant_id}`;
+export const CREATE_PLANT_RECORD_API_URL = `${BASE_URL}/record/create`;
+export const UPDATE_PLANT_RECORD_API_URL = (recordId: number) => `${BASE_URL}/record/update/${recordId}`;
+export const DELETE_PLANT_RECORD_API_URL = (recordId: number) => `${BASE_URL}/record/delete/${recordId}`;

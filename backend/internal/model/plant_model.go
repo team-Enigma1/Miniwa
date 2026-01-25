@@ -15,8 +15,8 @@ type Plant struct {
 }
 
 type UserPlants struct {
-	ID             int       `gorm:"column:id;primaryKey" json:"-"`
-	UserPlantID    int       `gorm:"column:id" json:"userPlantId"`
+	ID             int       `gorm:"column:id;primaryKey" json:"id"`
+	UserPlantID    int       `gorm:"column:user_plant_id" json:"userPlantId"`
 	UserID         string    `json:"user_id"`
 	Name           string    `json:"name"`
 	Img            string    `json:"img"`

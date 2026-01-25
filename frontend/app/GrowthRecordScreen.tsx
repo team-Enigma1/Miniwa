@@ -1,6 +1,7 @@
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
+  Alert,
   Image,
   ScrollView,
   StatusBar,
@@ -12,42 +13,45 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import styles from '../styles/GrowthRecord.styles'; 
-interface GrowthRecord {
-  id: number;
-  date: string;
-  title: string;
-  description: string;
-  image: string;
-}
+import { useLocalSearchParams } from 'expo-router';
+import { Record } from '@/types/record';
+import { getPlantRecord } from '@/api/record';
 
 const GrowthRecordScreen = () => {
   const router = useRouter();
+  const { userPlantId } = useLocalSearchParams<{ userPlantId: string }>();
+  const numericUserPlantId = Number(userPlantId)
 
-  const [records, setRecords] = useState<GrowthRecord[]>([
-    {
-      id: 1,
-      date: '2025/12/10',
-      title: '初めての芽が咲いた！',
-      description: '早起きて可愛いな芽が咲きました。これから芽がなるのが楽しみ！',
-      image: '🌱',
-    },
-    {
-      id: 2,
-      date: '2025/02/20',
-      title: '葉っぱが大きくなった',
-      description: 'ぐんぐん育ってます。毎日見るのが楽しいです。',
-      image: '🌿',
-    },
-  ]);
+  const [records, setRecords] = useState<Record[]>([]);
 
   const handleBack = () => {
     router.back();
   };
 
-const handleAddRecord = () => {
+  const handleAddRecord = () => {
+    router.push({
+      pathname: "/NewRecordScreen",
+      params: { userPlantId: numericUserPlantId }
+    });
+  };
 
-  router.push('/NewRecordScreen');
-};
+  useEffect(() => {
+    if (!numericUserPlantId) return;
+
+    const fetchPlantRecord = async () => {
+      const res = await getPlantRecord(numericUserPlantId);
+
+      if (Array.isArray(res)) {
+        setRecords(res);
+      } else if (Array.isArray(res?.data)) {
+        setRecords(res.data);
+      } else {
+        setRecords([]); 
+      }
+    };
+
+    fetchPlantRecord();
+  }, [numericUserPlantId]);
 
 
   return (
@@ -76,11 +80,11 @@ const handleAddRecord = () => {
         {records.map((record) => (
           <View key={record.id} style={styles.recordCard}>
             {/* Date */}
-            <Text style={styles.recordDate}>{record.date}</Text>
+            <Text style={styles.recordDate}>{record.created_at}</Text>
 
             {/* Image */}
             <View style={styles.recordImage}>
-              <Text style={styles.recordImagePlaceholder}>{record.image}</Text>
+              <Image source={{ uri: record.image_url }} />
               <View style={styles.imagePlaceholderOverlay}>
                 <Text style={styles.imagePlaceholderText}>📷</Text>
               </View>
@@ -89,7 +93,7 @@ const handleAddRecord = () => {
             {/* Content */}
             <View style={styles.recordContent}>
               <Text style={styles.recordTitle}>{record.title}</Text>
-              <Text style={styles.recordDescription}>{record.description}</Text>
+              <Text style={styles.recordDescription}>{record.content}</Text>
             </View>
           </View>
         ))}
