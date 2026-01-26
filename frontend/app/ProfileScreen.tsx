@@ -87,7 +87,7 @@ const ProfileScreen = () =>{
     <View style={{ flex: 1 }}>
         <View style={styles.container}>
 
-            {/* プロフィールアイコン */}
+            {/* プロフィールアイコン
             <TouchableOpacity onPress={openIconPicker}>
                 <View style={styles.iconCircle}>
                     <Image
@@ -96,6 +96,7 @@ const ProfileScreen = () =>{
                     />
                 </View>
             </TouchableOpacity>
+            */}
 
             {/* 名前 */}
             <Text style={styles.name}>{name}</Text>

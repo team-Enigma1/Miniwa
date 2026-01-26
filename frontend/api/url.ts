@@ -1,5 +1,5 @@
-const IP = "10.200.0.97"; 
-export const BASE_URL = `http://${IP}:8080`;
+const IP = "10.200.2.143"; 
+const BASE_URL = `http://${IP}:8080`;
 
 // user
 export const LOCATION_API_URL = `${BASE_URL}/api/user/location`;
