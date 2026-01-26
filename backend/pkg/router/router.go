@@ -5,12 +5,12 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func Setup(e *echo.Echo, c *di.Container) {
-	PlantRouter(e, c.PlantHandler)
-	AuthRouter(e, c.AuthHandler)
-	MaterialRouter(e, c.MaterialHandler)
-	UserRoute(e, c.UserHandler)
-	TodosRouter(e, c.TodosHandler)
-	AdvicesRouter(e, c.AdviceHandler)
-	RecordHandler(e, c.RecordHandler)
+func Setup(api *echo.Group, c *di.Container) {
+	PlantRouter(api, c.PlantHandler)
+	AuthRouter(api, c.AuthHandler)
+	MaterialRouter(api, c.MaterialHandler)
+	UserRoute(api, c.UserHandler)
+	TodosRouter(api, c.TodosHandler)
+	AdvicesRouter(api, c.AdviceHandler)
+	RecordHandler(api, c.RecordHandler)
 }

@@ -8,7 +8,8 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  Alert
+  Alert,
+  Image
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from '../styles/CatalogScreen.styles'; 
@@ -17,7 +18,8 @@ import { Plant } from '@/types/plant';
 import { 
   REGISTER_USER_PLANT_API_URL,
   USER_DATA_API_URL,
-  PLANT_PLAN_API_URL
+  PLANT_PLAN_API_URL,
+  BASE_URL
 } from '@/api/url';
 
 // ========================================
@@ -267,9 +269,11 @@ const CatalogScreen = () => {
                 {/* 植物画像 */}
                 <View style={styles.imageContainer}>
                   <View style={styles.imagePlaceholder}>
-                    <Text style={styles.imagePlaceholderText}>
-                      {plant.img}
-                    </Text>
+                    <Image
+                      source={{ uri: `${BASE_URL}${plant.img}` }}
+                      style={{width: 400,height: 200, borderRadius: 12}}
+                      resizeMode="cover"
+                    />
                   </View>
 
                   {/* お気に入りボタン */}

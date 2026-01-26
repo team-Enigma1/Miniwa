@@ -16,6 +16,7 @@ import styles from '../styles/GrowthRecord.styles';
 import { useLocalSearchParams } from 'expo-router';
 import { Record } from '@/types/record';
 import { getPlantRecord } from '@/api/record';
+import { BASE_URL } from '@/api/url';
 
 const GrowthRecordScreen = () => {
   const router = useRouter();
@@ -84,10 +85,19 @@ const GrowthRecordScreen = () => {
 
             {/* Image */}
             <View style={styles.recordImage}>
-              <Image source={{ uri: record.image_url }} />
-              <View style={styles.imagePlaceholderOverlay}>
-                <Text style={styles.imagePlaceholderText}>📷</Text>
-              </View>
+              <Image
+                source={{
+                  uri: `${record.image_url}`,
+                }}
+                style={{ width: '100%', height: '100%', borderRadius: 8 }}
+                resizeMode="cover"
+              />
+
+              {!record.image_url && (
+                <View style={styles.imagePlaceholderOverlay}>
+                  <Text style={styles.imagePlaceholderText}>📷</Text>
+                </View>
+              )}
             </View>
 
             {/* Content */}

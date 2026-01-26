@@ -19,3 +19,10 @@ export type HarvestedPlant = {
     harvestedDate: string;
     userPlantId?: number
 }
+
+export type PlantGrowthImg = {
+    growth_id: number;
+    user_plant_id: number;
+    plant_id: number;
+    image_url: string;
+}

@@ -7,6 +7,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Image
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import BottomNav from "../components/ui/BottomNavigation";
@@ -15,6 +16,7 @@ import styles from '../styles/MyGarden.styles';
 import { Plant, HarvestedPlant } from '../types/plant';
 import { getUserPlants } from '@/api/user';
 import { getHarvestedPlants } from '@/api/plant';
+import { BASE_URL } from '@/api/url';
 
 const MyGardenScreen = () => {
   const router = useRouter();
@@ -80,7 +82,7 @@ const handlePlantPress = (plant: Plant | HarvestedPlant) => {
               styles.tabText,
               activeTab === 'growing' && styles.tabTextActive,
             ]}
-          >
+          >植物
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -96,7 +98,7 @@ const handlePlantPress = (plant: Plant | HarvestedPlant) => {
               styles.tabText,
               activeTab === 'harvested' && styles.tabTextActive,
             ]}
-          >
+          >収穫
           </Text>
         </TouchableOpacity>
       </View>
@@ -117,11 +119,19 @@ const handlePlantPress = (plant: Plant | HarvestedPlant) => {
             >
               <View style={styles.plantImageContainer}>
                 {activeTab === 'growing' && (
-                  <Text style={styles.plantEmoji}>{plant.img}</Text>
+                  <Image
+                    source={{ uri: `${BASE_URL}${plant.img}` }}
+                    style={{width: 64,height: 64, borderRadius: 12}}
+                    resizeMode="cover"
+                  />
                 )}
 
                 {activeTab === 'harvested' && (
-                  <Text style={styles.plantEmoji}>{plant.img}</Text>
+                   <Image
+                    source={{ uri: `${BASE_URL}${plant.img}` }}
+                    style={{width: 64,height: 64, borderRadius: 12}}
+                    resizeMode="cover"
+                  />
                 )}
                 
               </View>

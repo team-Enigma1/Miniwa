@@ -5,12 +5,13 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func PlantRouter(e *echo.Echo, plantHandler *handler.PlantHandler) {
+func PlantRouter(api *echo.Group, plantHandler *handler.PlantHandler) {
 
-	api := e.Group("/plant")
+	plant := api.Group("/plant")
 
-	api.GET("/plan", plantHandler.GetPlan)
-	api.GET("/harvested", plantHandler.GetHarvestedPlants)
-	api.DELETE("/user/:id", plantHandler.DeleteUserPlant)
-	api.POST("/user/:id/harvest", plantHandler.HarvestPlant)
+	plant.GET("/plan", plantHandler.GetPlan)
+	plant.GET("/harvested", plantHandler.GetHarvestedPlants)
+	plant.DELETE("/user/:id", plantHandler.DeleteUserPlant)
+	plant.POST("/user/:id/harvest", plantHandler.HarvestPlant)
+	plant.GET("/growth/:id", plantHandler.GetPlantGrowthImg)
 }

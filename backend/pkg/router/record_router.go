@@ -5,12 +5,12 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func RecordHandler(e *echo.Echo, recordHandler *handler.RecordHandler) {
+func RecordHandler(api *echo.Group, recordHandler *handler.RecordHandler) {
 
-	api := e.Group("/record")
+	record := api.Group("/record")
 
-	api.GET("/get/:user_plant_id", recordHandler.GetPlantRecord)
-	api.POST("/create", recordHandler.CreatePlantRecord)
-	api.PUT("/update/:id", recordHandler.UpdatePlantRecord)
-	api.DELETE("/delete/:id", recordHandler.DeletePlantRecord)
+	record.GET("/get/:user_plant_id", recordHandler.GetPlantRecord)
+	record.POST("/create", recordHandler.CreatePlantRecord)
+	record.PUT("/update/:id", recordHandler.UpdatePlantRecord)
+	record.DELETE("/delete/:id", recordHandler.DeletePlantRecord)
 }

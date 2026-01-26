@@ -5,11 +5,11 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func TodosRouter(e *echo.Echo, TodosHandler *handler.TodosHandler) {
+func TodosRouter(api *echo.Group, TodosHandler *handler.TodosHandler) {
 
-	api := e.Group("/todos")
+	todo := api.Group("/todos")
 
-	api.POST("", TodosHandler.GetUserTodo)
-	api.PUT("", TodosHandler.UpdateTodo)
-	
+	todo.POST("", TodosHandler.GetUserTodo)
+	todo.PUT("", TodosHandler.UpdateTodo)
+
 }

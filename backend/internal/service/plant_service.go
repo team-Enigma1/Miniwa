@@ -18,6 +18,7 @@ type IPlantService interface {
 	GetHarvestedPlants(userId string) ([]model.HarvestedPlant, error)
 	DeleteUserPlant(userPlantId int) error
 	HarvestPlant(userPlantId int) error
+	GetPlantGrowthImg(userPlantId int) ([]model.PlantGrowth, error)
 }
 
 type PlantService struct {
@@ -102,4 +103,23 @@ func (s *PlantService) HarvestPlant(userPlantId int) error {
 	}
 
 	return tx.Commit().Error
+}
+
+func (s *PlantService) GetPlantGrowthImg(userPlantId int) ([]model.PlantGrowth, error) {
+	var plantGrowth []model.PlantGrowth
+
+	if err := s.db.Table("user_plants").
+		Select(`
+			user_plants.id AS user_plant_id,
+			user_plants.growth_id AS growth_id,
+			user_plants.plant_id AS plant_id,
+			plant_growth.image_url AS image_url
+		`).
+		Joins("JOIN plant_growth ON plant_growth.growth_id = user_plants.growth_id").
+		Where("user_plants.id= ?", userPlantId).
+		Scan(&plantGrowth).Error; err != nil {
+		return nil, err
+	}
+
+	return plantGrowth, nil
 }

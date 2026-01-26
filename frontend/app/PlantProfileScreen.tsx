@@ -15,8 +15,9 @@ import { useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import styles from '../styles/PlantProfile.styles'; 
 import { getUserPlants } from '@/api/user';
-import { Plant } from '@/types/plant';
-import { deleteUserPlant, harvestPlant } from '@/api/plant';
+import { Plant, PlantGrowthImg } from '@/types/plant';
+import { deleteUserPlant, harvestPlant, plantGrowthImg } from '@/api/plant';
+import { BASE_URL } from '@/api/url';
 
 const PlantDetailScreen = () => {
   const router = useRouter();
@@ -24,6 +25,7 @@ const PlantDetailScreen = () => {
   const [growthDay, setGrowthDay] = useState(45);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [plant, setPlant] = useState<Plant | null >(null);
+  const [plantImg, setPlantImg] = useState<PlantGrowthImg | null>(null);
 
   const handleBack = () => {
     router.back();
@@ -85,8 +87,27 @@ const PlantDetailScreen = () => {
       }
     };
 
+    const fetchPlantGrowthimg = async () => {
+      try {
+        const data = await plantGrowthImg(Number(userPlantId));
+        console.log("RAW response:", data);
+
+        if (Array.isArray(data) && data.length > 0) {
+          setPlantImg(data[0]);
+        } else {
+          console.warn("Plant growth data kosong:", data);
+          setPlantImg(null);
+        }
+      } catch (error) {
+        console.error('Error fetching plant growth image:', error);
+      }
+    };
+
     fetchUserPlants();
+    fetchPlantGrowthimg();
   }, [userPlantId]);
+
+  console.log("plantImg object:", plantImg);
 
   if (!plant) {
     return (
@@ -124,11 +145,15 @@ const PlantDetailScreen = () => {
       >
         {/* Plant Image */}
         <View style={styles.modelContainer}>
-          <Image
-            source={require('../assets/images/1.png')}
-            style={styles.plantImage}
-            resizeMode="contain"
-          />
+          {plantImg?.plant_id && plantImg?.image_url && (
+            <Image
+              source={{
+                uri: `${BASE_URL}/images/${plantImg.plant_id}/${plantImg.image_url}`,
+              }}
+              style={styles.plantImage}
+              resizeMode="contain"
+            />
+          )}
         </View>
 
         {/* Water Schedule Card */}

@@ -5,8 +5,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func AdvicesRouter(e *echo.Echo, adviceHandler * handler.AdviceHandler) {
-	api := e.Group("/advice")
+func AdvicesRouter(api *echo.Group, adviceHandler *handler.AdviceHandler) {
+	advice := api.Group("/advice")
 
-	api.GET("", adviceHandler.GetAdvice)
+	advice.GET("", adviceHandler.GetAdvice)
 }
