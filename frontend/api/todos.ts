@@ -13,6 +13,9 @@ export const getTodos = async (): Promise<Todo[]> => {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`, 
         },
+        body: JSON.stringify({
+            user_plant_id: 1,
+        }),
     });
 
     if (!res.ok) {
