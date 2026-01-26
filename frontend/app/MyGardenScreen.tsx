@@ -81,7 +81,6 @@ const handlePlantPress = (plant: Plant | HarvestedPlant) => {
               activeTab === 'growing' && styles.tabTextActive,
             ]}
           >
-            植物リスト
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -98,7 +97,6 @@ const handlePlantPress = (plant: Plant | HarvestedPlant) => {
               activeTab === 'harvested' && styles.tabTextActive,
             ]}
           >
-            収穫済み
           </Text>
         </TouchableOpacity>
       </View>
