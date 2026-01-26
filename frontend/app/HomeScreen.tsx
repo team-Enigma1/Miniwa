@@ -348,7 +348,7 @@ const HomeScreen = () => {
             ))
           ) : (
             <View style={{ padding: 20, alignItems: 'center' }}>
-              <Text style={{ color: '#888' }}>ToDoを読み込み中、またはありません</Text>
+              <Text style={{ color: '#888' }}>植物を選択してください</Text>
             </View>
           )}
         </View>
