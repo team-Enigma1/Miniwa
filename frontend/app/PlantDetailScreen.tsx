@@ -9,6 +9,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Image
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from '../styles/PlantDetailScreen.styles'; 
@@ -17,10 +18,12 @@ import { Seeds, Fertilizers, Soils } from '@/types/material';
 import { 
   SEEDS_API_URL,
   FERTILIZERS_API_URL,
-  SOILS_API_URL
+  SOILS_API_URL,
+  BASE_URL
 } from '@/api/url';
 import { openURL } from 'expo-linking';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { plantGrowthImg } from '@/api/plant';
 
 type MaterialType = 'seed' | 'fertilizer' | 'soil';
 
@@ -78,6 +81,7 @@ const PlantDetailScreen = () => {
     description: plantDescription,
     season: plantSeason,
     img: plantEmoji,
+    harvestAt: plantEmoji //仮のデータ
   }
 
   const mapSeed = (raw: any): Material => ({
@@ -223,7 +227,13 @@ const openModal = (type: MaterialType) => {
             <Text style={styles.heroSubtitle}>{plantData.description}</Text>
           </View>
           <View style={styles.heroImagePlaceholder}>
-            <Text style={styles.heroEmoji}>{plantData.img}</Text>
+            <Image
+              source={{
+                uri: `${BASE_URL}${plantData.img}`,
+              }}
+              style={{width: 150, height: 150, borderRadius: 12}}
+              resizeMode="contain"
+            />
           </View>
         </View>
 

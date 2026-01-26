@@ -5,10 +5,10 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func AuthRouter(e *echo.Echo, authHandler *handler.AuthHandler) {
+func AuthRouter(api *echo.Group, authHandler *handler.AuthHandler) {
 
-	api := e.Group("/auth")
+	auth := api.Group("/auth")
 
-	api.POST("/login", authHandler.Login)
-	api.POST("/signup", authHandler.Signup)
+	auth.POST("/login", authHandler.Login)
+	auth.POST("/signup", authHandler.Signup)
 }

@@ -16,7 +16,15 @@ func main() {
 	e := echo.New()
 
 	middleware.Setup(e)
-	
+
+	// public
+	e.Static("/images", "images")
+	e.File("/favicon.ico", "static/favicon.ico")
+
+	// protected
+	api := e.Group("/api")
+	api.Use(middleware.SupabaseJWT())
+
 	container, err := di.NewContainer()
 	if err != nil {
 		log.Fatal(err)
@@ -24,7 +32,7 @@ func main() {
 
 	cron.Start(container.TodosService)
 
-	router.Setup(e, container)
+	router.Setup(api, container)
 
 	port := "8080"
 	fmt.Println("サーバー起動 http://localhost:" + port + "/")

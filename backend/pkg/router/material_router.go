@@ -5,11 +5,11 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func MaterialRouter (e *echo.Echo,  materialHandler *handler.MaterialHandler) {
+func MaterialRouter(api *echo.Group, materialHandler *handler.MaterialHandler) {
 
-	api := e.Group("/material")
+	material := api.Group("/material")
 
-	api.GET("/seeds", materialHandler.FindAllSeeds)
-	api.GET("/fertilizers", materialHandler.FindAllFertilizers)
-	api.GET("/soils", materialHandler.FindAllSoils)
+	material.GET("/seeds", materialHandler.FindAllSeeds)
+	material.GET("/fertilizers", materialHandler.FindAllFertilizers)
+	material.GET("/soils", materialHandler.FindAllSoils)
 }

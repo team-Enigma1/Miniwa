@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"log"
 	"net/http"
 	"strconv"
 
@@ -83,4 +84,29 @@ func (h *PlantHandler) HarvestPlant(c echo.Context) error {
 	return c.JSON(http.StatusOK, map[string]string{
 		"message": "Plant harvested successfully",
 	})
+}
+
+func (h *PlantHandler) GetPlantGrowthImg(c echo.Context) error {
+	userPlantId, err := strconv.Atoi(c.Param("id"))
+	log.Println("GetPlantGrowthImg HIT:", c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, echo.Map{
+			"error": "invalid user plant id",
+		})
+	}
+
+	data, err := h.plantService.GetPlantGrowthImg(userPlantId)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{
+			"error": err.Error(),
+		})
+	}
+
+	if len(data) == 0 {
+		return c.JSON(http.StatusNotFound, echo.Map{
+			"error": "plant growth image not found",
+		})
+	}
+
+	return c.JSON(http.StatusOK, data)
 }

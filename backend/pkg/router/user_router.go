@@ -6,13 +6,13 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func UserRoute(e *echo.Echo, userHandler *handler.UserHandler) {
+func UserRoute(api *echo.Group, userHandler *handler.UserHandler) {
 
-	api := e.Group("/user", mw.SupabaseJWT())
+	user := api.Group("/user", mw.SupabaseJWT())
 
-	api.GET("/data", userHandler.GetUserData)
-	api.GET("/plants", userHandler.GetUserPlants)
-	api.PUT("/update", userHandler.UpdateUserData)
-	api.POST("/userPlant", userHandler.RegisterUserPlant)
-	api.PUT("/location", userHandler.UpdateLocation)
+	user.GET("/data", userHandler.GetUserData)
+	user.GET("/plants", userHandler.GetUserPlants)
+	user.PUT("/update", userHandler.UpdateUserData)
+	user.POST("/userPlant", userHandler.RegisterUserPlant)
+	user.PUT("/location", userHandler.UpdateLocation)
 }

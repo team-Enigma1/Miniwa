@@ -35,6 +35,13 @@ type HarvestedPlant struct {
 	HarvestDate      time.Time `gorm:"column:harvested_date" json:"harvested_date"`
 }
 
+type PlantGrowth struct {
+	GrowthID    int    `gorm:"column:growth_id" json:"growth_id"`
+	UserPlantID int    `gorm:"column:user_plant_id" json:"user_plant_id"`
+	PlantID     int    `gorm:"column:plant_id" json:"plant_id"`
+	ImageURL    string `gorm:"column:image_url" json:"image_url"`
+}
+
 func (HarvestedPlant) TableName() string {
 	return "harvested_plants"
 }
