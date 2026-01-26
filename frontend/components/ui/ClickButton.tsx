@@ -39,6 +39,7 @@ import { TouchableOpacity, Text, StyleSheet, View, ViewStyle, } from "react-nati
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
+        marginBottom: 5,
     },
 
     leftWrap: {
