@@ -44,24 +44,31 @@ const { width } = Dimensions.get('window');
 const HomeScreen = () => {
   const router = useRouter();
 
+  const [selectedPlantId, setSelectedPlantId] = useState<number | null>(null);
+  
   useEffect(() => {
+    if (!selectedPlantId) return;
+
     const fetchTodos = async () => {
       try {
-        const data = await getTodos(); 
-        // もし配列でないものが返ってきてもエラーにならないようにする
+        const data = await getTodos({
+          user_plant_id: selectedPlantId,
+        });
+
         if (Array.isArray(data)) {
           setTodos(data);
         } else if (data && typeof data === 'object') {
-          // オブジェクトの中にデータが入っているパターンに対応
           const arrayData = Object.values(data).find(Array.isArray);
           setTodos(arrayData || []);
         }
-      } catch (e) {
-        console.error("Fetch error:", e);
-      }
-    };
-    fetchTodos();
-  }, []);
+        } catch (e) {
+          console.error("Fetch error:", e);
+        }
+      };
+
+      fetchTodos();
+  }, [selectedPlantId]);
+
 
   const [advice, setAdvice] = useState<Advice | null>(null);
 
@@ -156,7 +163,7 @@ const HomeScreen = () => {
   // 植物カードがタップされた時の処理
   const handlePlantPress = (plant: Plant) => {
     console.log('Navigate to plant detail:', plant.name);
-    // router.push({ pathname: '/PlantDetailScreen', params: { plantId: plant.id } });
+    setSelectedPlantId(plant.id);
   };
 
   // おすすめアイテムの購入ボタンがタップされた時の処理

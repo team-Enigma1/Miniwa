@@ -2,7 +2,7 @@ import { UpdateTodoPayload, Todo } from "@/types/todo";
 import { supabase } from "@/lib/supabase";
 import { TODO_API_URL } from "./url";
 
-export const getTodos = async (): Promise<Todo[]> => {
+export const getTodos = async (body: {user_plant_id: number})  => {
 
     const { data } = await supabase.auth.getSession();
     const token = data.session?.access_token;
@@ -13,9 +13,7 @@ export const getTodos = async (): Promise<Todo[]> => {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`, 
         },
-        body: JSON.stringify({
-            user_plant_id: 1,
-        }),
+        body: JSON.stringify(body),
     });
 
     if (!res.ok) {
