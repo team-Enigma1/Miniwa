@@ -1,6 +1,7 @@
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
+  Alert,
   KeyboardAvoidingView,
   Modal,
   Platform,
@@ -11,29 +12,74 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Image,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Ionicons } from '@expo/vector-icons';
 import styles from '../styles/NewRecord.styles'; 
+import { createPlantRecord } from '@/api/record';
+import * as ImagePicker from 'expo-image-picker'
+import { useLocalSearchParams } from 'expo-router';
 
 const NewRecordScreen = () => {
   const router = useRouter();
   const [date, setDate] = useState(new Date());
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
   const [showDateModal, setShowDateModal] = useState(false);
   const [tempDate, setTempDate] = useState(new Date());
+  const [loading, setLoading] = useState(false);
+  const { userPlantId } = useLocalSearchParams<{ userPlantId: string }>();
 
   const handleBack = () => router.back();
   
-  const handleSave = () => {
-    console.log('Save record:', { date, title, content });
-    router.back();
+  const handleSave = async () => {
+    if (!title || !content) {
+      Alert.alert("タイトルと記録内容を入力してください！");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      await createPlantRecord({
+        plant_id: Number(userPlantId),
+        title,
+        content,
+        image_url: imageUrl || undefined,
+        created_at: date.toISOString(),
+      });
+
+      Alert.alert("記録を登録しました！", "", [
+        { text: "OK", onPress: () => router.back() },
+      ]);
+    } catch (err) {
+      Alert.alert("保存に失敗しました", "もう一度お試しください");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleAddPhoto = () => {
-    console.log('Add photo');
+  const handleAddPhoto = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert('許可必要です！');
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 0.8,
+    });
+
+    if (!result.canceled) {
+      const uri = result.assets[0].uri;
+      setImageUrl(uri);
+    }
   };
 
   const handleDateConfirm = () => {
@@ -98,10 +144,19 @@ const NewRecordScreen = () => {
               onPress={handleAddPhoto}
               activeOpacity={0.7}
             >
-              <View style={styles.photoIconContainer}>
-                <Text style={styles.photoIcon}>📷</Text>
-              </View>
-              <Text style={styles.photoText}>写真を追加</Text>
+              {imageUrl ? (
+                <Image
+                  source={{ uri: imageUrl }}
+                  style={{ width: '100%', height: 180, borderRadius: 12 }}
+                />
+              ) : (
+                <>
+                  <View style={styles.photoIconContainer}>
+                    <Text style={styles.photoIcon}>📷</Text>
+                  </View>
+                  <Text style={styles.photoText}>写真を追加</Text>
+                </>
+              )}
             </TouchableOpacity>
           </View>
 
@@ -133,10 +188,15 @@ const NewRecordScreen = () => {
           </View>
 
           {/* Save Button */}
-          <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-            <Text style={styles.saveButtonText}>保存</Text>
-          </TouchableOpacity>
-
+            <TouchableOpacity
+              style={styles.saveButton}
+              onPress={handleSave}
+              disabled={loading}
+            >
+              <Text style={styles.saveButtonText}>
+                {loading ? "保存中..." : "保存"}
+              </Text>
+            </TouchableOpacity>
           <View style={{ height: 40 }} />
         </ScrollView>
       </KeyboardAvoidingView>

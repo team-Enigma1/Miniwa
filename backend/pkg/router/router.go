@@ -6,10 +6,11 @@ import (
 )
 
 func Setup(e *echo.Echo, c *di.Container) {
-    PlantRouter(e, c.PlantHandler)
-    AuthRouter(e, c.AuthHandler)
-	MaterialRouter(e,c.MaterialHandler)
+	PlantRouter(e, c.PlantHandler)
+	AuthRouter(e, c.AuthHandler)
+	MaterialRouter(e, c.MaterialHandler)
 	UserRoute(e, c.UserHandler)
 	TodosRouter(e, c.TodosHandler)
 	AdvicesRouter(e, c.AdviceHandler)
+	RecordHandler(e, c.RecordHandler)
 }
