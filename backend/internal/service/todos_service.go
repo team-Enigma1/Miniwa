@@ -7,7 +7,7 @@ import (
 
 
 type ITodosService interface {
-	GetUserTodo(userID string) ([]model.Todos, error)
+	GetUserTodo(userPlantID int) ([]model.Todos, error)
 	UpdateTodo(req model.UpdateUserTodo) ([]model.Todos, error)
     ResetTodos() error
 }
@@ -20,10 +20,10 @@ func NewTodosService(db *gorm.DB) *TodosService {
 	return &TodosService{db: db}
 }
 
-func (s *TodosService) GetUserTodo(userID string) ([]model.Todos, error) {
+func (s *TodosService) GetUserTodo(userPlantID int) ([]model.Todos, error) {
 
 	var todos []model.Todos
-	if err := s.db.Where("user_id = ?", userID).Find(&todos).Error; err != nil {
+	if err := s.db.Where("user_plant_id = ?", userPlantID).Find(&todos).Error; err != nil {
 		return nil, err
 	}
 	return todos, nil

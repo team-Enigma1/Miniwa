@@ -29,7 +29,7 @@ const BottomNavigation = () => {
         </Text>
       </TouchableOpacity>
 
-      カレンダー 
+      {/* <Text>カレンダー </Text>
       <TouchableOpacity
         style={styles.navItem}
         onPress={() => router.push("/calendar")}
@@ -44,8 +44,7 @@ const BottomNavigation = () => {
         >
           カレンダー
         </Text>
-      </TouchableOpacity>
-     
+      </TouchableOpacity> */}
 
       {/* ホーム */}
       <TouchableOpacity
@@ -64,7 +63,7 @@ const BottomNavigation = () => {
         </Text>
       </TouchableOpacity>
 
-      コミュニティ
+      {/* コミュニティ
       <TouchableOpacity
         style={styles.navItem}
         onPress={() => router.push("./community")}
@@ -80,7 +79,7 @@ const BottomNavigation = () => {
           コミュニティ
         </Text>
       </TouchableOpacity>
-      
+       */}
 
       {/* プロフィール */}
       <TouchableOpacity

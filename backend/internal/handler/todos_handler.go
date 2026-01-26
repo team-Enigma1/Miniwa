@@ -18,20 +18,27 @@ func NewTodosHandler(todosService service.ITodosService) *TodosHandler {
 }
 
 func (h *TodosHandler) GetUserTodo(c echo.Context) error {
-
-	userID, ok := c.Get("user_id").(string)
-	if !ok || userID == "" {
-		return echo.NewHTTPError(http.StatusUnauthorized, "unauthorized")
+	type Request struct {
+		UserPlantID int `json:"user_plant_id"`
 	}
 
-	todos, err := h.todosService.GetUserTodo(userID)
+	req := new(Request)
+	if err := c.Bind(req); err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{
+			"error": "invalid request body",
+		})
+	}
+
+	todos, err := h.todosService.GetUserTodo(req.UserPlantID)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{
 			"error": err.Error(),
 		})
 	}
+
 	return c.JSON(http.StatusOK, todos)
 }
+
 
 func (h *TodosHandler) UpdateTodo(c echo.Context) error {
 	var req model.UpdateUserTodo
