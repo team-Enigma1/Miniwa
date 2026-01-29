@@ -40,14 +40,15 @@ export async function scheduleDailyNoonNotification() {
 
   await Notifications.scheduleNotificationAsync({
     content: {
-      title: '🌱 お昼の通知',
-      body: '今日のToDoや植物の様子をチェックしよう！',
-      sound: true,
+      title: 'お知らせ',
+      body: '今日の植物のお世話時間だよ 🌱',
     },
     trigger: {
+      type: Notifications.SchedulableTriggerInputTypes.CALENDAR,
       hour: 12,
       minute: 0,
       repeats: true,
-    } as Notifications.DailyTriggerInput,
+    },
   });
+
 }

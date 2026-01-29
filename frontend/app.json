@@ -47,6 +47,13 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "6a1b6b93-119c-4f03-a6cd-e1b835839b2c"
+      }
+    },
+    "owner": "hsmt-t"
   }
 }
