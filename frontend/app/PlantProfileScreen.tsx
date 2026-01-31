@@ -18,6 +18,7 @@ import { getUserPlants } from '@/api/user';
 import { Plant, PlantGrowthImg } from '@/types/plant';
 import { deleteUserPlant, harvestPlant, plantGrowthImg } from '@/api/plant';
 import { BASE_URL } from '@/api/url';
+import dayjs from 'dayjs';
 
 const PlantDetailScreen = () => {
   const router = useRouter();
@@ -26,6 +27,7 @@ const PlantDetailScreen = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [plant, setPlant] = useState<Plant | null >(null);
   const [plantImg, setPlantImg] = useState<PlantGrowthImg | null>(null);
+  const [progress, setProgress] = useState(0);
 
   const handleBack = () => {
     router.back();
@@ -107,7 +109,23 @@ const PlantDetailScreen = () => {
     fetchPlantGrowthimg();
   }, [userPlantId]);
 
-  console.log("plantImg object:", plantImg);
+  useEffect(() => {
+    if (!plant?.harvestAt || !plant?.growthDuration) return;
+
+    const remainingDays = Math.max(
+      0,
+      Math.ceil(
+        (new Date(plant.harvestAt).getTime() - Date.now()) /
+          (1000 * 60 * 60 * 24)
+      )
+    );
+
+    setGrowthDay(remainingDays);
+
+    const duration = plant?.growthDuration ? plant.growthDuration : 0;
+    const progress = Math.min(1, growthDay / duration);
+    setProgress(progress);
+  }, [plant?.harvestAt, plant?.growthDuration]);
 
   if (!plant) {
     return (
@@ -186,20 +204,15 @@ const PlantDetailScreen = () => {
             <Text style={styles.calendarIcon}>📅</Text>
             <View style={styles.cardHeaderText}>
               <Text style={styles.cardTitle}>生育期間</Text>
-              <Text style={styles.cardSubtitle}>{plant.growthDuration}</Text>
+              <Text style={styles.cardSubtitle}>{plant.growthDuration}日</Text>
             </View>
           </View>
 
           {/* Timeline */}
           <View style={styles.timeline}>
             <View style={styles.timelineHeader}>
-              <Text style={styles.timelineStartDate}>植付け 5月1日</Text>
-              <Text style={styles.timelineEndDate}>収穫まであと{plant.harvestAt
-                ? Math.ceil(
-                    (new Date(plant.harvestAt).getTime() - Date.now()) /
-                    (1000 * 60 * 60 * 24)
-                  )
-                : '-'}日</Text>
+              <Text style={styles.timelineStartDate}>植付け {dayjs(plant.plantedAt).format('YYYY年MM月DD日')}</Text>
+              <Text style={styles.timelineEndDate}>収穫まであと{growthDay}日</Text>
             </View>
 
             {/* Slider */}
@@ -208,13 +221,13 @@ const PlantDetailScreen = () => {
                 <View
                   style={[
                     styles.sliderFill,
-                    { width: `${(growthDay / 90) * 100}%` },
+                    { width: `${(plant.growthDuration! - growthDay)}%` },
                   ]}
                 />
                 <View
                   style={[
                     styles.sliderThumb,
-                    { left: `${(growthDay / 90) * 100}%` },
+                    { left: `${(plant.growthDuration! - growthDay)}%` },
                   ]}
                 />
               </View>
@@ -222,9 +235,9 @@ const PlantDetailScreen = () => {
 
             {/* Day Labels */}
             <View style={styles.dayLabels}>
-              <Text style={styles.dayLabel}>Day1</Text>
-              <Text style={styles.dayLabel}>Day45</Text>
-              <Text style={styles.dayLabel}>Day90</Text>
+              <Text style={styles.dayLabel}>Day 1</Text>
+              <Text style={styles.dayLabel}>Day {(plant.growthDuration! - growthDay)}</Text>
+              <Text style={styles.dayLabel}>Day {plant.growthDuration}</Text>
             </View>
           </View>
 

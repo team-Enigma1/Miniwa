@@ -11,6 +11,7 @@ import ProfileEditModal from "../app/ProfileEditModal";
 import RegionSelectModal from '../components/RegionSelectModal';
 import { getUserData, updateLocation, updateUserData, getUserPlants } from '@/api/user';
 import * as ImagePicker from 'expo-image-picker';
+import { Plant  } from '@/types/plant';
 
 const ProfileScreen = () =>{
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -23,7 +24,7 @@ const ProfileScreen = () =>{
     const [name, setName] = useState('');
     const [bio, setBio] = useState('');
     const [icon, setIcon] = useState('');
-    const [userPlants, setUserPlants] = useState([]);
+    const [userPlants, setUserPlants] = useState<Plant[]>([]);
     const [prefecture, setPrefecture] = useState('');
 
     const openIconPicker = async () => {
