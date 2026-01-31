@@ -9,6 +9,8 @@ export type Plant = {
     harvestAt: string;
     userPlantId?: number;
     growthDuration?: number;
+    plantedAt?: number;
+    userId?: string;
 }
 
 export type HarvestedPlant = {

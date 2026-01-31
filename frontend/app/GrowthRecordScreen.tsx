@@ -20,8 +20,9 @@ import { BASE_URL } from '@/api/url';
 
 const GrowthRecordScreen = () => {
   const router = useRouter();
-  const { userPlantId } = useLocalSearchParams<{ userPlantId: string }>();
+  const { userPlantId, from } = useLocalSearchParams<{ userPlantId: string; from?: string; }>();
   const numericUserPlantId = Number(userPlantId)
+  const isReadOnly = from === 'harvested';
 
   const [records, setRecords] = useState<Record[]>([]);
 
@@ -112,13 +113,16 @@ const GrowthRecordScreen = () => {
       </ScrollView>
 
     {/* Floating Add Button */}
-    <TouchableOpacity
-    style={styles.addButton}
-    onPress={handleAddRecord}
-    activeOpacity={0.9}
-    >
-    <Text style={styles.addButtonIcon}>+</Text>
-    </TouchableOpacity>
+    {!isReadOnly && (
+      <TouchableOpacity
+        style={styles.addButton}
+        onPress={handleAddRecord}
+        activeOpacity={0.9}
+      >
+        <Text style={styles.addButtonIcon}>+</Text>
+      </TouchableOpacity>
+    )}
+
     </SafeAreaView>
   );
 };
