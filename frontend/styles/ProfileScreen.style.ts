@@ -8,6 +8,19 @@ export default StyleSheet.create({
         paddingTop: 100,
     },
 
+    logoutButton: {
+        position: 'absolute',
+        top: 50,
+        right: 20,
+        zIndex: 10,
+    },
+    logoutText: {
+        color: 'red',
+        fontSize: 14,
+        fontWeight: '500',
+    },
+
+
     /* アイコン */
     iconCircle: {
         width: 90,

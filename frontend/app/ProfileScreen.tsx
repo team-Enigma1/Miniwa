@@ -12,6 +12,8 @@ import RegionSelectModal from '../components/RegionSelectModal';
 import { getUserData, updateLocation, updateUserData, getUserPlants } from '@/api/user';
 import * as ImagePicker from 'expo-image-picker';
 import { Plant  } from '@/types/plant';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const ProfileScreen = () =>{
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -42,7 +44,7 @@ const ProfileScreen = () =>{
     const handleSave = async () => {
         if (name === originalName && bio === originalBio && icon === originalIcon) return;
 
-         try {
+        try {
             setIsModalVisible(false);
 
             const updatedUser = await updateUserData({
@@ -59,9 +61,22 @@ const ProfileScreen = () =>{
         }
     };
 
+    const handleLogout = async () => {
+        try {
+            await AsyncStorage.removeItem("access_token");
+            router.replace("/WelcomeScreen"); // or "/LoginScreen"
+        } catch (e) {
+            console.error("ログアウト失敗:", e);
+        }
+    };
+
+
     useEffect(() => {
         const loadUser = async () => {
             try {
+            const token = await AsyncStorage.getItem("access_token");
+            if (!token) return;    
+
             const data = await getUserData();
 
             setName(data.username ?? "");
@@ -73,8 +88,8 @@ const ProfileScreen = () =>{
             setOriginalBio(data.description ?? "");
             setOriginalIcon(data.profile_img ?? "");
 
-            const userPlants = await getUserPlants();
-            setUserPlants(userPlants);
+            const plants = await getUserPlants();
+            setUserPlants(plants);
 
             } catch (e) {
             console.error("ユーザーデータ取得失敗:", e);
@@ -87,6 +102,13 @@ const ProfileScreen = () =>{
     return (
     <View style={{ flex: 1 }}>
         <View style={styles.container}>
+            {/* ログアウト（右上） */}
+            <TouchableOpacity
+            style={styles.logoutButton}
+            onPress={handleLogout}
+            >
+            <Text style={styles.logoutText}>ログアウト</Text>
+            </TouchableOpacity>
 
             {/* プロフィールアイコン
             <TouchableOpacity onPress={openIconPicker}>
