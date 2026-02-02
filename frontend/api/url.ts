@@ -30,3 +30,7 @@ export const GET_PLANT_RECORD_API_URL = (user_plant_id: number) => `${BASE_URL}/
 export const CREATE_PLANT_RECORD_API_URL = `${BASE_URL}/api/record/create`;
 export const UPDATE_PLANT_RECORD_API_URL = (recordId: number) => `${BASE_URL}/api/record/update/${recordId}`;
 export const DELETE_PLANT_RECORD_API_URL = (recordId: number) => `${BASE_URL}/api/record/delete/${recordId}`;
+
+
+//weather
+export const WEATHER_API_URL = `${BASE_URL}/weather`;

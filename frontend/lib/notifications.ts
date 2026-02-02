@@ -8,6 +8,8 @@ Notifications.setNotificationHandler({
     shouldShowAlert: true,
     shouldPlaySound: true,
     shouldSetBadge: false,
+    shouldShowBanner: true,
+    shouldShowList: true,
   }),
 });
 
@@ -45,9 +47,10 @@ export async function scheduleDailyNoonNotification() {
       sound: true,
     },
     trigger: {
+      type: Notifications.SchedulableTriggerInputTypes.CALENDAR,
       hour: 12,
       minute: 0,
       repeats: true,
-    } as Notifications.DailyTriggerInput,
+    },
   });
 }

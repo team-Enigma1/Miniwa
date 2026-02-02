@@ -14,3 +14,7 @@ func Setup(api *echo.Group, c *di.Container) {
 	AdvicesRouter(api, c.AdviceHandler)
 	RecordHandler(api, c.RecordHandler)
 }
+
+func PublicSetup(e *echo.Echo, c *di.Container) {
+	WeatherRoute(e, c.WeatherHandler)
+}
