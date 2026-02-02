@@ -35,6 +35,6 @@ export default function Index() {
 
   // ログイン状態で振り分け
   return isLoggedIn
-    ? <Redirect href="/HomeScreen" />
+    ? <Redirect href="/WelcomeScreen" />
     : <Redirect href="/WelcomeScreen" />;
 }

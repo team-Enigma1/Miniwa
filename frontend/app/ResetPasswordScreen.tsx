@@ -21,14 +21,11 @@ const ResetPasswordScreen = () => {
     router.back();
   };
 
-  // テスト用：パスワード変更ボタン（UIのみ）
   const handleReset = () => {
-    // ここでは確認だけ、画面遷移
     if (password !== confirm) {
       alert('パスワードが一致しません');
       return;
     }
-    router.push('/ForgotPasswordScreen'); // 次の画面へ
   };
 
   return (

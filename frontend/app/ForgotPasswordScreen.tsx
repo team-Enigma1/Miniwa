@@ -31,11 +31,6 @@ const ForgotPasswordScreen = () => {
         <Ionicons name="chevron-back" size={28} color="#2C3E50" />
       </TouchableOpacity>
 
-      {/* テスト用 > ボタン */}
-      <TouchableOpacity style={[styles.button, { marginBottom: 20 }]} onPress={handleTestNext}>
-        <Text style={styles.buttonText}>{'>'}</Text>
-      </TouchableOpacity>
-
       {/* タイトル */}
       <Text style={styles.title}>メールアドレスを入力してください</Text>
 
