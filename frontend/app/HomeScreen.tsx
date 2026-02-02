@@ -20,6 +20,7 @@ import { getUserPlants } from '@/api/user';
 import { plantGrowthImg } from '@/api/plant';
 import { BASE_URL } from '@/api/url';
 import { Plant, PlantGrowthImg } from '@/types/plant';
+import { Weather } from '@/types/weather';
 // ========================================
 // 型定義
 // ========================================
@@ -39,9 +40,9 @@ const { width } = Dimensions.get('window');
 
 const HomeScreen = () => {
   const router = useRouter();
+  const [weather, setWeather] = useState<Weather | null>(null);
 
   const [selectedPlantId, setSelectedPlantId] = useState<number | null>(null);
-  const [weather, setWeather] = useState<any>(null);
   
   useEffect(() => {
     if (!selectedPlantId) return;
@@ -233,12 +234,12 @@ const HomeScreen = () => {
             <>
               <Image
                 source={{
-                  uri: `https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`,
+                  uri: `https://openweathermap.org/img/wn/${weather.icon}@2x.png`,
                 }}
                 style={{ width: 50, height: 50 }}
               />
               <Text style={styles.weatherText}>
-                {weather.name}, {Math.round(weather.main.temp)}°C
+                {weather.city}, {Math.round(weather.temp)}°C
               </Text>
             </>
           )}

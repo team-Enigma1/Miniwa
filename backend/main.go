@@ -33,6 +33,7 @@ func main() {
 	cron.Start(container.TodosService)
 
 	router.Setup(api, container)
+	router.PublicSetup(e, container)
 
 	port := "8080"
 	fmt.Println("サーバー起動 http://localhost:" + port + "/")
