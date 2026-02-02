@@ -125,6 +125,8 @@ const HomeScreen = () => {
         console.log(error);
       }
     };
+
+    fetchUserPlants();
   }, []);
   
 
