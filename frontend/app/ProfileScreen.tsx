@@ -156,11 +156,11 @@ const ProfileScreen = () =>{
                 IconComponent={<MaterialIcons name="all-inbox" size={22}  color=""/>}
                 data={USER_PROFILE.crop}
                 />
-                <CardBox
+                {/* <CardBox
                 label="もらったいいね"
                 IconComponent={<MaterialIcons name="favorite" size={22}  color="red"/>}
                 data={USER_PROFILE.good}
-                />
+                /> */}
             </View>
 
             {/* 設定 */}

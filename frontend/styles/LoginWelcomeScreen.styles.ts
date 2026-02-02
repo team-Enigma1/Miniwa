@@ -21,6 +21,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
+image: {
+  width: 250,
+  height: 250,
+  resizeMode: 'contain',
+},
+
+
   // Text Styles
   textContainer: {
     alignItems: 'center',

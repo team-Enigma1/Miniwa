@@ -19,6 +19,12 @@ const styles = StyleSheet.create({
   pot: {
     alignItems: 'center',
   },
+  image: {
+  width: 300,
+  height: 300,
+  resizeMode: 'contain',
+},
+
   textContainer: {
     alignItems: 'center',
     marginTop: 'auto',

@@ -9,6 +9,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ImageBackground,
   Image
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -24,6 +25,7 @@ import {
 import { openURL } from 'expo-linking';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { plantGrowthImg } from '@/api/plant';
+
 
 type MaterialType = 'seed' | 'fertilizer' | 'soil';
 
@@ -220,21 +222,19 @@ const openModal = (type: MaterialType) => {
       </View>
 
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-        {/* Hero Banner */}
+
         <View style={styles.heroBanner}>
-          <View style={styles.heroOverlay}>
-            <Text style={styles.heroTitle}>{plantData.name}を育てよう</Text>
-            <Text style={styles.heroSubtitle}>{plantData.description}</Text>
-          </View>
-          <View style={styles.heroImagePlaceholder}>
-            <Image
-              source={{
-                uri: `${BASE_URL}${plantData.img}`,
-              }}
-              style={{width: 150, height: 150, borderRadius: 12}}
-              resizeMode="contain"
-            />
-          </View>
+          <ImageBackground
+            source={{ uri: `${BASE_URL}${plantData.img}` }}
+            style={styles.heroImageBackground} 
+            imageStyle={{ borderRadius: 16 }}
+            resizeMode="cover"
+          >
+            <View style={styles.heroOverlay}>
+              <Text style={styles.heroTitle}>{plantData.name}</Text>
+              <Text style={styles.heroSubtitle}>{plantData.description}</Text>
+            </View>
+          </ImageBackground>
         </View>
 
         {/* 必要アイテムセクション */}

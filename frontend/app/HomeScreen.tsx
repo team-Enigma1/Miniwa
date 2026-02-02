@@ -188,18 +188,14 @@ const HomeScreen = () => {
     setSelectedPlantId(userPlantId);
   };
 
-  // おすすめアイテムの購入ボタンがタップされた時の処理
-  const handleBuyItem = (item: RecommendedItem) => {
-    console.log('Buy item:', item.name);
-  };
+  const profileScreen = () => {
+      router.push({
+      pathname: '/PlantProfileScreen',
+      params: { userPlantId: selectedPlantId },
+    });
+  }
 
-
-
-  // ========================================
-  // ナビゲーションハンドラー
-  // ========================================
-  
-
+  const selectedPlant = myPlants.find(p => p.userPlantId === selectedPlantId);
 
   // ========================================
   // レンダリング
@@ -289,7 +285,7 @@ const HomeScreen = () => {
                           source={{
                             uri: `${BASE_URL}/images/${img.plant_id}/${img.image_url}`,
                           }}
-                          style={{width: 150, height: 120}}
+                          style={{ width: 150, height: 120, marginTop: 20, }}
                           resizeMode="contain"
                         />
                       )}
@@ -298,8 +294,13 @@ const HomeScreen = () => {
                   </View>
 
                   <View style={styles.plantInfo}>
-                    <Text style={styles.plantName}>{plant.name}</Text>
-                  </View>
+                  <Text 
+                    style={styles.plantName} 
+                    onPress={profileScreen}
+                  >
+                    {plant.name}
+                  </Text>
+                </View>
                 </TouchableOpacity>
               );
             })}
@@ -340,6 +341,12 @@ const HomeScreen = () => {
         {/* --- 今日のToDoセクション --- */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>今日のToDo</Text>
+
+          {selectedPlant && (
+            <Text style={styles.selectedPlantName}>
+              {selectedPlant.name}
+            </Text>
+          )}
 
           {todos.length > 0 ? (
             todos.map((todo) => (
@@ -417,4 +424,4 @@ const HomeScreen = () => {
   );
 };
 
-export default HomeScreen; 
+export default HomeScreen;

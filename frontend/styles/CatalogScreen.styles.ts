@@ -160,9 +160,13 @@ const styles = StyleSheet.create({
 
   // 追加ボタン
   buttonContainer: {
-    paddingHorizontal: 20,
-    paddingVertical: 20,
+  position: 'absolute',
+  bottom: 20,
+  left: 20,
+  right: 20,
+  zIndex: 100,
   },
+  
   addButton: {
     backgroundColor: '#2ECC71',
     paddingVertical: 12,
