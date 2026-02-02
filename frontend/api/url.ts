@@ -1,4 +1,4 @@
-const IP = "10.200.0.105"; 
+const IP = "10.200.2.135"; 
 export const BASE_URL = `http://${IP}:8080`;
 
 // user
