@@ -14,6 +14,7 @@ type Container struct {
 	TodosService    service.ITodosService
 	AdviceHandler   *handler.AdviceHandler
 	RecordHandler   *handler.RecordHandler
+	WeatherHandler  *handler.WeatherHandler
 }
 
 func NewContainer() (*Container, error) {
@@ -52,6 +53,11 @@ func NewContainer() (*Container, error) {
 		return nil, err
 	}
 
+	weather, err := NewWeatherDi()
+	if err != nil {
+		return nil, err
+	}
+
 	return &Container{
 		PlantHandler:    plant.Handler,
 		AuthHandler:     auth.Handler,
@@ -61,5 +67,6 @@ func NewContainer() (*Container, error) {
 		TodosService:    todos.Service,
 		AdviceHandler:   advices.Handler,
 		RecordHandler:   record.Handler,
+		WeatherHandler:  weather.Handler,
 	}, nil
 }
