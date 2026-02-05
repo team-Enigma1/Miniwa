@@ -1,5 +1,5 @@
-const IP = "10.200.2.143"; 
-const BASE_URL = `http://${IP}:8080`;
+const IP = "10.200.1.10"; 
+export const BASE_URL = `http://${IP}:8080`;
 
 // user
 export const LOCATION_API_URL = `${BASE_URL}/api/user/location`;
@@ -30,3 +30,7 @@ export const GET_PLANT_RECORD_API_URL = (user_plant_id: number) => `${BASE_URL}/
 export const CREATE_PLANT_RECORD_API_URL = `${BASE_URL}/api/record/create`;
 export const UPDATE_PLANT_RECORD_API_URL = (recordId: number) => `${BASE_URL}/api/record/update/${recordId}`;
 export const DELETE_PLANT_RECORD_API_URL = (recordId: number) => `${BASE_URL}/api/record/delete/${recordId}`;
+
+
+//weather
+export const WEATHER_API_URL = `${BASE_URL}/weather`;

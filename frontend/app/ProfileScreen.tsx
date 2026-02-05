@@ -11,6 +11,7 @@ import ProfileEditModal from "../app/ProfileEditModal";
 import RegionSelectModal from '../components/RegionSelectModal';
 import { getUserData, updateLocation, updateUserData, getUserPlants } from '@/api/user';
 import * as ImagePicker from 'expo-image-picker';
+import { Plant  } from '@/types/plant';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -25,7 +26,7 @@ const ProfileScreen = () =>{
     const [name, setName] = useState('');
     const [bio, setBio] = useState('');
     const [icon, setIcon] = useState('');
-    const [userPlants, setUserPlants] = useState([]);
+    const [userPlants, setUserPlants] = useState<Plant[]>([]);
     const [prefecture, setPrefecture] = useState('');
 
     const openIconPicker = async () => {
@@ -155,11 +156,11 @@ const ProfileScreen = () =>{
                 IconComponent={<MaterialIcons name="all-inbox" size={22}  color=""/>}
                 data={USER_PROFILE.crop}
                 />
-                <CardBox
+                {/* <CardBox
                 label="もらったいいね"
                 IconComponent={<MaterialIcons name="favorite" size={22}  color="red"/>}
                 data={USER_PROFILE.good}
-                />
+                /> */}
             </View>
 
             {/* 設定 */}

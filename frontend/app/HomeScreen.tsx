@@ -6,7 +6,8 @@ import {
   StatusBar,
   Text,
   TouchableOpacity,
-  View
+  View,
+  Image
 } from 'react-native';
 import { updateTodo, getTodos } from '@/api/todos';
 import { getAdvice } from '@/api/advice';
@@ -14,19 +15,15 @@ import { Todo } from '@/types/todo';
 import styles from '../styles/HomeScreen.styles'; 
 import BottomNav from '../components/ui/BottomNavigation'
 import { Advice } from '@/types/advice';
-
+import { getWeatherData } from '@/api/openWeather';
+import { getUserPlants } from '@/api/user';
+import { plantGrowthImg } from '@/api/plant';
+import { BASE_URL } from '@/api/url';
+import { Plant, PlantGrowthImg } from '@/types/plant';
+import { Weather } from '@/types/weather';
 // ========================================
 // 型定義
 // ========================================
-
-
-interface Plant {
-  id: number;
-  name: string;
-  status: string;
-  emoji: string;
-  image?: string;
-}
 
 interface RecommendedItem {
   id: number;
@@ -43,6 +40,7 @@ const { width } = Dimensions.get('window');
 
 const HomeScreen = () => {
   const router = useRouter();
+  const [weather, setWeather] = useState<Weather | null>(null);
 
   const [selectedPlantId, setSelectedPlantId] = useState<number | null>(null);
   
@@ -89,23 +87,48 @@ const HomeScreen = () => {
   // ========================================
   // 状態管理
   // ========================================
-  
-  // TODO (Backend): GET /api/plants でユーザーの植物リストを取得
-  // レスポンス例: { plants: [{ id, name, status, emoji, image?, growthStage, lastWatered, ... }] }
-  const [myPlants, setMyPlants] = useState<Plant[]>([
-    {
-      id: 1,
-      name: 'トマト',
-      status: '成長段階: 実がなり始めました！',
-      emoji: '🍅',
-    },
-    {
-      id: 2,
-      name: 'イチゴ',
-      status: '成長段階: 花が咲きました！',
-      emoji: '🍓',
-    },
-  ]);
+  const [myPlants, setMyPlants] = useState<Plant[]>([]);
+  const [plantImgs, setPlantImgs] = useState<Record<number, PlantGrowthImg[]>>({});
+
+  useEffect(() => {
+    const fetchUserPlants = async () => {
+      try{
+        const data = await getUserPlants();
+
+        if(!Array.isArray(data)){
+          console.log("Failed to fetch User's plants");
+          return;
+        }
+
+        setMyPlants(data);
+
+        const userPlantIds = data
+          .map(p => p.userPlantId)
+          .filter((id): id is number => id !== undefined);
+
+          const result = await Promise.all(
+            userPlantIds.map(async (id) => {
+              const imgs = await plantGrowthImg(id);
+              return { id, imgs };
+            })
+          );
+
+          const imgMap: Record<number, PlantGrowthImg[]> = {};
+
+          result.forEach(({ id, imgs }) => {
+            if(imgs.length > 0) {
+              imgMap[id] = imgs;
+            }
+          });
+
+          setPlantImgs(imgMap);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchUserPlants();
+  }, []);
   
 
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -161,27 +184,34 @@ const HomeScreen = () => {
   // ========================================
 
   // 植物カードがタップされた時の処理
-  const handlePlantPress = (plant: Plant) => {
-    console.log('Navigate to plant detail:', plant.name);
-    setSelectedPlantId(plant.id);
+  const handlePlantPress = (userPlantId: number) => {
+    setSelectedPlantId(userPlantId);
   };
 
-  // おすすめアイテムの購入ボタンがタップされた時の処理
-  const handleBuyItem = (item: RecommendedItem) => {
-    console.log('Buy item:', item.name);
-  };
+  const profileScreen = () => {
+      router.push({
+      pathname: '/PlantProfileScreen',
+      params: { userPlantId: selectedPlantId },
+    });
+  }
 
-
-
-  // ========================================
-  // ナビゲーションハンドラー
-  // ========================================
-  
-
+  const selectedPlant = myPlants.find(p => p.userPlantId === selectedPlantId);
 
   // ========================================
   // レンダリング
   // ========================================
+  useEffect(() => {
+    const loadWeather = async () => {
+      try{
+        const data = await getWeatherData();
+        setWeather(data);
+      } catch (error){
+        console.log(error);
+      }
+    };
+
+    loadWeather();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -196,8 +226,19 @@ const HomeScreen = () => {
         {/* TODO (Backend): GET /api/weather でユーザーの位置情報に基づいた天気データを取得 */}
         {/* レスポンス例: { temperature, condition, location, icon, ... } */}
         <View style={styles.weatherHeader}>
-            <Text style={styles.weatherIcon}>☀️</Text>
-            <Text style={styles.weatherText}>Osaka, 24 °C</Text>
+          {weather && (
+            <>
+              <Image
+                source={{
+                  uri: `https://openweathermap.org/img/wn/${weather.icon}@2x.png`,
+                }}
+                style={{ width: 50, height: 50 }}
+              />
+              <Text style={styles.weatherText}>
+                {weather.city}, {Math.round(weather.temp)}°C
+              </Text>
+            </>
+          )}
         </View>
 
         {/* 今日のアドバイスセクション */}
@@ -224,28 +265,45 @@ const HomeScreen = () => {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.plantsScroll}
           >
-            {myPlants.map((plant) => (
-              <TouchableOpacity
-                key={plant.id}
-                style={styles.plantCard}
-                onPress={() => handlePlantPress(plant)}
-                activeOpacity={0.9}
-              >
-                {/* 植物画像背景 */}
-                <View style={styles.plantImageContainer}>
-                  <View style={styles.plantImagePlaceholder}>
-                    <Text style={styles.plantEmoji}>{plant.emoji}</Text>
-                  </View>
-                  <View style={styles.plantOverlay} />
-                </View>
+            {myPlants.map((plant) => {
+              if (!plant.userPlantId) return null;
 
-                {/* 植物情報 */}
-                <View style={styles.plantInfo}>
-                  <Text style={styles.plantName}>{plant.name}</Text>
-                  <Text style={styles.plantStatus}>{plant.status}</Text>
+              const imgs = plantImgs[plant.userPlantId];
+              const img = imgs?.[0];
+
+              return (
+                <TouchableOpacity
+                  key={plant.userPlantId}
+                  style={styles.plantCard}
+                  onPress={() => handlePlantPress(img.user_plant_id)}
+                  activeOpacity={0.9}
+                >
+                  <View style={styles.plantImageContainer}>
+                    <View style={styles.plantImagePlaceholder}>
+                      {img?.image_url && (
+                        <Image
+                          source={{
+                            uri: `${BASE_URL}/images/${img.plant_id}/${img.image_url}`,
+                          }}
+                          style={{ width: 150, height: 120, marginTop: 20, }}
+                          resizeMode="contain"
+                        />
+                      )}
+                    </View>
+                    <View style={styles.plantOverlay} />
+                  </View>
+
+                  <View style={styles.plantInfo}>
+                  <Text 
+                    style={styles.plantName} 
+                    onPress={profileScreen}
+                  >
+                    {plant.name}
+                  </Text>
                 </View>
-              </TouchableOpacity>
-            ))}
+                </TouchableOpacity>
+              );
+            })}
 
             {/* 植物追加カード */}
             <TouchableOpacity
@@ -283,6 +341,12 @@ const HomeScreen = () => {
         {/* --- 今日のToDoセクション --- */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>今日のToDo</Text>
+
+          {selectedPlant && (
+            <Text style={styles.selectedPlantName}>
+              {selectedPlant.name}
+            </Text>
+          )}
 
           {todos.length > 0 ? (
             todos.map((todo) => (
@@ -360,4 +424,4 @@ const HomeScreen = () => {
   );
 };
 
-export default HomeScreen; 
+export default HomeScreen;

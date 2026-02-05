@@ -43,46 +43,45 @@ const styles = StyleSheet.create({
   },
 
   // Hero Banner（植物のイメージ表示）
-  heroBanner: {
-    backgroundColor: '#2ECC71',
-    marginHorizontal: 20,
-    marginTop: 20,
-    marginBottom: 16,
-    borderRadius: 16,
-    overflow: 'hidden',
-    height: 150,
-    position: 'relative',
-  },
-  heroImagePlaceholder: {
-    position: 'absolute',
-    right: 0,
-    top: 0,
-    bottom: 0,
-    width: '40%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+heroBanner: {
+  marginHorizontal: 20,
+  marginVertical: 10,
+  overflow: 'hidden',
+  minHeight: 100,
+},
+
+heroImageBackground: {
+  flex: 1,
+  justifyContent: 'flex-end', 
+},
+
+heroOverlay: {
+  backgroundColor: 'rgba(0,0,0,0.4)', 
+  padding: 16,
+  borderTopLeftRadius: 16,
+  borderTopRightRadius: 16,
+  borderBottomLeftRadius: 16,
+  borderBottomRightRadius: 16,
+},
+
+heroTitle: {
+  fontSize: 18,
+  fontWeight: 'bold',
+  color: '#FFFFFF',
+  marginBottom: 6,
+},
+
+heroSubtitle: {
+  fontSize: 13,
+  lineHeight: 18,
+  color: '#FFFFFF',
+  flexWrap: 'wrap',
+},
+
+
   heroEmoji: {
     fontSize: 80,
   },
-  heroOverlay: {
-    padding: 20,
-    justifyContent: 'center',
-    height: '100%',
-    width: '65%',
-  },
-  heroTitle: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: '#FFFFFF',
-    marginBottom: 8,
-  },
-  heroSubtitle: {
-    fontSize: 13,
-    color: '#FFFFFF',
-    lineHeight: 18,
-  },
-
   // Section（必要アイテムセクション）
   section: {
     paddingHorizontal: 20,
@@ -91,6 +90,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '700',
     color: '#2C3E50',
+    marginTop: 16,
     marginBottom: 16,
   },
 

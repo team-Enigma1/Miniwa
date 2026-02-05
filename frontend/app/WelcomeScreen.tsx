@@ -9,7 +9,7 @@ const WelcomeScreen = () => {
   const router = useRouter(); // Expo Routerで画面遷移
 
   const handleStart = () => {
-    router.replace('/GrowthScreen'); // 「はじめる」ボタンに遷移
+    router.replace('/LoginWelcomeScreen'); // 「はじめる」ボタンに遷移
   };
 
   return (
@@ -19,7 +19,8 @@ const WelcomeScreen = () => {
       <View style={styles.content}>
         <View style={styles.potsContainer}>
           <View style={styles.pot}>
-            <Image source={require('../assets/images/1.png')} />
+            <Image source={require('../assets/images/welcome.png')} 
+            style={styles.image}/>
           </View>
         </View>
 

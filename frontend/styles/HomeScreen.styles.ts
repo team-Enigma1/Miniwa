@@ -72,7 +72,7 @@ weatherText: {
   plantImagePlaceholder: {
     flex: 1,
     backgroundColor: '#E8F5E9',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
   },
   plantEmoji: {
@@ -89,7 +89,6 @@ weatherText: {
     left: 0,
     right: 0,
     padding: 16,
-    backgroundColor: 'rgba(255, 255, 255, 0.95)',
   },
   plantName: {
     fontSize: 18,
@@ -403,7 +402,16 @@ reportText: {
     fontWeight: '600',
     marginTop: 4,
   },
+
   // todoCard 関連のスタイル
+  selectedPlantName: {
+  textAlign:'center',
+  fontSize: 16,
+  marginLeft: 24,
+  marginBottom: 16,
+  color: '#000',
+},
+
   todoCard: {
     flexDirection: 'row',
     alignItems: 'center',

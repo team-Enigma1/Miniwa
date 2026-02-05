@@ -28,23 +28,12 @@ const VerifyOTPScreen = () => {
     });
   };
 
-  // テスト用：> ボタンで直接次画面へ
-  const handleTestNext = () => {
-    router.push('/ResetPasswordScreen'); // 直接次画面へ
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       {/* 戻るボタン */}
       <TouchableOpacity style={styles.backButton} onPress={handleGoBack}>
         <Ionicons name="chevron-back" size={28} color="#000" />
       </TouchableOpacity>
-
-      {/* テスト用 > ボタン */}
-      <TouchableOpacity style={[styles.button, { marginBottom: 20 }]} onPress={handleTestNext}>
-        <Text style={styles.buttonText}>{'>'}</Text>
-      </TouchableOpacity>
-
       {/* タイトル */}
       <Text style={styles.title}>確認コードを入力してください</Text>
 

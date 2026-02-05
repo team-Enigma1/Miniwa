@@ -25,7 +25,7 @@ const BottomNavigation = () => {
         <Text
           style={[styles.navLabel, isActive("/MyGardenScreen") && styles.navLabelActive]}
         >
-          植物
+          マイガーデン
         </Text>
       </TouchableOpacity>
 

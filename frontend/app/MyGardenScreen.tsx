@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import BottomNav from "../components/ui/BottomNavigation";
-import { Ionicons } from '@expo/vector-icons';
 import styles from '../styles/MyGarden.styles'; 
 import { Plant, HarvestedPlant } from '../types/plant';
 import { getUserPlants } from '@/api/user';
@@ -32,6 +31,14 @@ const handlePlantPress = (plant: Plant | HarvestedPlant) => {
       pathname: '/PlantProfileScreen',
       params: { userPlantId: plant.userPlantId },
     });
+  } else {
+    router.push({
+      pathname: '/GrowthRecordScreen',
+      params: {
+         userId: plant.userId,
+         from: 'harvested', 
+        },
+    })
   }
 };
 
@@ -115,13 +122,12 @@ const handlePlantPress = (plant: Plant | HarvestedPlant) => {
               style={styles.plantCard}
               onPress={() => handlePlantPress(plant)}
               activeOpacity={activeTab === 'harvested' ? 1 : 0.7}
-              disabled={activeTab === 'harvested'}
             >
               <View style={styles.plantImageContainer}>
                 {activeTab === 'growing' && (
                   <Image
                     source={{ uri: `${BASE_URL}${plant.img}` }}
-                    style={{width: 64,height: 64, borderRadius: 12}}
+                    style={{width: 65,height: 65, borderRadius: 12}}
                     resizeMode="cover"
                   />
                 )}
@@ -129,7 +135,7 @@ const handlePlantPress = (plant: Plant | HarvestedPlant) => {
                 {activeTab === 'harvested' && (
                    <Image
                     source={{ uri: `${BASE_URL}${plant.img}` }}
-                    style={{width: 64,height: 64, borderRadius: 12}}
+                    style={{width: 65,height: 65, borderRadius: 12}}
                     resizeMode="cover"
                   />
                 )}
@@ -138,7 +144,9 @@ const handlePlantPress = (plant: Plant | HarvestedPlant) => {
               <View style={styles.plantInfo}>
                 <Text style={styles.plantName}>{plant.name}</Text>
                 {activeTab === 'harvested' && (
-                  <Text style={styles.harvestDate}>収穫日：{(plant as HarvestedPlant).harvestedDate}</Text>
+                 <Text style={styles.harvestDate}>
+                  収穫日：{new Date((plant as HarvestedPlant).harvestedDate).toLocaleDateString()}
+                </Text>
                 )}
 
                 {activeTab === 'growing' && (
@@ -146,7 +154,7 @@ const handlePlantPress = (plant: Plant | HarvestedPlant) => {
         
                     <View style={styles.metaItem}>
                       <Text style={styles.metaIcon}>💧</Text>
-                      <Text style={styles.metaText}>{(plant as Plant).wateringSched}</Text>
+                      <Text style={styles.metaText}>1日{(plant as Plant).wateringSched}回</Text>
                     </View>
 
                     <View style={styles.metaItem}>
@@ -160,11 +168,6 @@ const handlePlantPress = (plant: Plant | HarvestedPlant) => {
                   </View>
                 )}
               </View>
-              {activeTab === 'growing' && (
-                <View style={styles.arrowContainer}>
-                  <Ionicons name="chevron-forward" size={28} color="#CCCCCC" />
-                </View>
-              )}
             </TouchableOpacity>
           ))}
         </View>

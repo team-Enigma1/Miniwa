@@ -11,7 +11,7 @@ import {
   Alert,
   Image
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView} from 'react-native-safe-area-context';
 import styles from '../styles/CatalogScreen.styles'; 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Plant } from '@/types/plant';
@@ -39,6 +39,7 @@ interface Favorites {
 // ========================================
 
 const CatalogScreen = () => {
+
   const router = useRouter();
   const [token, setToken] = useState<string | null>(null);
   const [userData, setUserData] = useState<any>(null);
@@ -303,6 +304,10 @@ const CatalogScreen = () => {
           ))}
         </View>
 
+             <View style={{ height: 40 }} />
+
+      </ScrollView>
+
         {/* マイガーデンに追加ボタン */}
         <View style={styles.buttonContainer}>
           <TouchableOpacity 
@@ -313,7 +318,6 @@ const CatalogScreen = () => {
             <Text style={styles.addButtonText}>マイガーデンに追加</Text>
           </TouchableOpacity>
         </View>
-      </ScrollView>
     </SafeAreaView>
   );
 };
