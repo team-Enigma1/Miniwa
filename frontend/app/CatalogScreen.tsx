@@ -21,6 +21,7 @@ import {
   PLANT_PLAN_API_URL,
   BASE_URL
 } from '@/api/url';
+import Loading from './Loading';
 
 // ========================================
 // 型定義
@@ -180,9 +181,7 @@ const CatalogScreen = () => {
   // ============================
   if (!plantsData || !userData) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>Loading...</Text>
-      </View>
+      <Loading/>
     );
   }
 
