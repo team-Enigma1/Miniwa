@@ -2,17 +2,17 @@ import React, { useEffect, useRef } from "react";
 import { View, Text, StyleSheet, Animated, Easing } from "react-native";
 
 const Loading = () => {
-  // 回転アニメーション用の値（0〜1）
+  // 回転アニメーション用の値
   const rotateAnim = useRef(new Animated.Value(0)).current;
 
   // 画面表示時にアニメーション開始
   useEffect(() => {
     Animated.loop(
       Animated.timing(rotateAnim, {
-        toValue: 1,           // 0 → 1 まで変化
-        duration: 1000,       // 1秒で1回転
-        easing: Easing.linear,// 等速で回す
-        useNativeDriver: true,// パフォーマンス向上
+        toValue: 1,            // 0 → 1
+        duration: 1000,        // 1秒で1回転
+        easing: Easing.linear, // 等速回転
+        useNativeDriver: true, // パフォーマンス向上
       })
     ).start();
   }, []);
@@ -33,13 +33,8 @@ const Loading = () => {
         ]}
       />
 
-      {/* メインメッセージ */}
-      <Text style={styles.text}>認証メールを送信しました</Text>
-
-      {/* サブメッセージ */}
-      <Text style={styles.subText}>
-        メールを確認して認証を完了してください
-      </Text>
+      {/* ローディングメッセージ */}
+      <Text style={styles.text}>Now Loading...</Text>
     </View>
   );
 };
@@ -47,28 +42,23 @@ const Loading = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: "center", // 縦中央
+    alignItems: "center",     // 横中央
     backgroundColor: "#ffffff",
   },
   circle: {
     width: 48,
     height: 48,
-    borderRadius: 24,            // 円にする
+    borderRadius: 24,          // 円にする
     borderWidth: 4,
-    borderColor: "#E0E0E0",      // 薄い色
-    borderTopColor: "#8BC34A",   // 上だけ緑（回って見える）
-    marginBottom: 30,
+    borderColor: "#E0E0E0",    // 薄い色
+    borderTopColor: "#8BC34A", // 上だけ色を付ける
+    marginBottom: 20,
   },
   text: {
-    fontSize: 18,
+    fontSize: 16,
     color: "#8BC34A",
     fontWeight: "bold",
-    marginBottom: 8,
-  },
-  subText: {
-    fontSize: 14,
-    color: "#666666",
   },
 });
 
