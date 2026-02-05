@@ -156,29 +156,6 @@ const HomeScreen = () => {
       console.error(e);
     }
   }
-  // TODO (Backend): GET /api/recommendations でユーザーに合わせたおすすめアイテムを取得
-  // レスポンス例: { items: [{ id, name, category, emoji, price?, url?, ... }] }
-  const [recommendedItems] = useState<RecommendedItem[]>([
-    {
-      id: 1,
-      name: 'トマト用有機肥料',
-      category: '肥料',
-      emoji: '🍅',
-    },
-    {
-      id: 2,
-      name: 'トマト用有機肥料',
-      category: '肥料',
-      emoji: '🍅',
-    },
-    {
-      id: 3,
-      name: 'トマト用有機肥料',
-      category: '肥料',
-      emoji: '🍅',
-    },
-  ]);
-
   // ========================================
   // イベントハンドラー
   // ========================================
@@ -352,72 +329,84 @@ const HomeScreen = () => {
             todos.map((todo) => (
               <View key={String(todo.id)}>
 
-          {/* 水やりカード */}
-          <TouchableOpacity 
-            style={styles.todoCard}
-            onPress={() =>
-              todo.water < todo.water_required && handleTodoWaterUpdate(todo)
-            }
-            activeOpacity={0.7}
-            disabled={todo.water >= todo.water_required}
-          >
-            <View style={[styles.todoIconContainer, { backgroundColor: '#E3F2FD' }]}>
-              <Text style={styles.todoEmoji}>💧</Text>
-            </View>
+                {/* 水やりカード */}
+                <TouchableOpacity
+                  style={styles.todoCard}
+                  onPress={() => handleTodoWaterUpdate(todo)}
+                  activeOpacity={0.7}
+                  disabled={todo.water}
+                >
+                  <View style={[styles.todoIconContainer, { backgroundColor: '#E3F2FD' }]}>
+                    <Text style={styles.todoEmoji}>💧</Text>
+                  </View>
 
-            <View style={styles.todoTextContainer}>
-              <Text style={styles.todoTaskName}>水やり</Text>
-              <Text style={styles.todoSubText}>
-                {todo.water >= todo.water_required
-                  ? "完了しました"
-                  : `あと${todo.water_required - todo.water}回`}
-              </Text>
-            </View>
+                  <View style={styles.todoTextContainer}>
+                    <Text style={styles.todoTaskName}>水やり</Text>
+                    <Text style={styles.todoSubText}>
+                      {todo.water ? '完了しました' : '水やりが必要です'}
+                    </Text>
+                  </View>
 
-            <View
-              style={[
-                styles.todoCheckCircle,
-                todo.water >= todo.water_required && styles.todoCheckCircleActive,
-              ]}
-            >
-              {todo.water >= todo.water_required ? (
-                <Text style={styles.checkMark}>✓</Text>
-              ) : todo.water > 0 ? (
-                <Text style={styles.checkMark}>{todo.water}</Text>
-              ) : null}
-            </View>
-          </TouchableOpacity>
+                  <View
+                    style={[
+                      styles.todoCheckCircle,
+                      todo.water && styles.todoCheckCircleActive,
+                    ]}
+                  >
+                    {todo.water ? (
+                      <Text style={styles.checkMark}>✓</Text>
+                    ) : todo.water_required > 0 ? (
+                      <Text style={styles.checkMark}>{todo.water_required}</Text>
+                    ) : null}
+                  </View>
+                </TouchableOpacity>
+
 
                 {/* 肥料やりカード */}
-                <TouchableOpacity 
+                <TouchableOpacity
                   style={styles.todoCard}
-                  onPress={() => !todo.fertilizer && handleTodoFertilizerUpdate(todo)}
+                  onPress={() => handleTodoFertilizerUpdate(todo)}
                   activeOpacity={0.7}
                   disabled={todo.fertilizer}
                 >
-                  <View style={[styles.todoIconContainer, { backgroundColor: '#F1F8E9' }]}>
+                  <View
+                    style={[
+                      styles.todoIconContainer,
+                      { backgroundColor: '#F1F8E9' },
+                    ]}
+                  >
                     <Text style={styles.todoEmoji}>🌿</Text>
                   </View>
                   <View style={styles.todoTextContainer}>
                     <Text style={styles.todoTaskName}>肥料やり</Text>
                     <Text style={styles.todoSubText}>
-                      {todo.fertilizer ? "完了しました" : "2週間に1度、液体肥料を。"}
+                      {todo.fertilizer
+                        ? '完了しました'
+                        : '2週間に1度、液体肥料を。'}
                     </Text>
                   </View>
-                  <View style={[styles.todoCheckCircle, todo.fertilizer && styles.todoCheckCircleActive]}>
-                    {todo.fertilizer ? <Text style={styles.checkMark}>✓</Text> : null}
+                  <View
+                    style={[
+                      styles.todoCheckCircle,
+                      todo.fertilizer && styles.todoCheckCircleActive,
+                    ]}
+                  >
+                    {todo.fertilizer && (
+                      <Text style={styles.checkMark}>✓</Text>
+                    )}
                   </View>
                 </TouchableOpacity>
               </View>
             ))
           ) : (
             <View style={{ padding: 20, alignItems: 'center' }}>
-              <Text style={{ color: '#888' }}>植物を選択してください</Text>
+              <Text style={{ color: '#888' }}>
+                植物を選択してください
+              </Text>
             </View>
           )}
         </View>
       </ScrollView>
-
       {/* 底部ナビゲーション */}
       <BottomNav/>
     </View>

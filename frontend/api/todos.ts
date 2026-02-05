@@ -26,12 +26,20 @@ export const getTodos = async (body: {user_plant_id: number})  => {
 
 export const updateTodo = async (
     payload: UpdateTodoPayload
-): Promise<Todo[]> => {
+    ): Promise<Todo[]> => {
+
+    const { data } = await supabase.auth.getSession();
+    const token = data.session?.access_token;
+
+    if (!token) {
+        throw new Error('Not authenticated');
+    }
+
     const res = await fetch(`${TODO_API_URL}`, {
         method: 'PUT',
         headers: {
-            'Content-Type': 'application/json',
-            // Authorization: `Bearer ${token}`, // JWT使うなら
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(payload),
     });
@@ -42,4 +50,4 @@ export const updateTodo = async (
     }
 
     return res.json();
-};
+    };
