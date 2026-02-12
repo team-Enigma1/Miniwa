@@ -1,4 +1,5 @@
 import { useRouter } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 import React, { useState, useEffect } from 'react';
 import {
   ScrollView,
@@ -131,6 +132,11 @@ const CatalogScreen = () => {
     router.push('./HomeScreen');
   };
 
+    // 戻るボタン処理
+  const handleGoBack = () => {
+    router.back();
+  };
+
   // ========================================
   // レンダリング
   // ========================================
@@ -203,9 +209,14 @@ const CatalogScreen = () => {
         showsVerticalScrollIndicator={false}
       >
         {/* ヘッダー */}
+        
         <View style={styles.header}>
+          <TouchableOpacity style={styles.backButton} onPress={handleGoBack}>
+          <Ionicons name="chevron-back" size={28} color="#000" />
+        </TouchableOpacity>
           <Text style={styles.headerTitle}>初心者におすすめの植物</Text>
         </View>
+      
 
         {/* 検索バー */}
         {/* TODO (Backend): 検索機能実装時は GET /api/plants?search={searchQuery} を呼び出す */}
