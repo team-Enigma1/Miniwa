@@ -9,19 +9,29 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  // ヘッダー
-  header: {
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 16,
-    backgroundColor: '#FFFFFF',
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#2C3E50',
-    textAlign: 'center',
-  },
+// ヘッダー
+header: {
+  height: 60,
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: '#FFFFFF',
+  position: 'relative',
+},
+
+backButton: {
+  position: 'absolute',
+  left: 15,
+  height: '100%',
+  justifyContent: 'center',
+},
+
+headerTitle: {
+  fontSize: 18,
+  fontWeight: '700',
+  color: '#2C3E50',
+},
+
+
 
   // 検索バー
   searchContainer: {

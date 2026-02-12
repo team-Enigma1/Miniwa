@@ -19,6 +19,8 @@ import { Plant, PlantGrowthImg } from '@/types/plant';
 import { deleteUserPlant, harvestPlant, plantGrowthImg } from '@/api/plant';
 import { BASE_URL } from '@/api/url';
 import dayjs from 'dayjs';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 
 const PlantDetailScreen = () => {
   const router = useRouter();
@@ -177,7 +179,13 @@ const PlantDetailScreen = () => {
         {/* Water Schedule Card */}
         <View style={styles.card}>
           <View style={styles.cardHeader}>
-            <Text style={styles.waterIcon}>💧</Text>
+           <MaterialCommunityIcons
+              name="water-outline"
+              size={22}
+              color="#2196F3"
+              style={styles.waterIcon}
+            />
+
             <View style={styles.cardHeaderText}>
               <Text style={styles.cardTitle}>水やりのスケジュール</Text>
               <Text style={styles.cardSubtitle}>午前中と夕方の一日{plant.wateringSched}回</Text>
@@ -188,7 +196,13 @@ const PlantDetailScreen = () => {
         {/* Sunlight Card */}
         <View style={styles.card}>
           <View style={styles.cardHeader}>
-            <Text style={styles.sunIcon}>☀️</Text>
+            <MaterialCommunityIcons
+            name="weather-sunny"
+            size={22}
+            color="#FFB300"
+            style={styles.sunIcon}
+          />
+
             <View style={styles.cardHeaderText}>
               <Text style={styles.cardTitle}>日光条件</Text>
               <Text style={styles.cardSubtitle}>
@@ -201,7 +215,13 @@ const PlantDetailScreen = () => {
         {/* Growth Period Card */}
         <View style={styles.card}>
           <View style={styles.cardHeader}>
-            <Text style={styles.calendarIcon}>📅</Text>
+           <MaterialCommunityIcons
+            name="calendar-outline"
+            size={22}
+            color="#607D8B"
+            style={styles.calendarIcon}
+          />
+
             <View style={styles.cardHeaderText}>
               <Text style={styles.cardTitle}>生育期間</Text>
               <Text style={styles.cardSubtitle}>{plant.growthDuration}日</Text>

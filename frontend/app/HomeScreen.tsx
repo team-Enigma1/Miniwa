@@ -21,6 +21,8 @@ import { plantGrowthImg } from '@/api/plant';
 import { BASE_URL } from '@/api/url';
 import { Plant, PlantGrowthImg } from '@/types/plant';
 import { Weather } from '@/types/weather';
+import { Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 // ========================================
 // 型定義
 // ========================================
@@ -224,7 +226,13 @@ const HomeScreen = () => {
         <View style={styles.section}>
           <View style={styles.tipCard}>
             <View style={styles.tipHeader}>
-              <Text style={styles.tipIcon}>💡</Text>
+              <View style={styles.tipIconContainer}>
+                <MaterialCommunityIcons
+                  name="lightbulb-outline"
+                  size={20}
+                  color="#FFC107"  
+                />
+              </View>
               <Text style={styles.tipTitle}>今日のアドバイス</Text>
             </View>
             <Text style={styles.tipDescription}>
@@ -306,7 +314,13 @@ const HomeScreen = () => {
           <View style={styles.reportCard}>
           {/* header */}
           <View style={styles.reportHeader}>
-            <Text style={styles.reportHeaderIcon}>📋</Text>
+           <View style={styles.reportHeaderIcon}>
+              <MaterialCommunityIcons
+                name="clipboard-outline"
+                size={20}
+                color="#607D8B"
+              />
+            </View>
             <Text style={styles.reportHeaderText}>報告</Text>
           </View>
           
@@ -337,7 +351,7 @@ const HomeScreen = () => {
                   disabled={todo.water}
                 >
                   <View style={[styles.todoIconContainer, { backgroundColor: '#E3F2FD' }]}>
-                    <Text style={styles.todoEmoji}>💧</Text>
+                    <Ionicons name="water-outline" size={22} color="#2196F3" />
                   </View>
 
                   <View style={styles.todoTextContainer}>
@@ -369,13 +383,17 @@ const HomeScreen = () => {
                   activeOpacity={0.7}
                   disabled={todo.fertilizer}
                 >
-                  <View
+                            <View
                     style={[
                       styles.todoIconContainer,
                       { backgroundColor: '#F1F8E9' },
                     ]}
                   >
-                    <Text style={styles.todoEmoji}>🌿</Text>
+                    <MaterialCommunityIcons 
+                      name="sprout" 
+                      size={22} 
+                      color="#4CAF50" 
+                    />
                   </View>
                   <View style={styles.todoTextContainer}>
                     <Text style={styles.todoTaskName}>肥料やり</Text>

@@ -90,6 +90,16 @@ const styles = StyleSheet.create({
     fontSize: 28,
     marginRight: 12,
   },
+
+  cardIconContainer: {
+  width: 40,
+  height: 40,
+  borderRadius: 20,
+  justifyContent: 'center',
+  alignItems: 'center',
+  marginRight: 12,
+},
+
   cardHeaderText: {
     flex: 1,
   },

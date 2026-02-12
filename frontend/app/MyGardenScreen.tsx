@@ -16,6 +16,8 @@ import { Plant, HarvestedPlant } from '../types/plant';
 import { getUserPlants } from '@/api/user';
 import { getHarvestedPlants } from '@/api/plant';
 import { BASE_URL } from '@/api/url';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 
 const MyGardenScreen = () => {
   const router = useRouter();
@@ -151,22 +153,46 @@ const handlePlantPress = (plant: Plant | HarvestedPlant) => {
 
                 {activeTab === 'growing' && (
                   <View style={styles.plantMeta}>
-        
+
                     <View style={styles.metaItem}>
-                      <Text style={styles.metaIcon}>💧</Text>
-                      <Text style={styles.metaText}>1日{(plant as Plant).wateringSched}回</Text>
+                      <MaterialCommunityIcons
+                        name="water-outline"
+                        size={16}
+                        color="#2196F3"
+                        style={styles.metaIcon}
+                      />
+                      <Text style={styles.metaText}>
+                        1日{(plant as Plant).wateringSched}回
+                      </Text>
                     </View>
 
                     <View style={styles.metaItem}>
-                      <Text style={styles.metaIcon}>☀️</Text>
-                      <Text style={styles.metaText}>{(plant as Plant).sunlight}</Text>
+                      <MaterialCommunityIcons
+                        name="weather-sunny"
+                        size={16}
+                        color="#FFB300"
+                        style={styles.metaIcon}
+                      />
+                      <Text style={styles.metaText}>
+                        {(plant as Plant).sunlight}
+                      </Text>
                     </View>
-                  <View style={styles.metaItem}>
-                      <Text style={styles.metaIcon}>📅</Text>
-                      <Text style={styles.metaText}>{new Date((plant as Plant).harvestAt).toLocaleDateString()}</Text>
+
+                    <View style={styles.metaItem}>
+                      <MaterialCommunityIcons
+                        name="calendar-outline"
+                        size={16}
+                        color="#607D8B"
+                        style={styles.metaIcon}
+                      />
+                      <Text style={styles.metaText}>
+                        {new Date((plant as Plant).harvestAt).toLocaleDateString()}
+                      </Text>
                     </View>
+
                   </View>
                 )}
+
               </View>
             </TouchableOpacity>
           ))}

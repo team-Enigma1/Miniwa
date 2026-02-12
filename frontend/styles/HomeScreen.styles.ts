@@ -276,10 +276,15 @@ reportText: {
     alignItems: 'center',
     marginBottom: 8,
   },
-  tipIcon: {
-    fontSize: 20,
-    marginRight: 8,
-  },
+  tipIconContainer: {
+  width: 36,
+  height: 36,
+  borderRadius: 18,
+  justifyContent: 'center',
+  alignItems: 'center',
+  marginRight: 8,
+},
+
   tipTitle: {
     fontSize: 16,
     fontWeight: '700',
